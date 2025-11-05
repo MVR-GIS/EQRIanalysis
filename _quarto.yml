@@ -1,0 +1,35 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "EQRI Analysis"
+  favicon: data/castle.png
+  open-graph: true
+  back-to-top-navigation: true
+  page-footer: 
+    background: light
+    left: "Made with ❤️ by USACE" 
+  navbar:
+    logo: data/castle.png
+    tools:
+      - icon: github
+        menu:
+          - text: Source Code
+            href:  https://github.com/MVR-GIS/EQRI-analysis
+          - text: Report a Bug
+            href:  https://github.com/MVR-GIS/EQRI-analysis/issues
+    left:
+      - href: index.qmd
+        text: Home
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+
+

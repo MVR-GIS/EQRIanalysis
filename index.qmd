@@ -1,0 +1,11 @@
+---
+title: "EQRI-analysis"
+---
+
+```{r echo=FALSE, fig.align="right"}
+knitr::include_graphics("data/USACE_200.png")
+```
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
