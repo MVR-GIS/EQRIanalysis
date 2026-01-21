@@ -1,0 +1,25 @@
+
+
+
+```{r}
+# Install DBI
+install.packages("DBI")
+
+# Install latest ROracle version from source
+## - Download source from CRAN: https://cran.r-project.org/web/packages/ROracle/index.html
+## - Save to downloads folder e.g.: C:\Users\B5PMMMPD\Downloads\ROracle_1.5-1.tar.gz
+install.packages("C:/Users/B5PMMMPD/Downloads/ROracle_1.5-1.tar.gz", repos = NULL, type = "source")
+remotes::install_github("MVR-GIS/usaceki")
+```
+
+```{r}
+# Get static export
+responses <- readr::read_csv("data/UR_QRI_RESPONSE_EDA_20260114.csv")
+```
+
+
+```{r}
+# Get live data
+usaceki:::get_qri_connection(set_key = TRUE)
+```
+
