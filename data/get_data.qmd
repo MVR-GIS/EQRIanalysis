@@ -1,7 +1,9 @@
 
 
 
-```{r}
+```{r install-db-packages}
+#| eval: false
+
 # Install DBI
 install.packages("DBI")
 
@@ -12,14 +14,32 @@ install.packages("C:/Users/B5PMMMPD/Downloads/ROracle_1.5-1.tar.gz", repos = NUL
 remotes::install_github("MVR-GIS/usaceki")
 ```
 
-```{r}
-# Get static export
-responses <- readr::read_csv("data/UR_QRI_RESPONSE_EDA_20260114.csv")
-```
+```{r get-live-data}
+#| eval: false
 
-
-```{r}
 # Get live data
 usaceki:::get_qri_connection(set_key = TRUE)
 ```
+
+```{r get-static-data}
+library(readr)
+# Get static export
+responses_raw <- read_csv("UR_QRI_RESPONSE_EDA_20260114.csv")
+column_types <- spec(responses_raw)
+column_types
+column_types$cols$PROJECT_ID <- col_integer()
+column_types$cols$SUBPROJECT_ID  <- col_integer()
+column_types$cols$RESPONSE_UID  <- col_integer()
+column_types$cols$QUESTIONNAIREEVENT_ID  <- col_integer()
+column_types$cols$QUESTION_NUMBER  <- col_integer()
+column_types$cols$MILESTONE_ID  <- col_integer()
+column_types$cols$PROGRAMTYPE_ID  <- col_integer()
+
+responses <- readr::read_csv(
+    "UR_QRI_RESPONSE_EDA_20260114.csv",
+    col_types = column_types)
+```
+
+
+
 
