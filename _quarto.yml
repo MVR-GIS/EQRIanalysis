@@ -1,7 +1,7 @@
 project:
   type: website
   output-dir: docs
-  pre-render: get_data.R
+  pre-render: data/get_data.R
 
 website:
   title: "EQRI"
@@ -35,6 +35,3 @@ format:
       - brand
     css: styles.css
     toc: true
-
-
-

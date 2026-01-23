@@ -2,6 +2,8 @@
 
 ```{r library}
 #| echo: false
+#| message: false
+#| warning: false
 
 library(here)
 library(dplyr)
@@ -11,11 +13,15 @@ library(NatParksPalettes)
 
 ```{r read-data}
 #| echo: false
+#| message: false
 
-responses <- readRDS(here("responses.rds"))
+responses <- readRDS(here("data/responses.rds"))
 ```
 
 ```{r get-questions}
+#| echo: false
+#| message: false
+
 # Get df of questions
 questions_df <- responses %>%
   select(QUESTION_NUMBER, QUESTION_TEXT) %>%
@@ -24,6 +30,9 @@ questions_df <- responses %>%
 ```
 
 ```{r get-question}
+#| echo: false
+#| message: false
+
 # Filter responses for a single question
 i <- 1
 current_question <- questions_df %>%
@@ -32,7 +41,12 @@ question_responses <- responses %>%
   filter(QUESTION_NUMBER == current_question$QUESTION_NUMBER)
 ```
 
+
+
 ```{r plot1}
+#| echo: false
+#| message: false
+
 p <- ggplot(question_responses, 
             aes(x = RESPONSE, fill = RESPONSE)
             ) +

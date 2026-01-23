@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – EQRI-analysis</title>
+<title>Engineering Quality Risk Indicators Analysis – EQRI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./logos/castle.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -39,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-dfb324f25d9b1687192fa8be62ac8f9c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-89a44a5996cc4d71cda77f17910887a0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,6 +71,10 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="Engineering Quality Risk Indicators Analysis – EQRI">
+<meta property="og:description" content="">
+<meta property="og:image" content="logos/EQRI-logo.png">
+<meta property="og:site_name" content="EQRI">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -79,8 +84,11 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./logos/castle.png" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">EQRI-analysis</span>
+    <span class="navbar-title">EQRI</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -90,16 +98,35 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page"> 
-<span class="menu-text">About</span></a>
+    <a class="nav-link" href="./01_questions.html"> 
+<span class="menu-text">Questions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./02_indicators.html"> 
+<span class="menu-text">Indicators</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/MVR-GIS/EQRI-analysis">
+            Source Code
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item quarto-navbar-tools-item" href="https://github.com/MVR-GIS/EQRI-analysis/issues">
+            Report a Bug
+            </a>
+          </li>
+      </ul>
+    </div>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -108,15 +135,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#fy25-question-analysis" id="toc-fy25-question-analysis" class="nav-link" data-scroll-target="#fy25-question-analysis">FY25 Question Analysis</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About</h1>
+<h1 class="title">Engineering Quality Risk Indicators Analysis</h1>
 </div>
 
 
@@ -133,11 +167,29 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>About this site</p>
+<div style="float: right; width: 40%; margin-right: 10px;">
+<p><img src="logos/EQRI-logo.png" class="img-fluid"></p>
+</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The Engineering Quality Risk Indicators (EQRI) initiative aims to measure risk to engineering quality as a counterpoint to existing cost and schedule metrics and to give PDTs and Technical Leads a tool to help them leverage their voice for quality.</p>
+<ul>
+<li><a href="https://egis-app.mvr.usace.army.mil/ords/cm2/r/qri/home">Visit the app (USACE employees only)</a></li>
+<li><a href="https://usace.dps.mil/sites/KMP-EC/SitePages/QRI.aspx">Read More on the USACE KM Portal (USACE employees only)</a></li>
+</ul>
+</section>
+<section id="fy25-question-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="fy25-question-analysis">FY25 Question Analysis</h2>
+<p>The purpose of this website is to provide a detailed Exploratory Data Analysis (EDA) summary of the FY25 version of the EQRI questionnaire. To explore these results, use the items on the top menu:</p>
+<ul>
+<li><strong>Questions</strong> - Results for each question are presented and summarized by key USACE organizational units.</li>
+<li><strong>Indicators</strong> - Results for each indicator (a metric derived from a topical grouping of questions) summarized by key organizational units.</li>
+</ul>
 
 
+</section>
 
-</main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -538,6 +590,19 @@ ul.task-list li input[type="checkbox"] {
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Made with ❤️ by USACE</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 
