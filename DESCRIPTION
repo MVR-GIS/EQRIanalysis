@@ -1,0 +1,12 @@
+Package: EQRI-analysis
+Title: Engineering Quality Risk Indicators Analysis
+Version: 0.0.0.9000
+Authors@R: 
+    person("Michael", "Dougherty", , "mike.p.doc.71@gmail.com", role = c("aut", "cre"))
+Description: This Quarto project includes R functions related to analyzing
+    engineering quality risk indicators.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3

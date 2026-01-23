@@ -1,7 +1,9 @@
 project:
   type: website
   output-dir: docs
-  pre-render: data/get_data.R
+  pre-render: 
+    - R/get_data_csv.R
+    - Rscript -e "sapply(list.files('R', full.names = TRUE), source)"
 
 website:
   title: "EQRI"

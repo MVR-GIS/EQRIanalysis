@@ -11,23 +11,14 @@ library(ggplot2)
 library(NatParksPalettes)
 ```
 
-```{r read-data}
+```{r get-data}
 #| echo: false
 #| message: false
 
-responses <- readRDS(here("data/responses.rds"))
+questions_df <- get_questions_df()
+responses_df <- get_responses_df()
 ```
 
-```{r get-questions}
-#| echo: false
-#| message: false
-
-# Get df of questions
-questions_df <- responses %>%
-  select(QUESTION_NUMBER, QUESTION_TEXT) %>%
-  arrange(QUESTION_NUMBER) %>%
-  distinct(QUESTION_NUMBER, .keep_all = TRUE)
-```
 
 ```{r iterate-questions}
 #| eval: false
