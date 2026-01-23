@@ -1,33 +1,43 @@
 
-```{r}
+```{r library}
 library(here)
 library(readr)
 library(dplyr)
 ```
 
-```{r}
-# Get latest .csv 
+```{r setup-logging}
+log_file <- here::here("get_data_log.txt")
+sink(log_file, split = TRUE)  # Redirect console output
+sink(log_file, type = "message", append = TRUE)  # Redirect messages
+```
+
+```{r working-dir}
+message("Current working directory: ", getwd())
+```
+```{r get-csv}
 latest_export <- here("UR_QRI_RESPONSE_EDA_20260122.csv")
 
-# Ensure file present
-if (!file.exists(latest_export)) {
-    stop("CSV file not found: ", latest_export)
+if (file.exists(latest_export)) {
+  message("Lastest CSV export: ", latest_export)
+} else {
+  message("CSV file not found: ", latest_export)
 }
 ```
 
 ```{r get-static-data}
-# Get static export
-message("Reading raw CSV data...")
 tryCatch({
     responses_raw <- read_csv(latest_export)
+    message("CSV successfully read.")
 }, error = function(e) {
-    stop("Failed to load data: ", e$message)
+    message("Failed to load data: ", e$message)
 })
+```
 
+```{r clean-data}
 # Get column spec
 column_types <- spec(responses_raw)
+message("Retrieved column spec.")
 
-message("Adjusting column spec...")
 # Adjust column types
 column_types$cols$PROJECT_ID <- col_integer()
 column_types$cols$SUBPROJECT_ID  <- col_integer()
@@ -36,10 +46,13 @@ column_types$cols$QUESTIONNAIREEVENT_ID  <- col_integer()
 column_types$cols$QUESTION_NUMBER  <- col_integer()
 column_types$cols$MILESTONE_ID  <- col_integer()
 column_types$cols$PROGRAMTYPE_ID  <- col_integer()
+message("Adjusted column spec.")
 
+# Clean responses
 responses_clean <- readr::read_csv(
     latest_export,
     col_types = column_types)
+message("Responses cleaned.")
 ```
 
 ```{r data-prep}
@@ -51,6 +64,7 @@ responses <- responses_clean %>%
         )
     ) %>%
     relocate(PROGRAMTYPE_NAME, .after = PROGRAMTYPE_ID)
+message("Responses wrangled.")
 ```
 
 ```{r save-data}
@@ -58,11 +72,17 @@ response_rds_file_path <- here("responses.rds")
 
 tryCatch({
     saveRDS(responses, response_rds_file_path)
+    message("responses.rds saved.")
 }, error = function(e) {
-    stop("Failed to save data: ", e$message)
+    message("Failed to save data: ", e$message)
 })
 
 if (!file.exists(response_rds_file_path)) {
-    stop("response.rds file not found: ", response_rds_file_path)
+    message("response.rds file not found: ", response_rds_file_path)
 }
+```
+
+```{r session-info}
+message("Session Info: ", paste0(capture.output(sessionInfo()), collapse = "\n"))
+message("Environment Variables: ", Sys.getenv())
 ```
