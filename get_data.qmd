@@ -1,41 +1,34 @@
 
 ```{r}
+library(here)
 library(readr)
 library(dplyr)
 ```
 
-```{r install-db-packages}
-#| eval: false
-
-# Install DBI
-install.packages("DBI")
-
-# Install latest ROracle version from source
-## - Download source from CRAN: https://cran.r-project.org/web/packages/ROracle/index.html
-## - Save to downloads folder e.g.: C:\Users\B5PMMMPD\Downloads\ROracle_1.5-1.tar.gz
-install.packages("C:/Users/B5PMMMPD/Downloads/ROracle_1.5-1.tar.gz", repos = NULL, type = "source")
-remotes::install_github("MVR-GIS/usaceki")
-```
-
-```{r get-live-data}
-#| eval: false
-
-# Get live data
-usaceki:::get_qri_connection(set_key = TRUE)
-```
-
 ```{r}
-#| eval: true
+# Get latest .csv 
+latest_export <- here("UR_QRI_RESPONSE_EDA_20260122.csv")
 
-# get latest .csv 
-latest_export <- "UR_QRI_RESPONSE_EDA_20260122.csv"
+# Ensure file present
+if (!file.exists(latest_export)) {
+    stop("CSV file not found: ", latest_export)
+}
 ```
 
 ```{r get-static-data}
 # Get static export
-responses_raw <- read_csv(latest_export)
+message("Reading raw CSV data...")
+tryCatch({
+    responses_raw <- read_csv(latest_export)
+}, error = function(e) {
+    stop("Failed to load data: ", e$message)
+})
+
+# Get column spec
 column_types <- spec(responses_raw)
-column_types
+
+message("Adjusting column spec...")
+# Adjust column types
 column_types$cols$PROJECT_ID <- col_integer()
 column_types$cols$SUBPROJECT_ID  <- col_integer()
 column_types$cols$RESPONSE_UID  <- col_integer()
@@ -61,5 +54,15 @@ responses <- responses_clean %>%
 ```
 
 ```{r save-data}
-saveRDS(responses, "responses.rds")
+response_rds_file_path <- here("responses.rds")
+
+tryCatch({
+    saveRDS(responses, response_rds_file_path)
+}, error = function(e) {
+    stop("Failed to save data: ", e$message)
+})
+
+if (!file.exists(response_rds_file_path)) {
+    stop("response.rds file not found: ", response_rds_file_path)
+}
 ```

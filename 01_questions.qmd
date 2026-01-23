@@ -3,6 +3,7 @@
 ```{r library}
 #| echo: false
 
+library(here)
 library(dplyr)
 library(ggplot2)
 library(NatParksPalettes)
@@ -11,7 +12,7 @@ library(NatParksPalettes)
 ```{r read-data}
 #| echo: false
 
-responses <- readRDS("responses.rds")
+responses <- readRDS(here("responses.rds"))
 ```
 
 ```{r get-questions}
