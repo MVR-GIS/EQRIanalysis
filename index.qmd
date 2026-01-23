@@ -3,7 +3,7 @@ title: "Engineering Quality Risk Indicators Analysis"
 ---
 
 ::: {style="float: right; width: 40%; margin-right: 10px;"}
-![](data/EQRI-logo.png)
+![](logos/EQRI-logo.png)
 :::
 
 ## Introduction
@@ -17,3 +17,5 @@ The purpose of this website is to provide a detailed Exploratory Data Analysis (
 
 - **Questions** - Results for each question are presented and summarized by key USACE organizational units. 
 - **Indicators** - Results for each indicator (a metric derived from a topical grouping of questions) summarized by key organizational units. 
+
+

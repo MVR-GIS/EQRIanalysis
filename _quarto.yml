@@ -1,17 +1,18 @@
 project:
   type: website
   output-dir: docs
+  pre-render: get_data.R
 
 website:
   title: "EQRI"
-  favicon: data/castle.png
+  favicon: logos/castle.png
   open-graph: true
   back-to-top-navigation: true
   page-footer: 
     background: light
     left: "Made with ❤️ by USACE" 
   navbar:
-    logo: data/castle.png
+    logo: logos/castle.png
     tools:
       - icon: github
         menu:

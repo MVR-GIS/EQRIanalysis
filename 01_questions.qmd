@@ -1,41 +1,42 @@
 # Questions
 
-```{r}
+```{r library}
 #| echo: false
 
 library(dplyr)
 library(ggplot2)
 library(NatParksPalettes)
-library(paletteer)
-library(ggthemes)
 ```
 
-```{r}
-# Get unique list of questions
-questions <- responses_pretty %>%
-  select(QUESTION_NUMBER) %>%
+```{r read-data}
+#| echo: false
+
+responses <- readRDS("responses.rds")
+```
+
+```{r get-questions}
+# Get df of questions
+questions_df <- responses %>%
+  select(QUESTION_NUMBER, QUESTION_TEXT) %>%
   arrange(QUESTION_NUMBER) %>%
-  distinct(QUESTION_NUMBER)
+  distinct(QUESTION_NUMBER, .keep_all = TRUE)
 ```
 
-```{r}
+```{r get-question}
 # Filter responses for a single question
 i <- 1
-current_question <- questions$QUESTION_NUMBER[1]
-question_responses <- responses_pretty %>%
-  filter(QUESTION_NUMBER == current_question)
+current_question <- questions_df %>%
+    filter(QUESTION_NUMBER == i)
+question_responses <- responses %>%
+  filter(QUESTION_NUMBER == current_question$QUESTION_NUMBER)
 ```
 
-```{r}
+```{r plot1}
 p <- ggplot(question_responses, 
-            aes(RESPONSE, 
-                fill = RESPONSE, 
-                #colour = RESPONSE
-                )
+            aes(x = RESPONSE, fill = RESPONSE)
             ) +
   geom_bar(show.legend = FALSE) +
   scale_fill_manual(values=natparks.pals("KingsCanyon", 6)) +
-  #theme_minimal() + 
   facet_grid(~PROGRAMTYPE_NAME)
 p
 ```
