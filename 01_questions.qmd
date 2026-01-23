@@ -29,29 +29,38 @@ questions_df <- responses %>%
   distinct(QUESTION_NUMBER, .keep_all = TRUE)
 ```
 
-```{r get-question}
+```{r iterate-questions}
+#| eval: false
 #| echo: false
-#| message: false
+#| results: asis
 
-# Filter responses for a single question
-i <- 1
-current_question <- questions_df %>%
+for (i in questions_df$QUESTION_NUMBER) {
+  # Extract the current question
+  current_question <- questions_df %>%
     filter(QUESTION_NUMBER == i)
-question_responses <- responses %>%
-  filter(QUESTION_NUMBER == current_question$QUESTION_NUMBER)
+
+  # Create the H2 header dynamically
+  cat(
+    "\n## ",
+    current_question$QUESTION_NUMBER,
+    ": ",
+    current_question$QUESTION_TEXT,
+    "\n\n",
+    sep = ""
+  )
+
+  # Filter responses for a single question
+  question_responses <- responses %>%
+    filter(QUESTION_NUMBER == current_question$QUESTION_NUMBER)
+
+  # Histogram of responses by program type
+  p <- ggplot(question_responses, aes(x = RESPONSE, fill = RESPONSE)) +
+    geom_bar(show.legend = FALSE) +
+    scale_fill_manual(values = natparks.pals("KingsCanyon", 6)) +
+    facet_grid(~PROGRAMTYPE_NAME)
+  print(p)
+
+  cat(" \n ", sep = "")
+}
 ```
 
-
-
-```{r plot1}
-#| echo: false
-#| message: false
-
-p <- ggplot(question_responses, 
-            aes(x = RESPONSE, fill = RESPONSE)
-            ) +
-  geom_bar(show.legend = FALSE) +
-  scale_fill_manual(values=natparks.pals("KingsCanyon", 6)) +
-  facet_grid(~PROGRAMTYPE_NAME)
-p
-```
