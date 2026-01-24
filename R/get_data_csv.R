@@ -1,11 +1,13 @@
 #' @title Get Data From CSV Export
 #' @description Get data from csv export.
 #' @returns NULL saves data to `data/responses.rds`
+#' @export
 #' @importFrom here here
 #' @importFrom readr read_csv spec col_integer
 #' @importFrom dplyr %>% mutate case_when relocate
+#' @importFrom usethis use_data
 get_data_csv <- function() {
-  latest_export <- here::here("data/UR_QRI_RESPONSE_EDA_20260122.csv")
+  latest_export <- here::here("data-raw/UR_QRI_RESPONSE_EDA_20260122.csv")
   responses_raw <- readr::read_csv(latest_export)
   
   # Get column spec
@@ -34,7 +36,5 @@ get_data_csv <- function() {
     ) %>%
     dplyr::relocate(PROGRAMTYPE_NAME, .after = PROGRAMTYPE_ID)
 
-  response_rds_file_path <- here::here("data/responses.rds")
-  saveRDS(responses, response_rds_file_path)
-  return(response_rds_file_path)
+  usethis::use_data(responses)
 }

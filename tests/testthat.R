@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(EQRI-analysis)
+library(EQRIanalysis)
 
-test_check("EQRI-analysis")
+test_check("EQRIanalysis")

@@ -5,7 +5,7 @@
 #| message: false
 #| warning: false
 
-#library(EQRIanalysis)
+library(EQRIanalysis)
 library(dplyr)
 library(ggplot2)
 library(NatParksPalettes)
@@ -15,8 +15,8 @@ library(NatParksPalettes)
 #| echo: false
 #| message: false
 
-questions_df <- get_questions_df()
-responses_df <- get_responses_df()
+questions_df <- EQRIanalysis::get_questions_df()
+responses_df <- EQRIanalysis::get_responses_df()
 ```
 
 
@@ -41,7 +41,7 @@ for (i in questions_df$QUESTION_NUMBER) {
   )
 
   # Filter responses for a single question
-  question_responses <- responses %>%
+  question_responses <- responses_df %>%
     filter(QUESTION_NUMBER == current_question$QUESTION_NUMBER)
 
   # Histogram of responses by program type

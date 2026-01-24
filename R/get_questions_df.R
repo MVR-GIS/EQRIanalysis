@@ -1,11 +1,12 @@
 #' @title Get Questions Data Frame
 #' @description Gets a data frame of question numbers and question text. 
 #' @returns data frame of questions
+#' @export
 #' @importFrom here here
 #' @importFrom dplyr select arrange distinct
 get_questions_df <- function() {
   # Get responses
-  responses <- readRDS(here::here("data/responses.rds"))
+  data("responses", package = "EQRIanalysis")
 
   # Get df of questions
   questions_df <- responses %>%

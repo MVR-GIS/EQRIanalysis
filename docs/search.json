@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "Engineering Quality Risk Indicators Analysis",
+    "section": "Introduction",
+    "text": "Introduction\nThe Engineering Quality Risk Indicators (EQRI) initiative aims to measure risk to engineering quality as a counterpoint to existing cost and schedule metrics and to give PDTs and Technical Leads a tool to help them leverage their voice for quality.\n\nVisit the app (USACE employees only)\nRead More on the USACE KM Portal (USACE employees only)"
+  },
+  {
+    "objectID": "index.html#fy25-question-analysis",
+    "href": "index.html#fy25-question-analysis",
+    "title": "Engineering Quality Risk Indicators Analysis",
+    "section": "FY25 Question Analysis",
+    "text": "FY25 Question Analysis\nThe purpose of this website is to provide a detailed Exploratory Data Analysis (EDA) summary of the FY25 version of the EQRI questionnaire. To explore these results, use the items on the top menu:\n\nQuestions - Results for each question are presented and summarized by key USACE organizational units.\nIndicators - Results for each indicator (a metric derived from a topical grouping of questions) summarized by key organizational units."
+  },
+  {
+    "objectID": "01_questions.html",
+    "href": "01_questions.html",
+    "title": "Questions",
+    "section": "",
+    "text": "Questions\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "02_indicators.html",
+    "href": "02_indicators.html",
+    "title": "Indicators",
+    "section": "",
+    "text": "Indicators\n\n\n\n\n Back to top"
+  }
+]
