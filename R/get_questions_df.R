@@ -6,13 +6,13 @@
 #' @importFrom dplyr select arrange distinct
 get_questions_df <- function() {
   # Get responses
-  data("responses", package = "EQRIanalysis")
+  responses <- EQRIanalysis::responses
 
   # Get df of questions
   questions_df <- responses %>%
     dplyr::select(QUESTION_NUMBER, QUESTION_TEXT) %>%
     dplyr::arrange(QUESTION_NUMBER) %>%
     dplyr::distinct(QUESTION_NUMBER, .keep_all = TRUE)
-
+  
   return(questions_df)
 }

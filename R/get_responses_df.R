@@ -5,7 +5,7 @@
 #' @importFrom here here
 get_responses_df <- function() {
   # Get responses
-  data("responses", package = "EQRIanalysis") 
+  responses_df <- EQRIanalysis::responses
 
-  return(responses)
+  return(responses_df)
 }

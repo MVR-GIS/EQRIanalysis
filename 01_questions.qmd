@@ -6,9 +6,7 @@
 #| warning: false
 
 library(EQRIanalysis)
-library(dplyr)
-library(ggplot2)
-library(NatParksPalettes)
+library(htmltools)
 ```
 
 ```{r get-data}
@@ -19,39 +17,12 @@ questions_df <- EQRIanalysis::get_questions_df()
 responses_df <- EQRIanalysis::get_responses_df()
 ```
 
-
-```{r iterate-questions}
-#| eval: false
-#| echo: false
-#| results: asis
-
-for (i in questions_df$QUESTION_NUMBER) {
-  # Extract the current question
-  current_question <- questions_df %>%
-    filter(QUESTION_NUMBER == i)
-
-  # Create the H2 header dynamically
-  cat(
-    "\n## ",
-    current_question$QUESTION_NUMBER,
-    ": ",
-    current_question$QUESTION_TEXT,
-    "\n\n",
-    sep = ""
-  )
-
-  # Filter responses for a single question
-  question_responses <- responses_df %>%
-    filter(QUESTION_NUMBER == current_question$QUESTION_NUMBER)
-
-  # Histogram of responses by program type
-  p <- ggplot(question_responses, aes(x = RESPONSE, fill = RESPONSE)) +
-    geom_bar(show.legend = FALSE) +
-    scale_fill_manual(values = natparks.pals("KingsCanyon", 6)) +
-    facet_grid(~PROGRAMTYPE_NAME)
-  print(p)
-
-  cat(" \n ", sep = "")
-}
+```{r}
+# Render all questions using lapply and generate a tagList
+tagList(
+  lapply(questions_df$QUESTION_NUMBER, function(idx) {
+    render_question(questions_df, responses_df, idx)
+  })
+)
 ```
 

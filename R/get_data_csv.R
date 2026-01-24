@@ -36,5 +36,5 @@ get_data_csv <- function() {
     ) %>%
     dplyr::relocate(PROGRAMTYPE_NAME, .after = PROGRAMTYPE_ID)
 
-  usethis::use_data(responses)
+  usethis::use_data(responses, overwrite = TRUE)
 }
