@@ -1,9 +1,12 @@
 #' @title Get Data From CSV Export
 #' @description Get data from csv export.
 #' @returns NULL saves data to `data/responses.rds`
+#' @importFrom here here
+#' @importFrom readr read_csv spec col_integer
+#' @importFrom dplyr %>% mutate case_when relocate
 get_data_csv <- function() {
   latest_export <- here::here("data/UR_QRI_RESPONSE_EDA_20260122.csv")
-  responses_raw <- read_csv(latest_export)
+  responses_raw <- readr::read_csv(latest_export)
   
   # Get column spec
   column_types <- readr::spec(responses_raw)

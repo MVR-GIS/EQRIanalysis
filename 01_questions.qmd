@@ -5,7 +5,7 @@
 #| message: false
 #| warning: false
 
-library(here)
+#library(EQRIanalysis)
 library(dplyr)
 library(ggplot2)
 library(NatParksPalettes)
