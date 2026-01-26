@@ -35,3 +35,6 @@ format:
       - brand
     css: styles.css
     toc: true
+    toc-depth: 3
+    toc-location: right
+    toc-title: "Contents"

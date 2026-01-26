@@ -1,5 +1,7 @@
 # Questions
 
+Last updated: `r format(Sys.time(), "%m/%d/%Y %I:%M %p")`
+
 ```{r library}
 #| echo: false
 #| message: false
@@ -17,11 +19,14 @@ questions_df <- EQRIanalysis::get_questions_df()
 responses_df <- EQRIanalysis::get_responses_df()
 ```
 
-```{r}
+```{r render-questions}
+#| echo: false
+#| message: false
+
 # Render all questions using lapply and generate a tagList
 tagList(
-  lapply(questions_df$QUESTION_NUMBER, function(idx) {
-    render_question(questions_df, responses_df, idx)
+  lapply(questions_df$QUESTION_NUMBER, function(qn) {
+    render_question(questions_df, responses_df, qn)
   })
 )
 ```

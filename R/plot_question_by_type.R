@@ -28,7 +28,8 @@ plot_question_by_type <- function(questions_df,
               aes(x = RESPONSE, fill = RESPONSE)) +
     geom_bar(show.legend = FALSE) +
     scale_fill_manual(values = natparks.pals("KingsCanyon", 6)) +
-    facet_grid(~PROGRAMTYPE_NAME)
+    facet_grid(~PROGRAMTYPE_NAME) +
+    theme_grey()
   
   return(p)
 }
