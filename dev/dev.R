@@ -9,12 +9,6 @@ devtools::load_all()
 ## install.packages('attachment') # if needed.
 attachment::att_amend_desc()
 
-## Render Quarto Website from R console
-quarto::quarto_render("01_questions.qmd")
-quarto::quarto_render()
-
-
-## Render from terminal
 ### Install package
 options(pkgType = "binary")
 devtools::install(
@@ -23,6 +17,13 @@ devtools::install(
   quiet = TRUE,
   force = TRUE
 )
+
+## Render Quarto Website from R console
+quarto::quarto_render("01_questions.qmd")
+quarto::quarto_render()
+
+
+## Render from terminal
 
 ### in Terminal
 quarto render

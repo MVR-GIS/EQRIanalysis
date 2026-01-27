@@ -25,18 +25,18 @@ render_question <- function(questions_df,
     filename = plot_file, 
     plot = plot_question_by_type(questions_df, responses_df, 
                                  current_question$QUESTION_NUMBER),
-    width = 4,
+    width = 6,
     height = 4,
     units = "in",
-    dpi = 300
+    dpi = 96
     )
   plot_base64 <- base64enc::dataURI(file = plot_file, 
                                     mime = "image/png")
   
   # Return a div containing the question text and plot
   div(
-    h2(paste0(current_question$QUESTION_NUMBER, ": ", 
-              current_question$QUESTION_TEXT)),
+    h2(paste0(current_question$QUESTION_NUMBER)), 
+    p(paste0(current_question$QUESTION_TEXT)),
     tags$img(src = plot_base64) # Embed image
   )
 }
