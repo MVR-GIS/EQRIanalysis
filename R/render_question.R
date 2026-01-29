@@ -19,24 +19,31 @@ render_question <- function(questions_df,
   current_question <- questions_df %>%
     filter(QUESTION_NUMBER == question_number)
 
+  if (nrow(current_question) == 0) {
+    stop("Question number not found in the questions dataset.")
+  }
+
   # Generate the plot
-  plot_file <- tempfile(fileext = ".png")
+  plot_file <- paste0("plots/questions/q_", question_number, ".png")
   ggsave(
     filename = plot_file, 
     plot = plot_question_by_type(questions_df, responses_df, 
                                  current_question$QUESTION_NUMBER),
-    width = 6,
+    width = 7,
     height = 4,
     units = "in",
     dpi = 96
     )
-  plot_base64 <- base64enc::dataURI(file = plot_file, 
-                                    mime = "image/png")
   
-  # Return a div containing the question text and plot
-  div(
-    h2(paste0(current_question$QUESTION_NUMBER)), 
-    p(paste0(current_question$QUESTION_TEXT)),
-    tags$img(src = plot_base64) # Embed image
+  # Create the Markdown string
+  markdown <- c(
+    paste("## Q", question_number),
+    "",
+    current_question$QUESTION_TEXT,
+    "",
+    paste0("![](", plot_file, ")"),
+    ""
   )
+  
+  return(markdown)
 }
