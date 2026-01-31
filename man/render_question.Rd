@@ -16,8 +16,8 @@ returned by \code{get_responses_df}.}
 \item{question_number}{integer; The question number to be ploted.}
 }
 \value{
-an htmltools R object that represents an HTML tag.
+a markdown string representing the output for each question
 }
 \description{
-Render the HTML output for a question.
+Render the markdown output for a question.
 }

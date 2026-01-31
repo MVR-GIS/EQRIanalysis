@@ -10,7 +10,7 @@
 #' @export
 #' @importFrom dplyr %>% filter
 #' @importFrom ggplot2 ggplot aes geom_bar scale_fill_manual 
-#'                     facet_grid theme_grey
+#'                     facet_grid theme_grey theme element_blank
 #' @importFrom NatParksPalettes natparks.pals
 #' 
 plot_question_by_type <- function(questions_df, 
@@ -29,7 +29,13 @@ plot_question_by_type <- function(questions_df,
     geom_bar(show.legend = FALSE) +
     scale_fill_manual(values = natparks.pals("KingsCanyon", 6)) +
     facet_grid(~PROGRAMTYPE_NAME) +
-    theme_grey(base_size = 11)
+    theme_grey(base_size = 11) +
+    theme(
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      legend.position = "bottom",
+      legend.title = element_blank()
+    )
   
   return(p)
 }

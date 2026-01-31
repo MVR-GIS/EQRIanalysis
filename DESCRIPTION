@@ -12,11 +12,9 @@ BugReports: https://github.com/MVR-GIS/EQRI-analysis/issues
 Depends: 
     R (>= 3.5)
 Imports: 
-    base64enc,
     dplyr,
     ggplot2,
     here,
-    htmltools,
     NatParksPalettes,
     readr,
     usethis
