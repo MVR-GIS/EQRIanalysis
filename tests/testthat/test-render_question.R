@@ -11,9 +11,9 @@ testthat::test_that("render_question returns valid Markdown", {
   
   # Verify output
   testthat::expect_type(markdown_output, "character")
-  testthat::expect_true(any(grepl(paste0("## Question ", question_number), markdown_output)))
-  testthat::expect_true(any(grepl(questions_df$QUESTION_TEXT[questions_df$QUESTION_NUMBER == question_number], markdown_output)))
-  testthat::expect_true(any(grepl(paste0("!\\[\\]\\(.*question_", question_number, "\\.png\\)"), markdown_output)))
+  testthat::expect_true(paste0("## Q ", question_number) == markdown_output[1])
+  testthat::expect_true(questions_df$QUESTION_TEXT[questions_df$QUESTION_NUMBER == question_number] == markdown_output[3])
+  testthat::expect_true(paste0("![](plots/questions/q_type_", question_number, ".png)") == markdown_output[5])
 })
 
 testthat::test_that("render_question handles invalid question numbers gracefully", {

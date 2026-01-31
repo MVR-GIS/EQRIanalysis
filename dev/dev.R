@@ -1,6 +1,8 @@
 # Building a Prod-Ready, Robust Quarto Website with embedded R Package.
 
 ## Build website locally
+
+## Update R package
 devtools::document()
 devtools::load_all()
 
@@ -26,4 +28,4 @@ quarto::quarto_render()
 ## Render from terminal
 
 ### in Terminal
-quarto render
+# quarto render

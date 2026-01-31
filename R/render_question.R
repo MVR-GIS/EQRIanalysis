@@ -24,7 +24,7 @@ render_question <- function(questions_df,
   }
 
   # Generate the plot
-  plot_file <- paste0("plots/questions/q_", question_number, ".png")
+  plot_file <- paste0("plots/questions/q_type_", question_number, ".png")
   ggsave(
     filename = plot_file, 
     plot = plot_question_by_type(questions_df, responses_df, 
@@ -32,7 +32,8 @@ render_question <- function(questions_df,
     width = 7,
     height = 4,
     units = "in",
-    dpi = 96
+    dpi = 96,
+    create.dir = TRUE
     )
   
   # Create the Markdown string
