@@ -2,9 +2,7 @@
 
 [View the report](https://mvr-gis.github.io/EQRIanalysis/)
 
-::: {style="float: right; width: 40%; margin-right: 10px;"}
 ![](logos/EQRI-logo.png)
-:::
 
 ## Introduction
 The Engineering Quality Risk Indicators (EQRI) initiative aims to measure risk to engineering quality as a counterpoint to existing cost and schedule metrics and to give PDTs and Technical Leads a tool to help them leverage their voice for quality. 
