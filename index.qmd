@@ -9,7 +9,7 @@ title: "Engineering Quality Risk Indicators Analysis"
 ## Introduction
 The Engineering Quality Risk Indicators (EQRI) initiative aims to measure risk to engineering quality as a counterpoint to existing cost and schedule metrics and to give PDTs and Technical Leads a tool to help them leverage their voice for quality. 
 
-* [Visit the app (USACE employees only)](https://egis-app.mvr.usace.army.mil/ords/cm2/r/qri/home)
+* [Visit the EQRI app (USACE employees only)](https://egis-app.mvr.usace.army.mil/ords/cm2/r/qri/home)
 * [Read More on the USACE KM Portal (USACE employees only)](https://usace.dps.mil/sites/KMP-EC/SitePages/QRI.aspx)
 
 ## FY25 Question Analysis
