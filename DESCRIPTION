@@ -17,6 +17,7 @@ Imports:
     here,
     NatParksPalettes,
     readr,
+    tibble,
     usethis
 Suggests: 
     testthat (>= 3.0.0)

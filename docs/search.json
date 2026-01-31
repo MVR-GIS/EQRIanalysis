@@ -18,7 +18,7 @@
     "href": "01_questions.html",
     "title": "Questions",
     "section": "",
-    "text": "Last updated: 01/31/2026 11:43 AM"
+    "text": "Last updated: 01/31/2026 01:38 PM"
   },
   {
     "objectID": "01_questions.html#q-1",
@@ -292,5 +292,271 @@
     "title": "Indicators",
     "section": "",
     "text": "Indicators\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "01_questions.html#q1-professional-tl",
+    "href": "01_questions.html#q1-professional-tl",
+    "title": "Questions",
+    "section": "Q1: Professional TL",
+    "text": "Q1: Professional TL\nIs there an Engineering Technical Lead (TL) assigned to the project with an active professional registration (e.g., P.E., R.A., P.L.A., P.G., etc.) or waiver from the Chief of the District’s Engineering Function?"
+  },
+  {
+    "objectID": "01_questions.html#q2-pdt-disciplines",
+    "href": "01_questions.html#q2-pdt-disciplines",
+    "title": "Questions",
+    "section": "Q2: PDT disciplines",
+    "text": "Q2: PDT disciplines\nDoes the design team have all the necessary members (i.e., technical disciplines) assigned given the project scope?"
+  },
+  {
+    "objectID": "01_questions.html#q3-qaqc-disciplines",
+    "href": "01_questions.html#q3-qaqc-disciplines",
+    "title": "Questions",
+    "section": "Q3: QAQC disciplines",
+    "text": "Q3: QAQC disciplines\nDo the QA/QC review teams have all the necessary members (i.e., technical disciplines) assigned given the project scope?"
+  },
+  {
+    "objectID": "01_questions.html#q4-design-experience",
+    "href": "01_questions.html#q4-design-experience",
+    "title": "Questions",
+    "section": "Q4: Design experience",
+    "text": "Q4: Design experience\nDoes the design team have sufficient relevant design experience with projects of similar scope and complexity?"
+  },
+  {
+    "objectID": "01_questions.html#q5-pdt-mentors",
+    "href": "01_questions.html#q5-pdt-mentors",
+    "title": "Questions",
+    "section": "Q5: PDT mentors",
+    "text": "Q5: PDT mentors\nAre senior staff mentors assigned to all design team members with less than two years of professional design experience?"
+  },
+  {
+    "objectID": "01_questions.html#q6-member-capacity",
+    "href": "01_questions.html#q6-member-capacity",
+    "title": "Questions",
+    "section": "Q6: Member capacity",
+    "text": "Q6: Member capacity\nDo the design and review team members have capacity to actively support the project?"
+  },
+  {
+    "objectID": "01_questions.html#q7-engaged-centers",
+    "href": "01_questions.html#q7-engaged-centers",
+    "title": "Questions",
+    "section": "Q7: Engaged centers",
+    "text": "Q7: Engaged centers\nHave the relevant Mandatory Centers of Expertise (MCX), Technical Centers of Expertise (TCX), and/or Centers of Standardization (COS) been identified and engaged on the project?"
+  },
+  {
+    "objectID": "01_questions.html#q8-permitting-authorities",
+    "href": "01_questions.html#q8-permitting-authorities",
+    "title": "Questions",
+    "section": "Q8: Permitting authorities",
+    "text": "Q8: Permitting authorities\nHave the relevant permitting authorities been identified and engaged on the project?"
+  },
+  {
+    "objectID": "01_questions.html#q9-assumptions-valid",
+    "href": "01_questions.html#q9-assumptions-valid",
+    "title": "Questions",
+    "section": "Q9: Assumptions valid",
+    "text": "Q9: Assumptions valid\nAre the assumptions made during planning/programming still valid (e.g., real estate, environmental, geotechnical, hydraulics and hydrology, survey, and other pertinent assumptions)?"
+  },
+  {
+    "objectID": "01_questions.html#q10-class-3-estimate",
+    "href": "01_questions.html#q10-class-3-estimate",
+    "title": "Questions",
+    "section": "Q10: Class 3 estimate",
+    "text": "Q10: Class 3 estimate\nAt the start of design, is there a sufficient level of scope definition and design maturity to support a Class 3 estimate?"
+  },
+  {
+    "objectID": "01_questions.html#q11-updated-tpcs",
+    "href": "01_questions.html#q11-updated-tpcs",
+    "title": "Questions",
+    "section": "Q11: Updated TPCS",
+    "text": "Q11: Updated TPCS\nWas the Total Project Cost Summary (TPCS) certified within the last two years?"
+  },
+  {
+    "objectID": "01_questions.html#q12-deviation-waiver",
+    "href": "01_questions.html#q12-deviation-waiver",
+    "title": "Questions",
+    "section": "Q12: Deviation waiver",
+    "text": "Q12: Deviation waiver\nAt the current time, can the project be implemented without deviations from mandatory design criteria or receiving an approved waiver from HQUSACE?"
+  },
+  {
+    "objectID": "01_questions.html#q13-lessons-learned",
+    "href": "01_questions.html#q13-lessons-learned",
+    "title": "Questions",
+    "section": "Q13: Lessons learned",
+    "text": "Q13: Lessons learned\nHave lessons learned been evaluated and incorporated into the design?"
+  },
+  {
+    "objectID": "01_questions.html#q14-design-expectations",
+    "href": "01_questions.html#q14-design-expectations",
+    "title": "Questions",
+    "section": "Q14: Design expectations",
+    "text": "Q14: Design expectations\nDid the Project Delivery Team (PDT) establish design expectations by milestone and communicate those in the Project Management Plan (PMP), Architect-Engineer (A-E) contract, and/or brokered work agreement, etc.?"
+  },
+  {
+    "objectID": "01_questions.html#q15-standard-milestones",
+    "href": "01_questions.html#q15-standard-milestones",
+    "title": "Questions",
+    "section": "Q15: Standard milestones",
+    "text": "Q15: Standard milestones\nDoes the project schedule include all standard practice design milestones?"
+  },
+  {
+    "objectID": "01_questions.html#q16-design-time",
+    "href": "01_questions.html#q16-design-time",
+    "title": "Questions",
+    "section": "Q16: Design time",
+    "text": "Q16: Design time\nDoes the project schedule include sufficient design time to accomplish all design related milestones?"
+  },
+  {
+    "objectID": "01_questions.html#q17-qaqc-time",
+    "href": "01_questions.html#q17-qaqc-time",
+    "title": "Questions",
+    "section": "Q17: QAQC time",
+    "text": "Q17: QAQC time\nDoes the project schedule include sufficient time for Quality Control (QC) and Quality Assurance (QA) reviews during all required design submittals?"
+  },
+  {
+    "objectID": "01_questions.html#q18-survey-time",
+    "href": "01_questions.html#q18-survey-time",
+    "title": "Questions",
+    "section": "Q18: Survey time",
+    "text": "Q18: Survey time\nDoes the project schedule include sufficient time to complete engineering investigations and surveys (e.g., cultural, geotechnical, environmental, hazardous materials, etc.) in time to adequately inform the design?"
+  },
+  {
+    "objectID": "01_questions.html#q19-permitting-time",
+    "href": "01_questions.html#q19-permitting-time",
+    "title": "Questions",
+    "section": "Q19: Permitting time",
+    "text": "Q19: Permitting time\nDoes the project schedule include sufficient time to complete permitting process(es)?"
+  },
+  {
+    "objectID": "01_questions.html#q20-schedule-alignment",
+    "href": "01_questions.html#q20-schedule-alignment",
+    "title": "Questions",
+    "section": "Q20: Schedule alignment",
+    "text": "Q20: Schedule alignment\nIs the current design team schedule in alignment with the project schedule in the Project Management Plan (PMP)?"
+  },
+  {
+    "objectID": "01_questions.html#q21-current-qmprp",
+    "href": "01_questions.html#q21-current-qmprp",
+    "title": "Questions",
+    "section": "Q21: Current QMP/RP",
+    "text": "Q21: Current QMP/RP\nDoes the project have a current, approved project-specific Quality Management Plan (QMP)/Review Plan (RP)?"
+  },
+  {
+    "objectID": "01_questions.html#q22-dqc-prior",
+    "href": "01_questions.html#q22-dqc-prior",
+    "title": "Questions",
+    "section": "Q22: DQC prior",
+    "text": "Q22: DQC prior\nDid District Quality Control (DQC) occur prior, and not concurrent with, to the Independent Technical Review (ITR)/Agency Technical Review (ATR)/Biddability, Constructability, Operability, Environmental and Sustainability (BCOES) Review?"
+  },
+  {
+    "objectID": "01_questions.html#q23-qmprp-followed",
+    "href": "01_questions.html#q23-qmprp-followed",
+    "title": "Questions",
+    "section": "Q23: QMP/RP followed",
+    "text": "Q23: QMP/RP followed\nWas the Quality Management Plan (QMP)/Review Plan (RP) followed for this review milestone?"
+  },
+  {
+    "objectID": "01_questions.html#q24-computations-qc",
+    "href": "01_questions.html#q24-computations-qc",
+    "title": "Questions",
+    "section": "Q24: Computations QC",
+    "text": "Q24: Computations QC\nHave all computations gone through a rigorous Quality Control (QC) process (e.g., a “red dot” review)? (Note: For A-E work, it is incumbent upon the Technical Lead (TL) to ensure the A-E has performed this level of review.)"
+  },
+  {
+    "objectID": "01_questions.html#q25-plans-qc",
+    "href": "01_questions.html#q25-plans-qc",
+    "title": "Questions",
+    "section": "Q25: Plans QC",
+    "text": "Q25: Plans QC\nHave all critical graphics/plans gone through a rigorous QC process (e.g., a “red dot” review)? (Note: For A-E work, it is incumbent upon the Technical Lead (TL) to ensure the A-E has performed this level of review.)"
+  },
+  {
+    "objectID": "01_questions.html#q26-specs-qc",
+    "href": "01_questions.html#q26-specs-qc",
+    "title": "Questions",
+    "section": "Q26: Specs QC",
+    "text": "Q26: Specs QC\nHave all specifications gone through a rigorous QC process? (Note: For A-E work, it is incumbent upon the Technical Lead (TL) to ensure the A-E has performed this level of review.)"
+  },
+  {
+    "objectID": "01_questions.html#q27-models-qc",
+    "href": "01_questions.html#q27-models-qc",
+    "title": "Questions",
+    "section": "Q27: Models QC",
+    "text": "Q27: Models QC\nHave all models gone through a rigorous QC process? (e.g., a “red dot” review, clash detection, etc.)? (Note: For A-E work, it is incumbent upon the Technical Lead (TL) to ensure the A-E has performed this level of review.)"
+  },
+  {
+    "objectID": "01_questions.html#q28-compliant-bcoes",
+    "href": "01_questions.html#q28-compliant-bcoes",
+    "title": "Questions",
+    "section": "Q28: Compliant BCOES",
+    "text": "Q28: Compliant BCOES\nHas a Biddability, Constructability, Operability, Environmental, and Sustainability (BCOES) review been performed in compliance with the ER?"
+  },
+  {
+    "objectID": "01_questions.html#q29-complete-dqc-itratr-bcoes",
+    "href": "01_questions.html#q29-complete-dqc-itratr-bcoes",
+    "title": "Questions",
+    "section": "Q29: Complete DQC, ITR/ATR, BCOES",
+    "text": "Q29: Complete DQC, ITR/ATR, BCOES\nHave District Quality Control (DQC), Independent Technical Review (ITR)/Agency Technical Review (ATR), and Biddability, Constructability, Operability, Environmental, and Sustainability (BCOES) certifications been completed?"
+  },
+  {
+    "objectID": "01_questions.html#q30-updated-qmprp",
+    "href": "01_questions.html#q30-updated-qmprp",
+    "title": "Questions",
+    "section": "Q30: Updated QMP/RP",
+    "text": "Q30: Updated QMP/RP\nHas the Quality Management Plan (QMP)/Review Plan (RP) been updated to respond to significant project changes?"
+  },
+  {
+    "objectID": "01_questions.html#q31-design-adequacy",
+    "href": "01_questions.html#q31-design-adequacy",
+    "title": "Questions",
+    "section": "Q31: Design adequacy",
+    "text": "Q31: Design adequacy\nDoes the design adequately accomplish the project scope, intent, and functional and technical objectives as defined in the current Project Management Plan (PMP)?"
+  },
+  {
+    "objectID": "01_questions.html#q32-deliveralbe-expectations",
+    "href": "01_questions.html#q32-deliveralbe-expectations",
+    "title": "Questions",
+    "section": "Q32: Deliveralbe expectations",
+    "text": "Q32: Deliveralbe expectations\nDid the deliverable meet established design milestone expectations?"
+  },
+  {
+    "objectID": "01_questions.html#q33-cost-design-maturity",
+    "href": "01_questions.html#q33-cost-design-maturity",
+    "title": "Questions",
+    "section": "Q33: Cost design maturity",
+    "text": "Q33: Cost design maturity\nIs the design maturity sufficient to generate the required Class of estimate for this milestone? (Class 3 at 35%, Class 2 at 65%, and Class 1 at 95%/100%)"
+  },
+  {
+    "objectID": "01_questions.html#q34-current-risk-register",
+    "href": "01_questions.html#q34-current-risk-register",
+    "title": "Questions",
+    "section": "Q34: Current Risk Register",
+    "text": "Q34: Current Risk Register\nDoes the project have a current risk register?"
+  },
+  {
+    "objectID": "01_questions.html#q35-35-csra",
+    "href": "01_questions.html#q35-35-csra",
+    "title": "Questions",
+    "section": "Q35: 35% CSRA",
+    "text": "Q35: 35% CSRA\nWas the project budget verified with a Cost Schedule Risk Analysis (CSRA) at concept design (i.e., 35%)?"
+  },
+  {
+    "objectID": "01_questions.html#q36-district-pa",
+    "href": "01_questions.html#q36-district-pa",
+    "title": "Questions",
+    "section": "Q36: District PA",
+    "text": "Q36: District PA\nDid the Geographic District validate and/or develop the Programmed Amount (PA)?"
+  },
+  {
+    "objectID": "01_questions.html#q37-team-turnover",
+    "href": "01_questions.html#q37-team-turnover",
+    "title": "Questions",
+    "section": "Q37: Team turnover",
+    "text": "Q37: Team turnover\nHas there been turnover on your design or review team that may affect the team’s ability to develop a quality product?"
+  },
+  {
+    "objectID": "01_questions.html#q38-design-confidence",
+    "href": "01_questions.html#q38-design-confidence",
+    "title": "Questions",
+    "section": "Q38: Design confidence",
+    "text": "Q38: Design confidence\nWhat is your level of confidence in the quality of the engineering design efforts on this project?"
   }
 ]
