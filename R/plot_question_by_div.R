@@ -19,11 +19,18 @@ plot_question_by_div <- function(questions_df, responses_df, question_number) {
 
   # Filter responses for a single question
   question_responses <- responses_df %>%
-    filter(QUESTION_NUMBER == current_question$QUESTION_NUMBER)
+    filter(QUESTION_NUMBER == current_question$QUESTION_NUMBER) %>%
+    # Drop unused factor levels
+    mutate(RESPONSE = fct_drop(RESPONSE))
+
+  # Determine question number of responses
+  response_levels <- nlevels(question_responses$RESPONSE)
 
   p <- ggplot(question_responses, aes(x = RESPONSE, fill = RESPONSE)) +
     geom_bar() +
-    scale_fill_manual(values = natparks.pals("KingsCanyon", 6)) +
+    scale_fill_manual(
+      values = natparks.pals("Arches", n = response_levels, type = "continuous")
+    ) +
     facet_grid(~DIVISION) +
     theme_grey(base_size = 11) +
     theme(
@@ -32,6 +39,6 @@ plot_question_by_div <- function(questions_df, responses_df, question_number) {
       legend.position = "bottom",
       legend.title = element_blank()
     )
-
+  # p
   return(p)
 }

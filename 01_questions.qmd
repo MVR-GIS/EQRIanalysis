@@ -2,8 +2,6 @@
 title: "Questions"
 ---
 
-Last updated: `r format(Sys.time(), "%m/%d/%Y %I:%M %p")`
-
 ```{r library}
 #| echo: false
 #| message: false

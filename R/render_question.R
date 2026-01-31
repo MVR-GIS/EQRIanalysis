@@ -28,8 +28,8 @@ render_question <- function(questions_df, responses_df, question_number) {
       responses_df,
       current_question$QUESTION_NUMBER
     ),
-    width = 7,
-    height = 4,
+    width = 8,
+    height = 2,
     units = "in",
     dpi = 96,
     create.dir = TRUE
@@ -44,8 +44,8 @@ render_question <- function(questions_df, responses_df, question_number) {
       responses_df,
       current_question$QUESTION_NUMBER
     ),
-    width = 7,
-    height = 4,
+    width = 8,
+    height = 2.5,      # Needs +0.5 in height for bottom legend
     units = "in",
     dpi = 96,
     create.dir = TRUE
