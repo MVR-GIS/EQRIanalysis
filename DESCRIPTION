@@ -17,6 +17,8 @@ Imports:
     ggplot2,
     here,
     NatParksPalettes,
+    patchwork,
+    purrr,
     readr,
     tibble,
     usethis
