@@ -19,9 +19,15 @@ get_responses_df <- function() {
     "Low",
     "No"
   )
+
   responses_df <- responses_df %>%
+    # Factor RESPONSE
     mutate(RESPONSE = as_factor(RESPONSE)) %>%
-    mutate(RESPONSE = fct_relevel(RESPONSE, response_levels))
+    mutate(RESPONSE = fct_relevel(RESPONSE, response_levels)) %>%
+    # Factor org levels
+    mutate(PROGRAMTYPE_NAME = as_factor(PROGRAMTYPE_NAME)) %>%
+    mutate(DIVISION = as_factor(DIVISION)) %>%
+    mutate(DISTRICT = as_factor(DISTRICT))
 
 
   return(responses_df)
