@@ -8,7 +8,6 @@ title: "Questions"
 #| warning: false
 
 library(EQRIanalysis)
-library(htmltools)
 ```
 
 ```{r get-data}

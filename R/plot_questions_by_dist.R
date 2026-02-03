@@ -57,7 +57,7 @@ plot_question_by_dist <- function(questions_df, responses_df, question_number) {
       drop = TRUE,
       render_empty = TRUE
     ) +
-    theme_grey(base_size = 7) +
+    theme_grey(base_size = 8) +
     theme(
       axis.text.x = element_blank(),
       axis.ticks.x = element_blank(),

@@ -20,7 +20,7 @@ render_question <- function(questions_df, responses_df, question_number) {
   }
 
   # Generate the program type plot
-  plot_type_path <- paste0("plots/questions/q_type_", question_number, ".png")
+  plot_type_path <- paste0("plots/questions/q_type_", question_number, ".svg")
   ggsave(
     filename = plot_type_path,
     plot = plot_question_by_type(
@@ -28,15 +28,15 @@ render_question <- function(questions_df, responses_df, question_number) {
       responses_df,
       current_question$QUESTION_NUMBER
     ),
-    width = 800,
-    height = 200,
-    units = "px",
+    width = 8,
+    height = 2,
+    units = "in",
     dpi = 150,
     create.dir = TRUE
   )
 
   # Generate the division plot
-  plot_div_path <- paste0("plots/questions/q_div_", question_number, ".png")
+  plot_div_path <- paste0("plots/questions/q_div_", question_number, ".svg")
   ggsave(
     filename = plot_div_path,
     plot = plot_question_by_div(
@@ -44,15 +44,15 @@ render_question <- function(questions_df, responses_df, question_number) {
       responses_df,
       current_question$QUESTION_NUMBER
     ),
-    width = 800,
-    height = 250,      # Needs +0.5 in height for bottom legend
-    units = "px",
+    width = 8,
+    height = 2.5,      # Needs +0.5 in height for bottom legend
+    units = "in",
     dpi = 150,
     create.dir = TRUE
   )
 
   # Generate the district plot
-  plot_dist_path <- paste0("plots/questions/q_dist_", question_number, ".png")
+  plot_dist_path <- paste0("plots/questions/q_dist_", question_number, ".svg")
   ggsave(
     filename = plot_dist_path,
     plot = plot_question_by_dist(
@@ -60,9 +60,9 @@ render_question <- function(questions_df, responses_df, question_number) {
       responses_df,
       current_question$QUESTION_NUMBER
     ),
-    width = 800,
-    height = 800,
-    units = "px",
+    width = 8,
+    height = 8,
+    units = "in",
     dpi = 150,
     create.dir = TRUE
   )
