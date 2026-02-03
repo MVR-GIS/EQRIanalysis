@@ -1,14 +1,24 @@
-# Indicators
+---
+title: Indicators
+---
 
 ```{r library}
 #| echo: false
 #| message: false
 #| warning: false
 
-library(here)
-library(dplyr)
-library(ggplot2)
-library(NatParksPalettes)
+library(EQRIanalysis)
+```
+
+```{r get-data}
+#| echo: false
+#| message: false
+
+questions_df <- EQRIanalysis::get_questions_df()
+responses_df <- EQRIanalysis::get_responses_df()
 ```
 
 
+```{r indicators}
+
+```

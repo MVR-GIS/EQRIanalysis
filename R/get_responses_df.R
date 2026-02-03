@@ -2,8 +2,8 @@
 #' @description Gets a responses data frame.
 #' @returns a data frame of responses
 #' @export
-#' @importFrom dplyr mutate
-#' @importFrom forcats as_factor fct_relevel
+#' @importFrom dplyr mutate %>% across
+#' @importFrom forcats fct_relevel
 get_responses_df <- function() {
   # Get responses
   responses_df <- EQRIanalysis::responses
@@ -21,14 +21,33 @@ get_responses_df <- function() {
   )
 
   responses_df <- responses_df %>%
-    # Factor RESPONSE
-    mutate(RESPONSE = as_factor(RESPONSE)) %>%
-    mutate(RESPONSE = fct_relevel(RESPONSE, response_levels)) %>%
-    # Factor org levels
-    mutate(PROGRAMTYPE_NAME = as_factor(PROGRAMTYPE_NAME)) %>%
-    mutate(DIVISION = as_factor(DIVISION)) %>%
-    mutate(DISTRICT = as_factor(DISTRICT))
-
-
+    # Factor all character variables
+    mutate(
+      across(
+        where(is.character), 
+        factor)
+    ) %>%
+    # Factor project variables
+    mutate(
+      across(
+        c(PROJECT_ID, SUBPROJECT_ID, MILESTONE_ID), 
+        factor)
+    ) %>%
+    # Factor question variables
+    mutate(
+      across(
+        c(RESPONSE_UID, QUESTIONNAIREEVENT_ID, QUESTION_NUMBER), 
+        factor)
+    ) %>%
+    # Factor other dimensions
+    mutate(
+      across(
+        c(PROGRAMTYPE_ID, PROGRAMTYPE_NAME, PROGRAM_NAME, PROGRAM_DESC, 
+          DESIGN_TEAM, DESIGNSTRATEGY_DESC),
+        factor)
+    ) %>%
+    # Relevel the RESPONSE factors
+    mutate(RESPONSE = fct_relevel(RESPONSE, response_levels))
+  
   return(responses_df)
 }

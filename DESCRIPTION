@@ -21,7 +21,7 @@ Imports:
     patchwork,
     purrr,
     readr,
-    tibble,
+    stringr,
     usethis
 Suggests: 
     testthat (>= 3.0.0)
