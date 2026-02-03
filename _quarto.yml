@@ -38,3 +38,11 @@ format:
     toc-depth: 3
     toc-location: right
     toc-title: "Contents"
+
+filters:
+- custom-callout
+
+custom-callout:
+  graph:
+    icon-symbol: "📈"
+    color: "#4682B4"            # SteelBlue border/background

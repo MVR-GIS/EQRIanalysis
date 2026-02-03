@@ -29,12 +29,16 @@ plot_question_by_type <- function(questions_df, responses_df, question_number) {
   response_levels <- nlevels(question_responses$RESPONSE)
 
   p <- ggplot(question_responses, aes(x = RESPONSE, fill = RESPONSE)) +
-    geom_bar(show.legend = FALSE) +
+    geom_bar(
+      color = "darkgrey",    # Set bar border color
+      linewidth = 0.1,
+      show.legend = FALSE
+    ) +
     scale_fill_manual(
       values = natparks.pals("Arches", n = response_levels, type = "continuous")
     ) +
     facet_grid(~PROGRAMTYPE_NAME) +
-    theme_grey(base_size = 11) +
+    theme_grey(base_size = 8) +
     theme(
       axis.text.x = element_blank(),
       axis.ticks.x = element_blank(),

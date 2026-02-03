@@ -13,6 +13,7 @@
 #' @importFrom ggplot2 ggplot aes geom_bar scale_fill_manual vars
 #'                     theme_grey theme element_blank
 #'                     facet_wrap
+#' @importFrom ggh4x facet_grid2
 #' @importFrom NatParksPalettes natparks.pals
 #' @importFrom patchwork wrap_plots
 #'
@@ -31,7 +32,7 @@ plot_question_by_dist <- function(questions_df, responses_df, question_number) {
   response_levels <- nlevels(question_responses$RESPONSE)
 
   # Determine the Divisions in the data
-  divisions <- levels(fct_drop(question_responses$DIVISION))
+  divisions <- sort(levels(fct_drop(question_responses$DIVISION)))
 
   # Create list of plots
   plot_list <- map(divisions, function(division) {
@@ -41,13 +42,22 @@ plot_question_by_dist <- function(questions_df, responses_df, question_number) {
 
     ggplot(question_responses_div, 
       aes(x = RESPONSE, fill = RESPONSE)) +
-    geom_bar(show.legend = FALSE) +
+    geom_bar(
+      color = "darkgrey",    # Set bar border color
+      linewidth = 0.1,
+      show.legend = FALSE
+    ) +
     scale_fill_manual(
       values = natparks.pals("Arches", n = response_levels, 
                              type = "continuous")
     ) +
-    facet_grid(cols = vars(DISTRICT)) +   # Facet by District
-    theme_grey(base_size = 11) +
+    facet_grid2(
+      rows = vars(DIVISION),
+      cols = vars(DISTRICT),
+      drop = TRUE,
+      render_empty = TRUE
+    ) +
+    theme_grey(base_size = 7) +
     theme(
       axis.text.x = element_blank(),
       axis.ticks.x = element_blank(),
@@ -60,7 +70,7 @@ plot_question_by_dist <- function(questions_df, responses_df, question_number) {
   plot <- wrap_plots(
       plot_list, 
       nrow = length(divisions),
-      guides = "collect"
+      guides = "auto"
     ) & 
     theme()
   plot

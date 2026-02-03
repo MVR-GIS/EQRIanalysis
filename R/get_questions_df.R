@@ -49,7 +49,7 @@ get_questions_df <- function() {
       29,  "Complete DQC, ITR/ATR, BCOES",
       30,  "Updated QMP/RP",
       31,  "Design adequacy",
-      32,  "Deliveralbe expectations",
+      32,  "Deliverable expectations",
       33,  "Cost design maturity",
       34,  "Current Risk Register",
       35,  "35% CSRA",

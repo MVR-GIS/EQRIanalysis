@@ -1,5 +1,12 @@
 # Building a Prod-Ready, Robust Quarto Website with embedded R Package.
 
+
+
+## Configure Quarto extension: custom callout
+# https://github.com/coatless-quarto/custom-callout
+
+quarto add coatless-quarto/custom-callout
+
 ## Build website locally
 
 ## Update R package
