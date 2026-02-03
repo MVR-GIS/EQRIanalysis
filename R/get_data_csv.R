@@ -7,7 +7,7 @@
 #' @importFrom dplyr %>% mutate case_when relocate
 #' @importFrom usethis use_data
 get_data_csv <- function() {
-  latest_export <- here::here("data-raw/UR_QRI_RESPONSE_EDA_20260122.csv")
+  latest_export <- here::here("data-raw/UR_QRI_RESPONSE_EDA_20260203.csv")
   responses_raw <- readr::read_csv(latest_export)
   
   # Get column spec
