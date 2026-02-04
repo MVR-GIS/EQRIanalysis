@@ -13,7 +13,8 @@ get_questions_df <- function() {
     select(QUESTION_NUMBER, QUESTION_TEXT, QUESTION_SHORT) %>%
     arrange(QUESTION_NUMBER) %>%
     distinct(QUESTION_NUMBER, .keep_all = TRUE) %>%
-    mutate(short_name = str_to_title(QUESTION_SHORT))
+    mutate(short_name = str_to_title(QUESTION_SHORT)) %>%
+    mutate(short_name = factor(short_name))
 
   return(questions_df)
 }
