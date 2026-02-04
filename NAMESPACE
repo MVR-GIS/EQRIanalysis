@@ -3,6 +3,8 @@
 export(get_data_csv)
 export(get_questions_df)
 export(get_responses_df)
+export(plot_question_by_design_strat)
+export(plot_question_by_design_team)
 export(plot_question_by_dist)
 export(plot_question_by_div)
 export(plot_question_by_type)

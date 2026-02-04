@@ -82,6 +82,36 @@ render_question <- function(questions_df, responses_df, question_number) {
     dpi = 150,
     create.dir = TRUE
   )
+  # Generate the design team plot
+  plot_design_team_path <- paste0("plots/questions/q_design_team_", question_number, ".svg")
+  ggsave(
+    filename = plot_design_team_path,
+    plot = plot_question_by_design_team(
+      questions_df,
+      responses_df,
+      current_question$QUESTION_NUMBER
+    ),
+    width = 8,
+    height = 2,
+    units = "in",
+    dpi = 150,
+    create.dir = TRUE
+  )
+  # Generate the design strategy plot
+  plot_design_strat_path <- paste0("plots/questions/q_design_strat_", question_number, ".svg")
+  ggsave(
+    filename = plot_design_strat_path,
+    plot = plot_question_by_design_team(
+      questions_df,
+      responses_df,
+      current_question$QUESTION_NUMBER
+    ),
+    width = 8,
+    height = 2,
+    units = "in",
+    dpi = 150,
+    create.dir = TRUE
+  )
 
   # Create the Markdown string
   markdown <- c(
@@ -106,6 +136,14 @@ render_question <- function(questions_df, responses_df, question_number) {
     "",
     '::: {.graph title="by District" collapse=true}',
     paste0("![](", plot_dist_path, ")"),
+    ":::",
+    "",
+    '::: {.graph title="by Design Team" collapse=true}',
+    paste0("![](", plot_design_team_path, ")"),
+    ":::",
+    "",
+    '::: {.graph title="by Design Strategy" collapse=true}',
+    paste0("![](", plot_design_strat_path, ")"),
     ":::",
     ""
   )
