@@ -44,7 +44,7 @@ plot_question_by_dist <- function(questions_df, responses_df, question_number) {
       aes(x = RESPONSE, fill = RESPONSE)) +
     geom_bar(
       color = "darkgrey",    # Set bar border color
-      linewidth = 0.1,
+      linewidth = 0.2,
       show.legend = FALSE
     ) +
     scale_fill_manual(

@@ -31,7 +31,7 @@ plot_question_by_type <- function(questions_df, responses_df, question_number) {
   p <- ggplot(question_responses, aes(x = RESPONSE, fill = RESPONSE)) +
     geom_bar(
       color = "darkgrey",    # Set bar border color
-      linewidth = 0.1,
+      linewidth = 0.2,
       show.legend = FALSE
     ) +
     scale_fill_manual(
