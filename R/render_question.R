@@ -20,6 +20,22 @@ render_question <- function(questions_df, responses_df, question_number) {
   }
 
   # Generate the program type plot
+  plot_usace_path <- paste0("plots/questions/q_usace_", question_number, ".svg")
+  ggsave(
+    filename = plot_usace_path,
+    plot = plot_question_by_usace(
+      questions_df,
+      responses_df,
+      current_question$QUESTION_NUMBER
+    ),
+    width = 8,
+    height = 2,
+    units = "in",
+    dpi = 150,
+    create.dir = TRUE
+  )
+
+  # Generate the program type plot
   plot_type_path <- paste0("plots/questions/q_type_", question_number, ".svg")
   ggsave(
     filename = plot_type_path,
@@ -78,9 +94,15 @@ render_question <- function(questions_df, responses_df, question_number) {
     "",
     current_question$QUESTION_TEXT,
     "",
-    paste0("![](", plot_type_path, ")"),
+    paste0("![](", plot_usace_path, ")"),
     "",
+    '::: {.graph title="by USACE Program" collapse=true}',
+    paste0("![](", plot_type_path, ")"),
+    ":::",
+    "",
+    '::: {.graph title="by Division" collapse=true}',
     paste0("![](", plot_div_path, ")"),
+    ":::",
     "",
     '::: {.graph title="by District" collapse=true}',
     paste0("![](", plot_dist_path, ")"),

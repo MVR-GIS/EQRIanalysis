@@ -45,8 +45,8 @@
 <polyline points='24.07,36.32 296.05,36.32 ' style='stroke-width: 0.78; stroke: #FFFFFF; stroke-linecap: butt;' />
 <polyline points='98.25,130.61 98.25,16.28 ' style='stroke-width: 0.78; stroke: #FFFFFF; stroke-linecap: butt;' />
 <polyline points='221.88,130.61 221.88,16.28 ' style='stroke-width: 0.78; stroke: #FFFFFF; stroke-linecap: butt;' />
-<rect x='42.62' y='21.48' width='111.26' height='103.93' style='stroke-width: 0.21; stroke: #A9A9A9; stroke-linecap: butt; stroke-linejoin: miter; fill: #1A3D82;' />
-<rect x='166.24' y='116.50' width='111.26' height='8.91' style='stroke-width: 0.21; stroke: #A9A9A9; stroke-linecap: butt; stroke-linejoin: miter; fill: #832B0F;' />
+<rect x='42.62' y='21.48' width='111.26' height='103.93' style='stroke-width: 0.43; stroke: #A9A9A9; stroke-linecap: butt; stroke-linejoin: miter; fill: #1A3D82;' />
+<rect x='166.24' y='116.50' width='111.26' height='8.91' style='stroke-width: 0.43; stroke: #A9A9A9; stroke-linecap: butt; stroke-linejoin: miter; fill: #832B0F;' />
 </g>
 <g clip-path='url(#cpMC4wMHw1NzYuMDB8MC4wMHwxNDQuMDA=)'>
 </g>
@@ -67,8 +67,8 @@
 <polyline points='300.04,36.32 572.01,36.32 ' style='stroke-width: 0.78; stroke: #FFFFFF; stroke-linecap: butt;' />
 <polyline points='374.21,130.61 374.21,16.28 ' style='stroke-width: 0.78; stroke: #FFFFFF; stroke-linecap: butt;' />
 <polyline points='497.84,130.61 497.84,16.28 ' style='stroke-width: 0.78; stroke: #FFFFFF; stroke-linecap: butt;' />
-<rect x='318.58' y='42.26' width='111.26' height='83.15' style='stroke-width: 0.21; stroke: #A9A9A9; stroke-linecap: butt; stroke-linejoin: miter; fill: #1A3D82;' />
-<rect x='442.21' y='119.47' width='111.26' height='5.94' style='stroke-width: 0.21; stroke: #A9A9A9; stroke-linecap: butt; stroke-linejoin: miter; fill: #832B0F;' />
+<rect x='318.58' y='42.26' width='111.26' height='83.15' style='stroke-width: 0.43; stroke: #A9A9A9; stroke-linecap: butt; stroke-linejoin: miter; fill: #1A3D82;' />
+<rect x='442.21' y='119.47' width='111.26' height='5.94' style='stroke-width: 0.43; stroke: #A9A9A9; stroke-linecap: butt; stroke-linejoin: miter; fill: #832B0F;' />
 </g>
 <g clip-path='url(#cpMC4wMHw1NzYuMDB8MC4wMHwxNDQuMDA=)'>
 </g>

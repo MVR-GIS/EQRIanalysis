@@ -30,7 +30,7 @@ plot_question_by_div <- function(questions_df, responses_df, question_number) {
     geom_bar(
       color = "darkgrey",    # Set bar border color
       linewidth = 0.2,
-      show.legend = TRUE
+      show.legend = FALSE
     ) +
     scale_fill_manual(
       values = natparks.pals("Arches", n = response_levels, type = "continuous")
