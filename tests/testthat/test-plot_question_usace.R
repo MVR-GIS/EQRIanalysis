@@ -1,4 +1,4 @@
-testthat::test_that("check plot_question_by_division", {
+testthat::test_that("check plot_question_by_usace", {
   questions_df <- get_questions_df()
   responses_df <- get_responses_df()
   question_number <- 31

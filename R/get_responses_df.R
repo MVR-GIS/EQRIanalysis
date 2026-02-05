@@ -19,6 +19,22 @@ get_responses_df <- function() {
     "Low",
     "No"
   )
+  milestone_levels <- c(
+    "15% (Project Initiation)", 
+    "35% (Concept Design)", 
+    "65% (Intermediate Design)", 
+    "95% (Final Design)",
+    "100% (Corrected Final Design)"
+  )
+  design_team_levels <- c(
+    "In-House", 
+    "Brokered with another District", 
+    "Hybrid", 
+    "AE"
+  )
+  design_strat_levels <- c(
+    "Design-Build", "Design-Bid-Build"
+  )
 
   responses_df <- responses_df %>%
     # Factor all character variables
@@ -46,8 +62,13 @@ get_responses_df <- function() {
           DESIGN_TEAM, DESIGNSTRATEGY_DESC),
         factor)
     ) %>%
-    # Relevel the RESPONSE factors
-    mutate(RESPONSE = fct_relevel(RESPONSE, response_levels))
+    # Relevel the factors
+    mutate(
+      RESPONSE = fct_relevel(RESPONSE, response_levels),
+      MILESTONE_ID = fct_relevel(MILESTONE_DESC, milestone_levels),
+      DESIGN_TEAM = fct_relevel(DESIGN_TEAM, design_team_levels),
+      DESIGNSTRATEGY_DESC = fct_relevel(DESIGNSTRATEGY_DESC, design_strat_levels)
+    )
   
   return(responses_df)
 }

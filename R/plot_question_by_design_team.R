@@ -37,7 +37,7 @@ plot_question_by_design_team <- function(questions_df, responses_df, question_nu
     scale_fill_manual(
       values = natparks.pals("Arches", n = response_levels, type = "continuous")
     ) +
-    facet_grid(~DESIGNSTRATEGY_DESC) +
+    facet_grid(~DESIGN_TEAM) +
     theme_grey(base_size = 8) +
     theme(
       axis.text.x = element_blank(),

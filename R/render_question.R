@@ -101,7 +101,7 @@ render_question <- function(questions_df, responses_df, question_number) {
   plot_design_strat_path <- paste0("plots/questions/q_design_strat_", question_number, ".svg")
   ggsave(
     filename = plot_design_strat_path,
-    plot = plot_question_by_design_team(
+    plot = plot_question_by_design_strat(
       questions_df,
       responses_df,
       current_question$QUESTION_NUMBER
