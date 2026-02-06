@@ -122,7 +122,7 @@ render_question <- function(questions_df, responses_df, question_number) {
       current_question$short_name
     ),
     "",
-    current_question$QUESTION_TEXT,
+    as.character(current_question$QUESTION_TEXT),
     "",
     paste0("![](", plot_usace_path, ")"),
     "",
