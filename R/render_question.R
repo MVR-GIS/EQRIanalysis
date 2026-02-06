@@ -19,7 +19,7 @@ render_question <- function(questions_df, responses_df, question_number) {
     stop("Question number not found in the questions dataset.")
   }
 
-  # Generate the program type plot
+  # Generate the USACE plot
   plot_usace_path <- paste0("plots/questions/q_usace_", question_number, ".svg")
   ggsave(
     filename = plot_usace_path,

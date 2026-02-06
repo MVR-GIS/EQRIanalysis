@@ -14,11 +14,18 @@ library(EQRIanalysis)
 #| echo: false
 #| message: false
 
-questions_df <- EQRIanalysis::get_questions_df()
-responses_df <- EQRIanalysis::get_responses_df()
+indicators_df <- get_indicators_df()
 ```
 
 
-```{r indicators}
+```{r render-indicators}
+#| results: asis
+#| echo: false
+#| message: false
 
+# Dynamically render markdown output for each question
+for (indicator_name in levels(indicators_df$INDICATOR)) {
+  markdown <- render_indicator(indicators_df, indicator_name)
+  cat(markdown, sep = "\n")  
+}
 ```

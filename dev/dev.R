@@ -29,6 +29,7 @@ devtools::install(
 
 ## Render Quarto Website from R console
 quarto::quarto_render("01_questions.qmd")
+quarto::quarto_render("02_indicators.qmd")
 quarto::quarto_render()
 
 
