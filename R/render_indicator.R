@@ -1,20 +1,20 @@
 #' @title Render Indicator
 #' @description Render the markdown output for an indicator.
-#' @param indicator_df     data.frame; A data frame of questionnaire events
+#' @param indicators_df     data.frame; A data frame of questionnaire events
 #'                         with indicator scores returned by 
-#'                         `get_indicator_df`.
+#'                         `get_indicators_df`.
 #' @param indicator_name   character; The indicator name to be ploted. One of
 #'                         `levels(get_responses_df()$INDICATOR)`: 
 #'                         "Confidence", "Cost", "QA", "QC", "Schedule", 
 #'                         "Scope", "Team".
 #' @returns a markdown string representing the output for each indicator
 #' @export
-#' @importFrom dplyr filter
+#' @importFrom dplyr %>% filter
 #' @importFrom ggplot2 ggsave
 #'
-render_indicator <- function(indicator_df, indicator_name) {
+render_indicator <- function(indicators_df, indicator_name) {
   # Extract the current indicator
-  current_indicator <- indicator_df %>%
+  current_indicator <- indicators_df %>%
     filter(INDICATOR == indicator_name)
 
   if (nrow(current_indicator) == 0) {
@@ -22,20 +22,33 @@ render_indicator <- function(indicator_df, indicator_name) {
   }
 
   # Generate the USACE plot
-  plot_usace_path <- paste0("plots/indicators/q_usace_", indicator_name, ".svg")
-  # ggsave(
-  #   filename = plot_usace_path,
-  #   plot = plot_indicator_by_usace(
-  #     indicator_df,
-  #     responses_df,
-  #     current_indicator$INDICATOR
-  #   ),
-  #   width = 8,
-  #   height = 2,
-  #   units = "in",
-  #   dpi = 150,
-  #   create.dir = TRUE
-  # )
+  plot_usace_path <- paste0("plots/indicators/i_", indicator_name, "_usace.svg")
+  ggsave(
+    filename = plot_usace_path,
+    plot = plot_indicator_by_usace(
+      indicators_df,
+      indicator_name
+    ),
+    width = 8,
+    height = 2,
+    units = "in",
+    dpi = 150,
+    create.dir = TRUE
+  )
+  # Generate the type plot
+  plot_type_path <- paste0("plots/indicators/i_", indicator_name, "_type.svg")
+  ggsave(
+    filename = plot_type_path,
+    plot = plot_indicator_by_type(
+      indicators_df,
+      indicator_name
+    ),
+    width = 8,
+    height = 2,
+    units = "in",
+    dpi = 150,
+    create.dir = TRUE
+  )
 
   # Create the Markdown string
   markdown <- c(
@@ -46,10 +59,10 @@ render_indicator <- function(indicator_df, indicator_name) {
     "",
     paste0("![](", plot_usace_path, ")"),
     "",
-    # '::: {.graph title="by USACE Program" collapse=true}',
-    # paste0("![](", plot_type_path, ")"),
-    # ":::",
-    # "",
+    '::: {.graph title="by USACE Program" collapse=true}',
+    paste0("![](", plot_type_path, ")"),
+    ":::",
+    "",
     # '::: {.graph title="by Division" collapse=true}',
     # paste0("![](", plot_div_path, ")"),
     # ":::",

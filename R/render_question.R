@@ -20,7 +20,7 @@ render_question <- function(questions_df, responses_df, question_number) {
   }
 
   # Generate the USACE plot
-  plot_usace_path <- paste0("plots/questions/q_usace_", question_number, ".svg")
+  plot_usace_path <- paste0("plots/questions/q_", question_number, "_usace.svg")
   ggsave(
     filename = plot_usace_path,
     plot = plot_question_by_usace(
@@ -36,7 +36,7 @@ render_question <- function(questions_df, responses_df, question_number) {
   )
 
   # Generate the program type plot
-  plot_type_path <- paste0("plots/questions/q_type_", question_number, ".svg")
+  plot_type_path <- paste0("plots/questions/q_", question_number, "_type.svg")
   ggsave(
     filename = plot_type_path,
     plot = plot_question_by_type(
@@ -52,7 +52,7 @@ render_question <- function(questions_df, responses_df, question_number) {
   )
 
   # Generate the division plot
-  plot_div_path <- paste0("plots/questions/q_div_", question_number, ".svg")
+  plot_div_path <- paste0("plots/questions/q_", question_number, "_div.svg")
   ggsave(
     filename = plot_div_path,
     plot = plot_question_by_div(
@@ -68,7 +68,7 @@ render_question <- function(questions_df, responses_df, question_number) {
   )
 
   # Generate the district plot
-  plot_dist_path <- paste0("plots/questions/q_dist_", question_number, ".svg")
+  plot_dist_path <- paste0("plots/questions/q_", question_number, "_dist.svg")
   ggsave(
     filename = plot_dist_path,
     plot = plot_question_by_dist(
@@ -83,7 +83,7 @@ render_question <- function(questions_df, responses_df, question_number) {
     create.dir = TRUE
   )
   # Generate the design team plot
-  plot_design_team_path <- paste0("plots/questions/q_design_team_", question_number, ".svg")
+  plot_design_team_path <- paste0("plots/questions/q_", question_number, "_design_team.svg")
   ggsave(
     filename = plot_design_team_path,
     plot = plot_question_by_design_team(
@@ -98,7 +98,7 @@ render_question <- function(questions_df, responses_df, question_number) {
     create.dir = TRUE
   )
   # Generate the design strategy plot
-  plot_design_strat_path <- paste0("plots/questions/q_design_strat_", question_number, ".svg")
+  plot_design_strat_path <- paste0("plots/questions/q_", question_number, "_design_strat.svg")
   ggsave(
     filename = plot_design_strat_path,
     plot = plot_question_by_design_strat(
