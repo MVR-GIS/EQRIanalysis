@@ -49,7 +49,7 @@ render_indicator <- function(indicators_df, indicator_name) {
     dpi = 150,
     create.dir = TRUE
   )
-  # Generate the type plot
+  # Generate the div plot
   plot_div_path <- paste0("plots/indicators/i_", indicator_name, "_div.svg")
   ggsave(
     filename = plot_div_path,
@@ -59,6 +59,20 @@ render_indicator <- function(indicators_df, indicator_name) {
     ),
     width = 8,
     height = 2,
+    units = "in",
+    dpi = 150,
+    create.dir = TRUE
+  )
+  # Generate the dist plot
+  plot_dist_path <- paste0("plots/indicators/i_", indicator_name, "_dist.svg")
+  ggsave(
+    filename = plot_dist_path,
+    plot = plot_indicator_by_dist(
+      indicators_df,
+      indicator_name
+    ),
+    width = 8,
+    height = 8,
     units = "in",
     dpi = 150,
     create.dir = TRUE
@@ -81,10 +95,10 @@ render_indicator <- function(indicators_df, indicator_name) {
     paste0("![](", plot_div_path, ")"),
     ":::",
     "",
-    # '::: {.graph title="by District" collapse=true}',
-    # paste0("![](", plot_dist_path, ")"),
-    # ":::",
-    # "",
+    '::: {.graph title="by District" collapse=true}',
+    paste0("![](", plot_dist_path, ")"),
+    ":::",
+    "",
     # '::: {.graph title="by Design Team" collapse=true}',
     # paste0("![](", plot_design_team_path, ")"),
     # ":::",
