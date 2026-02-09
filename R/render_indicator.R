@@ -49,6 +49,20 @@ render_indicator <- function(indicators_df, indicator_name) {
     dpi = 150,
     create.dir = TRUE
   )
+  # Generate the type plot
+  plot_div_path <- paste0("plots/indicators/i_", indicator_name, "_div.svg")
+  ggsave(
+    filename = plot_div_path,
+    plot = plot_indicator_by_div(
+      indicators_df,
+      indicator_name
+    ),
+    width = 8,
+    height = 2,
+    units = "in",
+    dpi = 150,
+    create.dir = TRUE
+  )
 
   # Create the Markdown string
   markdown <- c(
@@ -63,10 +77,10 @@ render_indicator <- function(indicators_df, indicator_name) {
     paste0("![](", plot_type_path, ")"),
     ":::",
     "",
-    # '::: {.graph title="by Division" collapse=true}',
-    # paste0("![](", plot_div_path, ")"),
-    # ":::",
-    # "",
+    '::: {.graph title="by Division" collapse=true}',
+    paste0("![](", plot_div_path, ")"),
+    ":::",
+    "",
     # '::: {.graph title="by District" collapse=true}',
     # paste0("![](", plot_dist_path, ")"),
     # ":::",
