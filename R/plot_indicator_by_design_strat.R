@@ -1,5 +1,5 @@
-#' @title Plot Indicator by USACE Division
-#' @description Plot indicator by USACE Division.
+#' @title Plot Indicator by Design Strategy
+#' @description Plot indicator by Design Strategy.
 #' @param indicators_df    data.frame; A data frame of questionnaire events
 #'                         with indicator scores returned by 
 #'                         `get_indicators_df`.
@@ -14,7 +14,7 @@
 #'             facet_grid labs theme_grey theme
 #' @importFrom NatParksPalettes scale_fill_natparks_c
 #'
-plot_indicator_by_div <- function(indicators_df, indicator_name) {
+plot_indicator_by_design_strat <- function(indicators_df, indicator_name) {
   # Extract the current indicator
   current_indicator <- indicators_df %>%
     filter(INDICATOR == indicator_name)
@@ -26,7 +26,7 @@ plot_indicator_by_div <- function(indicators_df, indicator_name) {
       bins = 10, ,
       show.legend = FALSE) +
     scale_fill_natparks_c(name = "Arches", direction = -1) + 
-    facet_grid(~DIVISION) +
+    facet_grid(~DESIGNSTRATEGY_DESC) +
     labs(x = "Score") +
     theme_grey(base_size = 8) +
     theme(

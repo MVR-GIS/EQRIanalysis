@@ -77,6 +77,34 @@ render_indicator <- function(indicators_df, indicator_name) {
     dpi = 150,
     create.dir = TRUE
   )
+  # Generate the design team plot
+  plot_design_team_path <- paste0("plots/indicators/i_", indicator_name, "_design_team.svg")
+  ggsave(
+    filename = plot_design_team_path,
+    plot = plot_indicator_by_design_team(
+      indicators_df,
+      indicator_name
+    ),
+    width = 8,
+    height = 2,
+    units = "in",
+    dpi = 150,
+    create.dir = TRUE
+  )
+  # Generate the design strat plot
+  plot_design_strat_path <- paste0("plots/indicators/i_", indicator_name, "_design_strat.svg")
+  ggsave(
+    filename = plot_design_strat_path,
+    plot = plot_indicator_by_design_strat(
+      indicators_df,
+      indicator_name
+    ),
+    width = 8,
+    height = 2,
+    units = "in",
+    dpi = 150,
+    create.dir = TRUE
+  )
 
   # Create the Markdown string
   markdown <- c(
@@ -99,13 +127,13 @@ render_indicator <- function(indicators_df, indicator_name) {
     paste0("![](", plot_dist_path, ")"),
     ":::",
     "",
-    # '::: {.graph title="by Design Team" collapse=true}',
-    # paste0("![](", plot_design_team_path, ")"),
-    # ":::",
-    # "",
-    # '::: {.graph title="by Design Strategy" collapse=true}',
-    # paste0("![](", plot_design_strat_path, ")"),
-    # ":::",
+    '::: {.graph title="by Design Team" collapse=true}',
+    paste0("![](", plot_design_team_path, ")"),
+    ":::",
+    "",
+    '::: {.graph title="by Design Strategy" collapse=true}',
+    paste0("![](", plot_design_strat_path, ")"),
+    ":::",
     ""
   )
 
