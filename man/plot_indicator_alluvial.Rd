@@ -2,16 +2,25 @@
 % Please edit documentation in R/plot_indicator_alluvial.R
 \name{plot_indicator_alluvial}
 \alias{plot_indicator_alluvial}
-\title{Plot Alluvial Diagram for Indicator Questions}
+\title{Plot Alluvial Diagram for Specific Indicator-Program-Milestone Combo}
 \usage{
-plot_indicator_alluvial(indicator_name)
+plot_indicator_alluvial(indicator_name, program_name, milestone_name)
 }
 \arguments{
-\item{indicator_name}{Character; one of the indicator names}
+\item{indicator_name}{character; Questionnaire indicator name. One of:
+\code{levels(get_indicators_df()$INDICATOR)}}
+
+\item{program_name}{character; Program name. One of:
+\code{levels(get_indicators_df()$PROGRAMTYPE_NAME)}}
+
+\item{milestone_name}{character; Milestone name. One of:
+\code{levels(get_indicators_df()$MILESTONE_DESC)}}
 }
 \value{
 A ggplot2 alluvial plot object
 }
 \description{
-Shows flow from individual question responses to indicator score
+Shows flow from individual question responses to indicator
+score for a specific combination of indicator, program, and project
+milestone.
 }

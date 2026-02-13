@@ -46,7 +46,7 @@ get_responses_df <- function() {
     # Factor project variables
     mutate(
       across(
-        c(PROJECT_ID, SUBPROJECT_ID, MILESTONE_ID), 
+        c(PROJECT_ID, SUBPROJECT_ID), 
         factor)
     ) %>%
     # Factor question variables
@@ -65,7 +65,7 @@ get_responses_df <- function() {
     # Relevel the factors
     mutate(
       RESPONSE = fct_relevel(RESPONSE, response_levels),
-      MILESTONE_ID = fct_relevel(MILESTONE_DESC, milestone_levels),
+      MILESTONE_DESC = fct_relevel(MILESTONE_DESC, milestone_levels),
       DESIGN_TEAM = fct_relevel(DESIGN_TEAM, design_team_levels),
       DESIGNSTRATEGY_DESC = fct_relevel(DESIGNSTRATEGY_DESC, design_strat_levels)
     )

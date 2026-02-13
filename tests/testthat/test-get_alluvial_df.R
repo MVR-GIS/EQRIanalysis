@@ -1,5 +1,4 @@
 testthat::test_that("get_alluvial_df returns a valid data frame", {
-  # Call the function
   alluvial_df <- get_alluvial_df()
   
   # Test 1: Returns a data frame
@@ -10,6 +9,8 @@ testthat::test_that("get_alluvial_df returns a valid data frame", {
     "QUESTIONNAIREEVENT_ID", 
     "QUESTION_NUMBER", 
     "QUESTION_SHORT",
+    "PROGRAMTYPE_NAME",
+    "MILESTONE_DESC",
     "INDICATOR", 
     "RESPONSE", 
     "RESPONSEVALUE",
@@ -52,27 +53,6 @@ testthat::test_that("get_alluvial_df returns a valid data frame", {
   testthat::expect_false(any(is.na(alluvial_df$INDICATOR_SCORE_BIN)))
 })
 
-testthat::test_that("get_alluvial_df filter works correctly", {
-  # Test filtering by a single indicator
-  alluvial_df_qa <- get_alluvial_df(indicator_filter = "QA")
-  
-  # Test 7: Filter returns only requested indicator
-  testthat::expect_true(all(alluvial_df_qa$INDICATOR == "QA"))
-  
-  # Test 8: Filtered result is still a data frame
-  testthat::expect_true(is.data.frame(alluvial_df_qa))
-  
-  # Test 9: Filter with multiple indicators
-  alluvial_df_multi <- get_alluvial_df(indicator_filter = c("QA", "QC"))
-  testthat::expect_true(
-    all(alluvial_df_multi$INDICATOR %in% c("QA", "QC"))
-  )
-  
-  # Test 10: Filtered data has fewer rows than unfiltered
-  alluvial_df_all <- get_alluvial_df()
-  testthat::expect_true(nrow(alluvial_df_qa) < nrow(alluvial_df_all))
-})
-
 testthat::test_that("get_alluvial_df binning is correct", {
   alluvial_df <- get_alluvial_df()
   
@@ -100,18 +80,6 @@ testthat::test_that("get_alluvial_df binning is correct", {
   testthat::expect_true(
     all(moderate_rows$indicator_value > 0.4 & moderate_rows$indicator_value <= 0.6)
   )
-})
-
-testthat::test_that("get_alluvial_df handles edge cases", {
-  # Test 12: Function handles invalid indicator filter gracefully
-  alluvial_df_invalid <- get_alluvial_df(indicator_filter = "NonExistent")
-  testthat::expect_true(is.data.frame(alluvial_df_invalid))
-  testthat::expect_equal(nrow(alluvial_df_invalid), 0)
-  
-  # Test 13: Function handles NULL filter (should return all data)
-  alluvial_df_null <- get_alluvial_df(indicator_filter = NULL)
-  alluvial_df_all <- get_alluvial_df()
-  testthat::expect_equal(nrow(alluvial_df_null), nrow(alluvial_df_all))
 })
 
 testthat::test_that("get_alluvial_df data integrity checks", {

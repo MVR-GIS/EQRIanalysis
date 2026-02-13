@@ -1,10 +1,9 @@
 #' @title Get Alluvial Data for Question-Indicator Flow
 #' @description Prepare data showing how question responses flow to indicator scores
-#' @param indicator_filter Optional filter for specific indicator(s)
 #' @returns A data frame formatted for alluvial plotting
 #' @export
 #' @importFrom dplyr %>% select mutate group_by left_join
-get_alluvial_df <- function(indicator_filter = NULL) {
+get_alluvial_df <- function() {
   # Get base data
   responses_df <- get_responses_df()
   indicators_df <- get_indicators_df()
@@ -32,6 +31,8 @@ get_alluvial_df <- function(indicator_filter = NULL) {
       QUESTIONNAIREEVENT_ID,
       QUESTION_NUMBER,
       QUESTION_SHORT,
+      PROGRAMTYPE_NAME,
+      MILESTONE_DESC,
       INDICATOR,
       RESPONSE,
       RESPONSEVALUE
@@ -42,12 +43,6 @@ get_alluvial_df <- function(indicator_filter = NULL) {
                indicator_value, INDICATOR_SCORE_BIN),
       by = c("QUESTIONNAIREEVENT_ID", "INDICATOR")
     )
-
-  # Apply filter if specified
-  if (!is.null(indicator_filter)) {
-    alluvial_df <- alluvial_df %>%
-      filter(INDICATOR %in% indicator_filter)
-  }
 
   return(alluvial_df)
 }

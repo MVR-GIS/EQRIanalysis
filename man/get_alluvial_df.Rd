@@ -4,10 +4,7 @@
 \alias{get_alluvial_df}
 \title{Get Alluvial Data for Question-Indicator Flow}
 \usage{
-get_alluvial_df(indicator_filter = NULL)
-}
-\arguments{
-\item{indicator_filter}{Optional filter for specific indicator(s)}
+get_alluvial_df()
 }
 \value{
 A data frame formatted for alluvial plotting
