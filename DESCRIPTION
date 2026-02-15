@@ -13,6 +13,7 @@ Depends:
     R (>= 3.5)
 Imports: 
     dplyr,
+    easyalluvial,
     forcats,
     ggh4x,
     ggplot2,
@@ -22,6 +23,8 @@ Imports:
     purrr,
     readr,
     stringr,
+    tibble,
+    tidyr,
     usethis
 Suggests: 
     testthat (>= 3.0.0)
