@@ -10,7 +10,8 @@ get_questions_df <- function() {
 
   # Get df of questions
   questions_df <- responses_df %>%
-    select(QUESTION_NUMBER, QUESTION_TEXT, QUESTION_SHORT) %>%
+    select(QUESTION_NUMBER, QUESTION_TEXT, QUESTION_SHORT,
+           RESPONSECLASS, RESPONSECLASS_DESC) %>%
     arrange(QUESTION_NUMBER) %>%
     distinct(QUESTION_NUMBER, .keep_all = TRUE) %>%
     mutate(short_name = str_to_title(QUESTION_SHORT)) %>%

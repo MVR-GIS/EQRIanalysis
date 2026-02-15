@@ -21,7 +21,8 @@ get_alluvial_df <- function() {
                    "High (0.6-0.8)", 
                    "Very High (0.8-1.0)"),
         include.lowest = TRUE,
-        right = TRUE
+        right = TRUE,
+        ordered_result = TRUE
       )
     )
 
@@ -35,7 +36,9 @@ get_alluvial_df <- function() {
       MILESTONE_DESC,
       INDICATOR,
       RESPONSE,
-      RESPONSEVALUE
+      RESPONSEVALUE,
+      RESPONSECLASS,
+      RESPONSECLASS_DESC
     ) %>%
     left_join(
       indicators_binned %>%

@@ -9,8 +9,8 @@
 #' @importFrom dplyr %>% filter
 #' @importFrom forcats fct_drop
 #' @importFrom purrr map
-#' @importFrom ggplot2 labs
-#' @importFrom patchwork wrap_plots
+#' @importFrom ggplot2 labs theme element_text
+#' @importFrom patchwork wrap_plots plot_annotation
 plot_indicator_prog_mile <- function(indicator_name, program_name) {
   # Get alluvial data for this combo
   alluvial_df <- get_alluvial_df() %>%
@@ -29,13 +29,18 @@ plot_indicator_prog_mile <- function(indicator_name, program_name) {
       program_name,
       milestone
     ) +
-      labs(title = paste0(milestone))
+    labs(title = paste0(milestone))
   })
 
   plot <- wrap_plots(
     plot_list,
     nrow = length(milestones),
     guides = "collect"
+  ) + 
+  plot_annotation(
+    title = paste0(indicator_name, ": ", program_name),
+    theme = theme(plot.title = element_text(size = 16, , 
+                                            face = "bold"))
   )
   plot
   return(plot)
