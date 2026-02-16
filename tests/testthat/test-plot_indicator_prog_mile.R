@@ -27,7 +27,7 @@ test_that("check plot_indicator_prog_mile works", {
   indicators_df <- get_indicators_df()
   
   # Select a indicator name to test
-  indicator_name <- indicators_df$INDICATOR[4]      # QA
+  indicator_name <- indicators_df$INDICATOR[4]      # QC
   program_name <- indicators_df$PROGRAMTYPE_NAME[2] # Military
   
   plot3 <- plot_indicator_prog_mile(indicator_name, program_name)

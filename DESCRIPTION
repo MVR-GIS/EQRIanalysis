@@ -21,6 +21,7 @@ Imports:
     NatParksPalettes,
     patchwork,
     purrr,
+    RColorBrewer,
     readr,
     stringr,
     tibble,

@@ -15,11 +15,11 @@ get_alluvial_df <- function() {
       INDICATOR_SCORE_BIN = cut(
         indicator_value,
         breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1.0),
-        labels = c("Very Low (0.0-0.2)", 
-                   "Low (0.2-0.4)", 
-                   "Moderate (0.4-0.6)", 
-                   "High (0.6-0.8)", 
-                   "Very High (0.8-1.0)"),
+        labels = c("Very Low", 
+                   "Low", 
+                   "Moderate", 
+                   "High", 
+                   "Very High"),
         include.lowest = TRUE,
         right = TRUE,
         ordered_result = TRUE

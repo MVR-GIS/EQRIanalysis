@@ -18,6 +18,7 @@
 #' @importFrom ggplot2 scale_x_discrete theme element_text labs
 #' @importFrom stringr str_replace_all str_to_title str_wrap
 #' @importFrom NatParksPalettes scale_fill_natparks_d
+#' @importFrom RColorBrewer brewer.pal
 plot_indicator_alluvial <- function(
   indicator_name,
   program_name,
@@ -57,28 +58,54 @@ plot_indicator_alluvial <- function(
       id_cols = c(QUESTIONNAIREEVENT_ID, INDICATOR_SCORE_BIN)
     )
      
-  # Generate hex codes from the palette to feed to alluvial_wide
+  # Generate score colors
   score_colors <- natparks.pals(
     name = "Arches",
     n = length(levels(alluvial_df$INDICATOR_SCORE_BIN)),
     type = "discrete",
     direction = -1
   )
-
-  # Create a filterable dataframe of colors by indicator score levels
-  colors_df <- tibble(
+  
+  score_colors_df <- tibble(
       score_colors = as.vector(score_colors),
       score_levels = levels(alluvial_df$INDICATOR_SCORE_BIN)
-    ) %>% 
+    ) 
+  
+  filtered_score_colors_df <- score_colors_df %>% 
     filter(score_levels %in% 
       levels(alluvial_df_wide$INDICATOR_SCORE_BIN))
+  
+  filtered_score_colors <- setNames(
+    object = as.vector(filtered_score_colors_df$score_colors),
+    nm = as.vector(filtered_score_colors_df$score_levels)
+  )
+
+  # Generate response colors
+  response_colors <- brewer.pal(
+    n = length(levels(alluvial_df$RESPONSE)), 
+    name = "Greys")
+  
+  response_colors_df <- tibble(
+      response_colors = as.vector(response_colors),
+      response_levels = levels(alluvial_df$RESPONSE)
+    ) 
+  
+  filtered_response_colors_df <- response_colors_df %>% 
+    filter(response_levels %in%
+           alluvial_filtered_df$RESPONSE)
+  
+  filtered_response_colors <- setNames(
+    object = as.vector(filtered_response_colors_df$response_colors),
+    nm = as.vector(filtered_response_colors_df$response_levels)
+  )
 
   # Create alluvial plot using easyalluvial
   p <- alluvial_wide(
     data = alluvial_df_wide,
     id = QUESTIONNAIREEVENT_ID,
     fill_by = "first_variable",
-    col_vector_flow = colors_df$score_colors,
+    col_vector_flow = filtered_score_colors,
+    col_vector_value = filtered_response_colors,
     NA_label = "NA",
     stratum_label_size = 3,
     auto_rotate_xlabs = FALSE

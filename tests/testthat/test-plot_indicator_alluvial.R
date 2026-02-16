@@ -41,3 +41,17 @@ test_that("check plot_indicator_alluvial works", {
   plot3
   testthat::expect_true("ggplot" %in% class(plot3))
 })
+test_that("check plot_indicator_alluvial works", {
+  # Use the package function to get the data
+  indicators_df <- get_indicators_df()
+  
+  # Select a indicator name to test
+  indicator_name <- indicators_df$INDICATOR[4]      # QC
+  program_name <- indicators_df$PROGRAMTYPE_NAME[2] # Military
+  milestone_name <- "65% (Intermediate Design)"     # 65%
+  
+  plot3 <- plot_indicator_alluvial(indicator_name, 
+                                   program_name, milestone_name)
+  plot3
+  testthat::expect_true("ggplot" %in% class(plot3))
+})
