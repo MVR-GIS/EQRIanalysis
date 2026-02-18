@@ -4,12 +4,12 @@
 \alias{get_wide_responses}
 \title{Prepare Wide Format Data for Reliability Analysis}
 \usage{
-get_wide_responses(responses_df, indicator_name = NULL)
+get_wide_responses(responses_df, indicator_name)
 }
 \arguments{
 \item{responses_df}{data.frame; Long-format responses from get_responses_df()}
 
-\item{indicator_name}{character; Optional. Filter to specific indicator.
+\item{indicator_name}{character; REQUIRED. Must specify which indicator to analyze.
 One of: "Confidence", "Cost", "QA", "QC", "Schedule", "Scope", "Team"}
 }
 \value{
