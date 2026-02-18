@@ -8,6 +8,8 @@
 quarto add coatless-quarto/custom-callout
 
 ## Build website locally
+install.packages("psych")
+
 
 ## Update R package
 devtools::document()
