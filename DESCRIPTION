@@ -20,6 +20,7 @@ Imports:
     here,
     NatParksPalettes,
     patchwork,
+    psych,
     purrr,
     RColorBrewer,
     readr,
