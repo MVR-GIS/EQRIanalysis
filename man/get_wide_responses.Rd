@@ -4,20 +4,34 @@
 \alias{get_wide_responses}
 \title{Prepare Wide Format Data for Reliability Analysis}
 \usage{
-get_wide_responses(responses_df, indicator_name)
+get_wide_responses(responses_df, indicator_name, program_name, milestone_name)
 }
 \arguments{
 \item{responses_df}{data.frame; Long-format responses from get_responses_df()}
 
-\item{indicator_name}{character; REQUIRED. Must specify which indicator to analyze.
-One of: "Confidence", "Cost", "QA", "QC", "Schedule", "Scope", "Team"}
+\item{indicator_name}{character; REQUIRED. Indicator to analyze. One of:
+"Confidence", "Cost", "QA", "QC", "Schedule", "Scope", "Team"}
+
+\item{program_name}{character; REQUIRED. Program type. One of:
+"Military", "Civil Works"}
+
+\item{milestone_name}{character; REQUIRED. Project milestone. One of:
+"15\% (Project Initiation)", "35\% (Concept Design)",
+"65\% (Intermediate Design)", "95\% (Final Design)",
+"100\% (Corrected Final Design)"}
 }
 \value{
-data.frame in wide format with QUESTIONNAIREEVENT_ID as rows,
-QUESTION_NUMBER as columns, RESPONSEVALUE as values
+data.frame in wide format with one row per questionnaire event,
+one column per question (named Q1, Q2, etc.), values are RESPONSEVALUE
 }
 \description{
 Convert long-format responses to wide format suitable for
 psychometric analysis. Each row represents one questionnaire event,
-columns represent question responses.
+columns represent question responses. Filters to a specific context
+(indicator × program type × milestone) to ensure homogeneous observations.
+}
+\references{
+Based on the data preparation pattern from plot_indicator_alluvial().
+Filters by indicator, program type, and milestone to ensure homogeneous
+observations for reliability analysis per psychometric best practice.
 }

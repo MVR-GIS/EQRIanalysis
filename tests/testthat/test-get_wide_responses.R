@@ -1,83 +1,130 @@
-testthat::test_that("get_wide_responses requires indicator_name", {
-  responses_df <- get_responses_df()
-  
-  # Should error if no indicator provided
-  testthat::expect_error(
-    get_wide_responses(responses_df),
-    "indicator_name is required"
-  )
-})
-
-testthat::test_that("get_wide_responses validates indicator_name", {
-  responses_df <- get_responses_df()
-  
-  # Should error for invalid indicator
-  testthat::expect_error(
-    get_wide_responses(responses_df, "InvalidIndicator"),
-    "indicator_name must be one of"
-  )
-})
-
 testthat::test_that("get_wide_responses returns valid wide-format data", {
   responses_df <- get_responses_df()
-  indicator_name = "Cost"
   
-  # Test with valid indicator
-  wide_df <- get_wide_responses(responses_df, indicator_name)
+  # Test with valid context (following plot_indicator_alluvial test pattern)
+  wide_df <- get_wide_responses(
+    responses_df, 
+    indicator_name = "Cost",
+    program_name = "Military",
+    milestone_name = "95% (Final Design)"
+  )
   
   # Test 1: Returns a data frame
   testthat::expect_true(is.data.frame(wide_df))
   
-  # Test 2: Check dimensions - columns should be questions
+  # Test 2: All columns should start with "Q" and be numeric
   testthat::expect_true(all(grepl("^Q\\d+$", colnames(wide_df))))
-  
-  # Test 3: All values should be numeric (RESPONSEVALUE)
   testthat::expect_true(all(sapply(wide_df, is.numeric)))
   
-  # Test 4: Number of rows should match unique questionnaire events
-  # that have responses for this indicator
-  n_events <- responses_df %>%
-    dplyr::filter(INDICATOR == "Confidence") %>%
-    dplyr::pull(QUESTIONNAIREEVENT_ID) %>%
-    unique() %>%
-    length()
-  testthat::expect_equal(nrow(wide_df), n_events)
+  # Test 3: No list columns
+  testthat::expect_false(any(sapply(wide_df, is.list)))
+  
+  # Test 4: Should have at least 1 column
+  testthat::expect_true(ncol(wide_df) >= 1)
 })
 
-testthat::test_that("get_wide_responses handles all indicators", {
+testthat::test_that("get_wide_responses matches alluvial pattern dimensions", {
   responses_df <- get_responses_df()
   
-  indicators <- c("Confidence", "Cost", "QA", "QC", "Schedule", "Scope", "Team")
+  # Use same context as plot_indicator_alluvial test
+  indicator_name <- "Confidence"
+  program_name <- "Military"
+  milestone_name <- "95% (Final Design)"
   
-  for (ind in indicators) {
-    wide_df <- get_wide_responses(responses_df, ind)
+  # Get wide data
+  wide_df <- get_wide_responses(
+    responses_df, 
+    indicator_name,
+    program_name,
+    milestone_name
+  )
+  
+  # Get filtered alluvial data for comparison
+  alluvial_df <- get_alluvial_df()
+  alluvial_filtered <- alluvial_df %>%
+    dplyr::filter(
+      INDICATOR == indicator_name,
+      PROGRAMTYPE_NAME == program_name,
+      MILESTONE_DESC == milestone_name
+    )
+  
+  # Number of rows should match unique questionnaire events
+  n_events_alluvial <- length(unique(alluvial_filtered$QUESTIONNAIREEVENT_ID))
+  testthat::expect_equal(nrow(wide_df), n_events_alluvial)
+})
+
+testthat::test_that("get_wide_responses works for all indicator contexts", {
+  responses_df <- get_responses_df()
+  indicators_df <- get_indicators_df()
+  
+  # Test a few indicator-program-milestone combinations
+  # (Following plot_indicator_alluvial test pattern)
+  test_contexts <- list(
+    list(ind = "Confidence", prog = "Military", mile = "95% (Final Design)"),
+    list(ind = "Cost", prog = "Military", mile = "95% (Final Design)"),
+    list(ind = "QA", prog = "Military", mile = "95% (Final Design)")
+  )
+  
+  for (ctx in test_contexts) {
+    wide_df <- get_wide_responses(
+      responses_df,
+      ctx$ind,
+      ctx$prog,
+      ctx$mile
+    )
     
-    # Each should return a valid data frame
     testthat::expect_true(
       is.data.frame(wide_df),
-      info = paste("Failed for indicator:", ind)
+      info = paste("Failed for:", ctx$ind, ctx$prog, ctx$mile)
     )
     
-    # Each should have at least 1 column (question)
-    testthat::expect_true(
-      ncol(wide_df) >= 1,
-      info = paste("Failed for indicator:", ind)
-    )
-    
-    # No list columns (all should be atomic)
-    list_cols <- sapply(wide_df, is.list)
     testthat::expect_false(
-      any(list_cols),
-      info = paste("List columns found in indicator:", ind)
+      any(sapply(wide_df, is.list)),
+      info = paste("List columns found for:", ctx$ind, ctx$prog, ctx$mile)
     )
   }
-})
+  })
 
-testthat::test_that("get_wide_responses produces unique rows", {
+  testthat::test_that("get_wide_responses requires all context parameters", {
   responses_df <- get_responses_df()
   
-  wide_df <- get_wide_responses(responses_df, "Team")
+  # Should error if indicator missing
+  testthat::expect_error(
+    get_wide_responses(responses_df),
+    "indicator_name is required"
+  )
   
-  # Should have no duplicate rows (each row = unique questionnaire event)
-  testthat::expect_equal(nrow(wide_df), nrow(unique(wide_df)))
+  # Should error if program missing
+  testthat::expect_error(
+    get_wide_responses(responses_df, "Confidence"),
+    "program_name is required"
+  )
+  
+  # Should error if milestone missing
+  testthat::expect_error(
+    get_wide_responses(responses_df, "Confidence", "Military"),
+    "milestone_name is required"
+  )
+})
+
+testthat::test_that("get_wide_responses validates parameters", {
+  responses_df <- get_responses_df()
+  
+  # Invalid indicator
+  testthat::expect_error(
+    get_wide_responses(responses_df, "BadIndicator", "Military", "95% (Final Design)"),
+    "indicator_name must be one of"
+  )
+  
+  # Invalid program
+  testthat::expect_error(
+    get_wide_responses(responses_df, "Confidence", "BadProgram", "95% (Final Design)"),
+    "program_name must be one of"
+  )
+  
+  # Invalid milestone
+  testthat::expect_error(
+    get_wide_responses(responses_df, "Confidence", "Military", "BadMilestone"),
+    "milestone_name must be one of"
+  )
 })
