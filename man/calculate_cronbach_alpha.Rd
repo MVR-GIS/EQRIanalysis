@@ -2,11 +2,10 @@
 % Please edit documentation in R/calculate_cronbach_alpha.R
 \name{calculate_cronbach_alpha}
 \alias{calculate_cronbach_alpha}
-\title{Calculate Cronbach's Alpha for Specific Context}
+\title{Calculate Cronbach's Alpha for Complete Questionnaire}
 \usage{
 calculate_cronbach_alpha(
   responses_df,
-  indicator_name,
   program_name,
   milestone_name,
   check.keys = TRUE
@@ -14,8 +13,6 @@ calculate_cronbach_alpha(
 }
 \arguments{
 \item{responses_df}{data.frame; Responses from get_responses_df()}
-
-\item{indicator_name}{character; Indicator to analyze}
 
 \item{program_name}{character; Program type ("Military" or "Civil Works")}
 
@@ -27,6 +24,16 @@ calculate_cronbach_alpha(
 list containing alpha statistics and interpretation
 }
 \description{
-Compute Cronbach's alpha reliability coefficient for questions
-within a specific indicator, program type, and milestone combination.
+Compute Cronbach's alpha reliability coefficient for the
+complete questionnaire (all questions) within a specific administration
+context (program type × milestone). This assesses the internal consistency
+of the entire instrument as administered, not individual indicator subscales.
+}
+\references{
+Streiner, D. L., Norman, G. R., & Cairney, J. (2015). Health Measurement
+Scales: A practical guide to their development and use (5th ed.).
+Oxford University Press.
+
+Cronbach, L. J. (1951). Coefficient alpha and the internal structure of
+tests. Psychometrika, 16(3), 297-334.
 }

@@ -4,13 +4,10 @@
 \alias{get_wide_responses}
 \title{Prepare Wide Format Data for Reliability Analysis}
 \usage{
-get_wide_responses(responses_df, indicator_name, program_name, milestone_name)
+get_wide_responses(responses_df, program_name, milestone_name)
 }
 \arguments{
 \item{responses_df}{data.frame; Long-format responses from get_responses_df()}
-
-\item{indicator_name}{character; REQUIRED. Indicator to analyze. One of:
-"Confidence", "Cost", "QA", "QC", "Schedule", "Scope", "Team"}
 
 \item{program_name}{character; REQUIRED. Program type. One of:
 "Military", "Civil Works"}
@@ -22,16 +19,21 @@ get_wide_responses(responses_df, indicator_name, program_name, milestone_name)
 }
 \value{
 data.frame in wide format with one row per questionnaire event,
-one column per question (named Q1, Q2, etc.), values are RESPONSEVALUE
+one column per question (named Q1, Q2, etc.), values are RESPONSEVALUE.
+This represents the complete questionnaire as administered in this context.
 }
 \description{
 Convert long-format responses to wide format suitable for
 psychometric analysis. Each row represents one questionnaire event,
-columns represent question responses. Filters to a specific context
-(indicator × program type × milestone) to ensure homogeneous observations.
+columns represent question responses. Filters to a specific questionnaire
+context (program type × milestone) where all questions are administered.
 }
 \references{
-Based on the data preparation pattern from plot_indicator_alluvial().
-Filters by indicator, program type, and milestone to ensure homogeneous
-observations for reliability analysis per psychometric best practice.
+Streiner, D. L., Norman, G. R., & Cairney, J. (2015). Health Measurement
+Scales: A practical guide to their development and use (5th ed.).
+Oxford University Press. Chapter 4: Reliability.
+
+Per psychometric best practice, reliability is assessed for the complete
+instrument (all questions) within a specific administration context,
+not for individual subscales (indicators) in isolation.
 }
