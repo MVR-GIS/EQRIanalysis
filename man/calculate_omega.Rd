@@ -26,6 +26,13 @@ hierarchical factor analysis. Omega is generally preferred over alpha
 as it makes fewer assumptions about item structure and provides more
 accurate reliability estimates when items have different factor loadings.
 }
+\section{Development Notes}{
+
+This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+Human direction and oversight was provided at each implementation step.
+See \verb{dev/sessions/2026-02-20.md} for complete development context.
+}
+
 \references{
 McDonald, R. P. (1999). Test theory: A unified treatment.
 Mahwah, NJ: Erlbaum.

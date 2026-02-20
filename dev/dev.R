@@ -11,6 +11,12 @@ quarto add coatless-quarto/custom-callout
 install.packages("psych")
 
 
+## Update AI Chat Artifacts
+extract_copilot_chat(file.path(
+  Sys.getenv("USERPROFILE"), "Downloads", "copilot_export.zip")
+)
+cleanup_session_backups()
+
 ## Update R package
 devtools::document()
 devtools::load_all()

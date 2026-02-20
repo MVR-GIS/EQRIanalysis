@@ -28,6 +28,13 @@ psychometric analysis. Each row represents one questionnaire event,
 columns represent question responses. Filters to a specific questionnaire
 context (program type × milestone) where all questions are administered.
 }
+\section{Development Notes}{
+
+This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+Human direction and oversight was provided at each implementation step.
+See \verb{dev/sessions/2026-02-20.md} for complete development context.
+}
+
 \references{
 Streiner, D. L., Norman, G. R., & Cairney, J. (2015). Health Measurement
 Scales: A practical guide to their development and use (5th ed.).

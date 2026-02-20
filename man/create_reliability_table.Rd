@@ -18,3 +18,10 @@ data.frame formatted for display
 Generate a formatted summary table of reliability metrics
 suitable for reporting or publication.
 }
+\section{Development Notes}{
+
+This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+Human direction and oversight was provided at each implementation step.
+See \verb{dev/sessions/2026-02-20.md} for complete development context.
+}
+

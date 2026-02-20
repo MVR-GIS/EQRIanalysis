@@ -19,3 +19,10 @@ ggplot2 object
 Create a comparative visualization of Cronbach's alpha and
 McDonald's omega across all program type × milestone combinations.
 }
+\section{Development Notes}{
+
+This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+Human direction and oversight was provided at each implementation step.
+See \verb{dev/sessions/2026-02-20.md} for complete development context.
+}
+
