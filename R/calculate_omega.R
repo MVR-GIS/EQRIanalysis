@@ -11,7 +11,6 @@
 #' @returns list containing omega statistics and comparison with alpha, or
 #'   NULL if calculation fails (with warning message)
 #' @export
-#' @importFrom psych omega
 #' @references
 #'   McDonald, R. P. (1999). Test theory: A unified treatment. 
 #'   Mahwah, NJ: Erlbaum.
@@ -23,6 +22,12 @@
 #'   Dunn, T. J., Baguley, T., & Brunsden, V. (2014). From alpha to omega: 
 #'   A practical solution to the pervasive problem of internal consistency 
 #'   estimation. British Journal of Psychology, 105(3), 399-412.
+#' @section Development Notes:
+#'   This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+#'   Human direction and oversight was provided at each implementation step. 
+#'   See `dev/sessions/2026-02-20.md` for complete development context.
+#' 
+#' @importFrom psych omega
 #' 
 calculate_omega <- function(responses_df, 
                            program_name,

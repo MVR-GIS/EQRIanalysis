@@ -14,9 +14,6 @@
 #'   one column per question (named Q1, Q2, etc.), values are RESPONSEVALUE.
 #'   This represents the complete questionnaire as administered in this context.
 #' @export
-#' @importFrom tidyr pivot_wider
-#' @importFrom dplyr %>% filter select mutate across distinct
-#' @importFrom forcats fct_drop
 #' @references
 #'   Streiner, D. L., Norman, G. R., & Cairney, J. (2015). Health Measurement 
 #'   Scales: A practical guide to their development and use (5th ed.). 
@@ -25,6 +22,14 @@
 #'   Per psychometric best practice, reliability is assessed for the complete
 #'   instrument (all questions) within a specific administration context,
 #'   not for individual subscales (indicators) in isolation.
+#' @section Development Notes:
+#'   This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+#'   Human direction and oversight was provided at each implementation step. 
+#'   See `dev/sessions/2026-02-20.md` for complete development context.
+#' 
+#' @importFrom tidyr pivot_wider
+#' @importFrom dplyr %>% filter select mutate across distinct
+#' @importFrom forcats fct_drop
 #' 
 get_wide_responses <- function(responses_df, 
                                program_name,

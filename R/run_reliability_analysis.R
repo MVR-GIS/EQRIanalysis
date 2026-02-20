@@ -7,12 +7,17 @@
 #'   Default TRUE. Set FALSE for faster computation.
 #' @returns data.frame with one row per context containing reliability metrics
 #' @export
-#' @importFrom dplyr %>% distinct arrange bind_rows
-#' @importFrom purrr map2
 #' @references
 #'   Streiner, D. L., Norman, G. R., & Cairney, J. (2015). Health Measurement 
 #'   Scales: A practical guide to their development and use (5th ed.). 
 #'   Oxford University Press. Chapter 4.
+#' @section Development Notes:
+#'   This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+#'   Human direction and oversight was provided at each implementation step. 
+#'   See `dev/sessions/2026-02-20.md` for complete development context.
+#' 
+#' @importFrom dplyr %>% distinct arrange bind_rows
+#' @importFrom purrr map2
 #' 
 run_reliability_analysis <- function(responses_df, include_omega = TRUE) {
   

@@ -9,8 +9,6 @@
 #' @param check.keys logical; Auto-reverse negatively correlated items? Default TRUE.
 #' @returns list containing alpha statistics and interpretation
 #' @export
-#' @importFrom psych alpha
-#' @importFrom dplyr case_when
 #' @references
 #'   Streiner, D. L., Norman, G. R., & Cairney, J. (2015). Health Measurement 
 #'   Scales: A practical guide to their development and use (5th ed.). 
@@ -18,6 +16,13 @@
 #'   
 #'   Cronbach, L. J. (1951). Coefficient alpha and the internal structure of 
 #'   tests. Psychometrika, 16(3), 297-334.
+#' @section Development Notes:
+#' This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+#' Human direction and oversight was provided at each implementation step. 
+#' See `dev/sessions/2026-02-20.md` for complete development context.
+#' 
+#' @importFrom psych alpha
+#' @importFrom dplyr case_when
 #' 
 calculate_cronbach_alpha <- function(responses_df, 
                                      program_name,

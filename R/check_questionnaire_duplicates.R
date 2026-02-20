@@ -6,6 +6,12 @@
 #' @param milestone_name character; Milestone
 #' @returns list with diagnostic information
 #' @export
+#' 
+#' @section Development Notes:
+#'   This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+#'   Human direction and oversight was provided at each implementation step. 
+#'   See `dev/sessions/2026-02-20.md` for complete development context.
+#' 
 check_questionnaire_duplicates <- function(responses_df, 
                                           program_name, 
                                           milestone_name) {

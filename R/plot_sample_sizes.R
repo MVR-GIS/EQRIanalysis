@@ -4,6 +4,12 @@
 #' @param reliability_df data.frame; Output from run_reliability_analysis()
 #' @returns ggplot2 object
 #' @export
+#' 
+#' @section Development Notes:
+#'   This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
+#'   Human direction and oversight was provided at each implementation step. 
+#'   See `dev/sessions/2026-02-20.md` for complete development context.
+#' 
 #' @importFrom ggplot2 ggplot aes geom_col geom_text facet_grid labs
 #'   theme_minimal theme element_text coord_flip
 #' @importFrom dplyr %>%
