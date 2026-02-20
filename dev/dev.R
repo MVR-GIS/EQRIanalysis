@@ -15,6 +15,8 @@ install.packages("psych")
 extract_copilot_chat(file.path(
   Sys.getenv("USERPROFILE"), "Downloads", "copilot_export.zip")
 )
+# Request session handoff
+"Generate handoff using dev/sessions/dev_HANDOFF_TEMPLATE.md"
 cleanup_session_backups()
 
 ## Update R package
