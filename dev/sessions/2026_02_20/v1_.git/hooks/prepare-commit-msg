@@ -1,0 +1,25 @@
+#!/bin/bash
+# Auto-add commit hashes to session log when committing
+
+# Check if any session log files are being committed
+session_files=$(git diff --cached --name-only | grep "^dev/sessions/.*\.md$")
+
+if [ -n "$session_files" ]; then
+  # Get the last few commits
+  recent_commits=$(git log --oneline -5 | awk '{print $1}')
+  
+  for file in $session_files; do
+    # Check if file has placeholder
+    if grep -q "(update at end)" "$file"; then
+      # Get files modified in this commit
+      modified_files=$(git diff --cached --name-only | grep -v "^dev/sessions")
+      
+      # Update the session file (only if it has placeholder)
+      sed -i.bak "s/(update at end)/$(echo $modified_files | tr '\n' ', ')/" "$file"
+      rm "${file}.bak"
+      
+      # Re-add the updated file
+      git add "$file"
+    fi
+  done
+fi

@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "dev/sessions/*.md": "markdown"
+  },
+  "markdown.preview.breaks": true,
+  "files.defaultLanguage": "markdown"
+}
