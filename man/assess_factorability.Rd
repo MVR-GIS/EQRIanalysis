@@ -23,8 +23,13 @@ Bartlett's test of sphericity.
 }
 \section{Interpretation Guidelines}{
 
-KMO overall values: < 0.50 unacceptable, 0.50-0.59 miserable,
-0.60-0.69 mediocre, 0.70-0.79 middling, 0.80-0.89 meritorious,= 0.90 marvelous (Kaiser & Rice, 1974).
+KMO overall values (Kaiser & Rice, 1974):
+* < 0.50 unacceptable
+* 0.50-0.59 miserable
+* 0.60-0.69 mediocre
+* 0.70-0.79 middling
+* 0.80-0.89 meritorious
+* >= 0.90 marvelous
 
 Bartlett's test should be significant (p < .05) to reject the null
 hypothesis that the correlation matrix is an identity matrix.
