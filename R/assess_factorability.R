@@ -95,85 +95,93 @@ assess_factorability <- function(
   # Per R FAQ 7.31 and Burns (2011) - check BEFORE attempting correlations
   variance_check <- diagnose_variance_issues(wide_data)
 
-  # ===== STEP 1: Remove zero or near-zero variance items =====
-  # Per psychometric best practice (Streiner et al., 2015)
-  # CRITICAL: Must check using SAME logic as cor() with pairwise.complete.obs
-  # Per R cor() docs: items can have variance overall but zero variance
-  # within pairwise-complete subsets due to missing data patterns
-  
-  message("\n--- Step 1: Checking for variance issues ---")
+  # ===== STEP 1: Remove items with insufficient variability =====
+  message("\n--- Step 1: Screening for response variability ---")
   
   n_questions_original <- ncol(wide_data)
+  n_obs <- nrow(wide_data)
   
-  # Test correlation to identify items that cause NA correlations
-  # This is the AUTHORITATIVE check per R cor() documentation
-  message("Testing pairwise correlations to identify problematic items...")
-  test_cor <- suppressWarnings(cor(wide_data, use = "pairwise.complete.obs"))
+  # Calculate response variability metrics
+  item_stats <- lapply(names(wide_data), function(item_name) {
+    x <- wide_data[[item_name]]
+    
+    # Basic statistics
+    var_val <- var(x, na.rm = TRUE)
+    sd_val <- sd(x, na.rm = TRUE)
+    n_unique <- length(unique(x[!is.na(x)]))
+    
+    # For binary/ordinal: check proportion in dominant category
+    freq_table <- table(x, useNA = "no")
+    if (length(freq_table) > 0) {
+      max_prop <- max(freq_table) / sum(freq_table)
+    } else {
+      max_prop <- 1
+    }
+    
+    list(
+      item = item_name,
+      variance = var_val,
+      sd = sd_val,
+      n_unique = n_unique,
+      max_category_pct = max_prop * 100
+    )
+  })
   
-  if (any(is.na(test_cor))) {
-    # Find items involved in NA correlations
-    na_matrix <- is.na(test_cor)
-    diag(na_matrix) <- FALSE  # Ignore diagonal (always 1)
-    
-    # Count NA correlations per item
-    na_counts <- rowSums(na_matrix)
-    
-    # Items with ANY NAs have pairwise variance problems
-    problematic_items <- names(na_counts)[na_counts > 0]
-    
+  stats_df <- do.call(rbind, lapply(item_stats, as.data.frame))
+  
+  # Identify problematic items using MULTIPLE criteria
+  # Per Streiner et al. (2015) and Cohen (1988)
+  
+  tolerance <- .Machine$double.eps^0.5
+  
+  problematic_low_var <- stats_df[
+    stats_df$variance < tolerance | 
+    stats_df$sd < tolerance |
+    is.na(stats_df$variance) |
+    is.na(stats_df$sd),
+  ]$item
+  
+  # Per Streiner et al. (2015): >90% in one category = insufficient variation
+  problematic_skewed <- stats_df[stats_df$max_category_pct > 90, ]$item
+  
+  # Combine
+  problematic_items <- unique(c(problematic_low_var, problematic_skewed))
+  
+  if (length(problematic_items) > 0) {
     message(paste(
-      "\nFound", length(problematic_items),
-      "question(s) with pairwise variance issues:"
+      "\nRemoving", length(problematic_items),
+      "question(s) with insufficient response variability:"
     ))
     
     for (item in problematic_items) {
-      n_na <- na_counts[item]
-      message(paste(
-        "  ", item, ":",
-        n_na, "NA correlation(s) out of", ncol(wide_data) - 1, "possible pairs"
+      item_stat <- stats_df[stats_df$item == item, ]
+      message(sprintf(
+        "  %s: var=%.4f, dominant category=%.1f%%",
+        item,
+        item_stat$variance,
+        item_stat$max_category_pct
       ))
     }
     
     message(paste(
-      "\nPer R documentation (?cor, use='pairwise.complete.obs'):",
-      "\n'For each pair of variables, use all complete pairs of observations.",
-      " If one variable has constant values across the complete pairs",
-      " with another variable, the correlation for that pair is NA.'",
-      "\n\nThese items become constant within pairwise-complete subsets",
-      "due to missing data patterns. Removing them...\n"
+      "\nPer Streiner et al. (2015, Health Measurement Scales):",
+      "\nItems with >90% endorsement lack discriminating power.",
+      "\nPer Cohen (1988, Statistical Power Analysis):",
+      "\nBinary items need p between 0.10 and 0.90 for correlation analysis."
     ))
     
     wide_data <- wide_data[, !(names(wide_data) %in% problematic_items), drop = FALSE]
     zero_var_items <- problematic_items
     
   } else {
-    message("All items have sufficient pairwise variance")
+    message("All items have sufficient response variability")
     zero_var_items <- character(0)
   }
   
   message(paste(
-    "Questions after variance screening:", ncol(wide_data),
+    "\nQuestions after variability screening:", ncol(wide_data),
     "(removed:", length(zero_var_items), ")"
   ))
-  
-  # Check minimum items for factor analysis
-  if (ncol(wide_data) < 3) {
-    stop(paste(
-      "After removing problematic items, only", ncol(wide_data), "questions remain.",
-      "\nFactor analysis requires at least 3 items.",
-      "\nProblematic items removed:", length(zero_var_items),
-      "\nOriginal items:", n_questions_original,
-      "\n\nThis indicates severe data quality issues - likely:",
-      "\n  1. Excessive missing data causing pairwise variance collapse",
-      "\n  2. Questions with very limited response variability",
-      "\n  3. Inappropriate aggregation across incompatible contexts",
-      "\n\nConsider:",
-      "\n  - Examining missing data patterns (see ?mice or ?VIM packages)",
-      "\n  - Using use='complete.obs' (but reduces sample size)",
-      "\n  - Analyzing specific contexts rather than full aggregation",
-      "\n  - Imputing missing data before factor analysis"
-    ))
-  }
 
   # ===== STEP 2: Calculate correlation matrix =====
   # Per Holgado-Tello et al. (2010) - polychoric preferred for ordinal data

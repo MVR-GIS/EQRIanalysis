@@ -217,3 +217,27 @@ testthat::test_that("assess_factorability validates parameters", {
     "milestone_name must be one of"
   )
 })
+
+testthat::test_that("assess_factorability handles contexts appropriately", {
+  responses_df <- get_responses_df()
+  
+  # TEST 1: Small single context SHOULD fail (expected behavior)
+  testthat::expect_error(
+    result_context <- assess_factorability(
+      responses_df,
+      program_name = "Military",
+      milestone_name = "95% (Final Design)"
+    ),
+    class = "simpleError"
+  )
+  
+  # TEST 2: Aggregated context SHOULD succeed
+  result_aggregated <- assess_factorability(
+    responses_df,
+    program_name = NULL,
+    milestone_name = NULL
+  )
+  
+  testthat::expect_true(is.list(result_aggregated))
+  testthat::expect_gt(result_aggregated$sample$n_questions_analyzed, 3)
+})
