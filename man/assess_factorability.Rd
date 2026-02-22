@@ -8,6 +8,9 @@ assess_factorability(
   responses_df,
   program_name = NULL,
   milestone_name = NULL,
+  filter_context_specific = TRUE,
+  max_missing_pct = 20,
+  max_endorsement_pct = 80,
   multicollinearity_threshold = 0.9,
   use_polychoric = TRUE
 )
@@ -17,62 +20,109 @@ assess_factorability(
 
 \item{program_name}{character; Program type or NULL for all programs}
 
-\item{milestone_name}{character; Project milestone or NULL for all milestones}
+\item{milestone_name}{character; Milestone or NULL for all milestones}
 
-\item{multicollinearity_threshold}{numeric; Correlation threshold (0-1) for
-flagging highly correlated item pairs. Default 0.90. Items with |r| above
-this are documented but NOT automatically removed (see Note).}
+\item{filter_context_specific}{logical; If TRUE (default), automatically
+filters items with >20\% missing data (likely context-specific per
+Schafer & Graham, 2002). If FALSE, user must ensure appropriate items.}
 
-\item{use_polychoric}{logical; Attempt polychoric correlations? Default TRUE.
-If FALSE or if polychoric fails, falls back to Pearson correlations.}
+\item{max_missing_pct}{numeric; Maximum \% missing to retain item (default 20).
+Per Schafer & Graham (2002), items >20\% missing likely context-specific.}
+
+\item{max_endorsement_pct}{numeric; Maximum \% in dominant category (default 80).
+Per Nunnally & Bernstein (1994), items >80\% lack discriminating power.}
+
+\item{multicollinearity_threshold}{numeric; Correlation threshold (default 0.90)}
+
+\item{use_polychoric}{logical; Attempt polychoric correlations (default TRUE)}
 }
 \value{
-list containing correlation matrix, diagnostic results, and
-recommendations for proceeding with factor analysis
+list containing:
+\itemize{
+\item context: Analysis context (program × milestone)
+\item sample: Sample size information and filtering results
+\item filtering: Documentation of which items were removed and why
+\item correlations: Correlation matrix, method, and diagnostics
+\item multicollinearity: High correlation pairs if present
+\item recommendation: Whether to proceed with FA and suggested parameters
+}
 }
 \description{
-Evaluate whether data are suitable for factor analysis using
-polychoric correlations (appropriate for ordinal data) and diagnostic tests.
-Checks for zero-variance items, multicollinearity, and matrix invertibility.
-Includes robust error handling for sparse contingency tables.
+Evaluate whether data are suitable for factor analysis.
+\strong{IMPORTANT}: This function is designed for "core items" that are
+administered across contexts. Context-specific items (milestone-specific,
+program-specific) should be filtered out before calling this function.
 }
-\section{Note on Multicollinearity}{
+\section{Structural Missingness}{
 
-High multicollinearity is EXPECTED in best practice assessments where
-related items naturally correlate. Items are DOCUMENTED but not automatically
-removed. Use ridge-regularized factor analysis (correct parameter in fa.poly())
-to handle multicollinearity rather than removing theoretically important items.
+Per Little & Rubin (2019, Statistical Analysis with Missing Data, Ch 1.4.3),
+questionnaires with \strong{milestone-specific} or \strong{program-specific} questions
+exhibit "missingness by design" - items are \strong{not applicable} to all contexts.
+
+This function handles structural missingness by:
+\enumerate{
+\item Filtering context-specific items (>20\% missing per Schafer & Graham, 2002)
+\item Analyzing remaining "core items" present across contexts
+\item Using listwise deletion on core items for valid correlation matrix
 }
 
-\section{Sample Size Requirements}{
+\strong{DO NOT} attempt to impute structural missingness - it violates the
+missing data mechanism assumption.
+}
 
-Per Flora & Curran (2004), polychoric correlations require:
+\section{Response Variability Requirements}{
+
+Per Nunnally & Bernstein (1994, Psychometric Theory, p. 265), items should
+have balanced response distributions for stable correlations. This function
+removes items with >80\% endorsement in the dominant category (default).
+
+Rationale:
 \itemize{
-\item Dichotomous (2-category) items: N >= 500
-\item Trichotomous (3-category) items: N >= 400
-\item 5+ category items: N >= 200
+\item Nunnally & Bernstein (1994): Recommend 80\% threshold for stability
+\item Cohen (1988): Binary items need p between 0.10 and 0.90
+\item Flora & Curran (2004): Extreme distributions cause polychoric instability
 }
-
-With smaller samples, function falls back to Pearson correlations with warning.
-}
-
-\section{Numerical Stability}{
-
-Per R FAQ 7.31 and Burns (2011, The R Inferno), floating point arithmetic
-can cause items with mathematically positive variance to have effectively
-zero standard deviation. This function uses tolerance = .Machine$double.eps^0.5
-(approximately 1.5e-8) to identify and remove such items before correlation
-computation. See ?cor for details on why SD = 0 produces NA correlations.
 }
 
 \section{Development Notes}{
 
-This function was updated 2026-02-22 to include robust error handling
-for sparse contingency tables and NA correlations per psych::polychoric()
-documentation. See \verb{dev/sessions/2026-02-22.md} for complete development context.
+This function was developed 2026-02-21 to 2026-02-22 with systematic
+attention to structural missingness, response variability, and correlation
+matrix validity per authoritative psychometric sources.
+See \verb{dev/sessions/2026-02-21.md} and \verb{dev/sessions/2026-02-22.md} for
+complete development context.
 }
 
+\examples{
+\dontrun{
+# Assess factorability on aggregated data (core items only)
+responses_df <- get_responses_df()
+
+result <- assess_factorability(
+  responses_df,
+  program_name = NULL,      # Aggregate all programs
+  milestone_name = NULL     # Aggregate all milestones
+)
+
+# Check recommendation
+print(result$recommendation$rationale)
+
+# View correlation matrix
+print(result$correlations$matrix[1:5, 1:5])
+}
+
+}
 \references{
+Little, R. J. A., & Rubin, D. B. (2019). Statistical Analysis with
+Missing Data (3rd ed.). Wiley. Chapter 1.4.3: Missingness by Design.
+
+Schafer, J. L., & Graham, J. W. (2002). Missing data: Our view of
+the state of the art. Psychological Methods, 7(2), 147-177.
+https://doi.org/10.1037/1082-989X.7.2.147
+
+Nunnally, J. C., & Bernstein, I. H. (1994). Psychometric Theory (3rd ed.).
+McGraw-Hill. Chapter 6: The Assessment of Reliability.
+
 Holgado-Tello, F. P., Chacón-Moscoso, S., Barbero-García, I., &
 Vila-Abad, E. (2010). Polychoric versus Pearson correlations in
 exploratory and confirmatory factor analysis of ordinal variables.
@@ -84,8 +134,13 @@ alternative methods of estimation for confirmatory factor analysis
 with ordinal data. Psychological Methods, 9(4), 466-491.
 https://doi.org/10.1037/1082-989X.9.4.466
 
+Cohen, J. (1988). Statistical Power Analysis for the Behavioral Sciences
+(2nd ed.). Lawrence Erlbaum. Chapter 6: The Pearson Product-Moment Correlation.
+
+Millsap, R. E. (2011). Statistical Approaches to Measurement Invariance.
+Routledge. Chapter 2: Measurement Invariance Concepts.
+
 Revelle, W. (2024). psych: Procedures for Psychological, Psychometric,
 and Personality Research. Northwestern University.
 https://personality-project.org/r/psych/
-See ?psych::polychoric for details on continuity corrections
 }
