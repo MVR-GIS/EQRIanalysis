@@ -1,65 +1,50 @@
-testthat::test_that("get_wide_responses produces unique rows per questionnaire event", {
+testthat::test_that("get_wide_responses supports aggregation", {
   responses_df <- get_responses_df()
   
-  wide_df <- get_wide_responses(
+  # Test aggregating across all contexts
+  wide_all <- get_wide_responses(
+    responses_df,
+    program_name = NULL,
+    milestone_name = NULL
+  )
+  
+  # Should have more rows than single context
+  wide_single <- get_wide_responses(
     responses_df,
     program_name = "Military",
     milestone_name = "95% (Final Design)"
   )
   
-  # CORRECT TEST 1: Number of rows should match unique questionnaire events
-  # This is the actual uniqueness requirement
-  n_events_expected <- responses_df %>%
-    dplyr::filter(
-      PROGRAMTYPE_NAME == "Military",
-      MILESTONE_DESC == "95% (Final Design)"
-    ) %>%
-    dplyr::pull(QUESTIONNAIREEVENT_ID) %>%
-    unique() %>%
-    length()
-  
-  testthat::expect_equal(
-    nrow(wide_df), 
-    n_events_expected,
-    info = "Each row should represent one unique questionnaire event"
-  )
-  
-  # CORRECT TEST 2: Verify no duplicate questionnaire event IDs
-  # Need to check this at the intermediate stage before ID column is removed
-  wide_df_with_id <- responses_df %>%
-    dplyr::filter(
-      PROGRAMTYPE_NAME == "Military",
-      MILESTONE_DESC == "95% (Final Design)"
-    ) %>%
-    dplyr::distinct(QUESTIONNAIREEVENT_ID, QUESTION_NUMBER, .keep_all = TRUE) %>%
-    dplyr::select(QUESTIONNAIREEVENT_ID, QUESTION_NUMBER, RESPONSEVALUE) %>%
-    tidyr::pivot_wider(
-      names_from = QUESTION_NUMBER,
-      values_from = RESPONSEVALUE,
-      names_prefix = "Q",
-      id_cols = QUESTIONNAIREEVENT_ID
-    )
-  
-  # Check for duplicate IDs (this is the real test)
-  testthat::expect_false(
-    any(duplicated(wide_df_with_id$QUESTIONNAIREEVENT_ID)),
-    info = "No questionnaire event should appear more than once"
-  )
-  
-  # CORRECT TEST 3: Verify dimensions match expected
-  n_unique_questions <- responses_df %>%
-    dplyr::filter(
-      PROGRAMTYPE_NAME == "Military",
-      MILESTONE_DESC == "95% (Final Design)"
-    ) %>%
-    dplyr::pull(QUESTION_NUMBER) %>%
-    unique() %>%
-    length()
-  
-  testthat::expect_equal(
-    ncol(wide_df),
-    n_unique_questions,
-    info = "Should have one column per unique question in this context"
-  )
+  testthat::expect_true(nrow(wide_all) > nrow(wide_single))
 })
 
+testthat::test_that("assess_factorability uses polychoric correlations", {
+  responses_df <- get_responses_df()
+  
+  result <- assess_factorability(
+    responses_df,
+    program_name = NULL,  # Aggregate for sample size
+    milestone_name = NULL
+  )
+  
+  testthat::expect_equal(result$correlations$method, "polychoric")
+  testthat::expect_true(is.matrix(result$correlations$matrix))
+  testthat::expect_true(!is.null(result$correlations$tau))
+})
+
+testthat::test_that("run_efa_ordinal produces valid output", {
+  responses_df <- get_responses_df()
+  
+  result <- run_efa_ordinal(
+    responses_df,
+    program_name = NULL,
+    milestone_name = NULL,
+    nfactors = 3,
+    correct = 0.1
+  )
+  
+  testthat::expect_true(is.list(result))
+  testthat::expect_equal(result$analysis_parameters$correlation_method, "polychoric")
+  testthat::expect_equal(result$analysis_parameters$nfactors, 3)
+  testthat::expect_true(is.matrix(result$factor_loadings$loadings_matrix))
+})

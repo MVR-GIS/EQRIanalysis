@@ -1,216 +1,231 @@
 #' @title Assess Data Factorability for Factor Analysis
-#' @description Evaluate whether the correlation matrix is suitable for factor
-#'   analysis using Kaiser-Meyer-Olkin (KMO) measure of sampling adequacy and
-#'   Bartlett's test of sphericity.
+#' @description Evaluate whether data are suitable for factor analysis using
+#'   polychoric correlations (appropriate for ordinal data) and diagnostic tests.
+#'   Checks for zero-variance items, multicollinearity, and matrix invertibility.
 #' @param responses_df data.frame; Responses from get_responses_df()
-#' @param program_name character; Program type ("Military" or "Civil Works")
-#' @param milestone_name character; Project milestone
-#' @returns list containing KMO and Bartlett test results with interpretation
+#' @param program_name character; Program type or NULL for all programs
+#' @param milestone_name character; Project milestone or NULL for all milestones
+#' @param multicollinearity_threshold numeric; Correlation threshold (0-1) for
+#'   flagging highly correlated item pairs. Default 0.90. Items with |r| above
+#'   this are documented but NOT automatically removed (see Note).
+#' @returns list containing polychoric correlations, diagnostic results, and
+#'   recommendations for proceeding with factor analysis
 #' @export
 #' @references
-#'   Kaiser, H. F. (1974). An index of factorial simplicity. 
-#'   Psychometrika, 39(1), 31-36.
+#'   Holgado-Tello, F. P., Chacón-Moscoso, S., Barbero-García, I., & 
+#'   Vila-Abad, E. (2010). Polychoric versus Pearson correlations in 
+#'   exploratory and confirmatory factor analysis of ordinal variables. 
+#'   Quality & Quantity, 44(1), 153-166.
+#'   https://doi.org/10.1007/s11135-008-9190-y
 #'   
-#'   Bartlett, M. S. (1950). Tests of significance in factor analysis. 
-#'   British Journal of Psychology, 3(2), 77-85.
+#'   Flora, D. B., & Curran, P. J. (2004). An empirical evaluation of 
+#'   alternative methods of estimation for confirmatory factor analysis 
+#'   with ordinal data. Psychological Methods, 9(4), 466-491.
+#'   https://doi.org/10.1037/1082-989X.9.4.466
 #'   
-#'   Kaiser, H. F., & Rice, J. (1974). Little jiffy, mark IV. 
-#'   Educational and Psychological Measurement, 34(1), 111-117.
+#'   Revelle, W. (2024). psych: Procedures for Psychological, Psychometric, 
+#'   and Personality Research. Northwestern University.
+#'   https://personality-project.org/r/psych/
 #'   
-#' @section Interpretation Guidelines:
-#'   KMO overall values (Kaiser & Rice, 1974): 
-#'      * < 0.50 unacceptable
-#'      * 0.50-0.59 miserable
-#'      * 0.60-0.69 mediocre
-#'      * 0.70-0.79 middling
-#'      * 0.80-0.89 meritorious
-#'      * >= 0.90 marvelous
-#'   
-#'   Bartlett's test should be significant (p < .05) to reject the null
-#'   hypothesis that the correlation matrix is an identity matrix.
+#' @section Note on Multicollinearity:
+#'   High multicollinearity is EXPECTED in best practice assessments where
+#'   related items naturally correlate. Items are DOCUMENTED but not automatically
+#'   removed. Use ridge-regularized factor analysis (correct parameter in fa.poly())
+#'   to handle multicollinearity rather than removing theoretically important items.
 #'   
 #' @section Development Notes:
-#'   This function was developed with AI assistance (GitHub Copilot, 2026-02-21).
-#'   Human direction and oversight was provided at each implementation step. 
+#'   This function was updated 2026-02-21 to use polychoric correlations
+#'   per Holgado-Tello et al. (2010) recommendations for ordinal data.
 #'   See `dev/sessions/2026-02-21.md` for complete development context.
 #' 
-#' @importFrom psych KMO cortest.bartlett
+#' @importFrom psych polychoric
 #' @importFrom dplyr case_when
 #' 
 assess_factorability <- function(responses_df, 
                                 program_name = NULL,
-                                milestone_name = NULL) {
+                                milestone_name = NULL,
+                                multicollinearity_threshold = 0.90) {
   
-  # Validate inputs
-  if (is.null(program_name)) {
-    stop("program_name is required. Must be 'Military' or 'Civil Works'.")
-  }
-  if (is.null(milestone_name)) {
-    stop("milestone_name is required (e.g., '95% (Final Design)').")
-  }
-  
-  # Get wide format data using existing infrastructure
+  # Get wide format data with aggregation support
   wide_data <- get_wide_responses(
     responses_df,
     program_name = program_name,
     milestone_name = milestone_name
   )
   
-  # CRITICAL: Check for and remove zero-variance items BEFORE calculating correlation
-  # Per psychometric best practice (Streiner et al., 2015) and psych package requirements
+  context_label <- paste(
+    ifelse(is.null(program_name), "All Programs", program_name),
+    "×",
+    ifelse(is.null(milestone_name), "All Milestones", milestone_name)
+  )
   
-  # Calculate variance for each item
+  message(paste(
+    "\n=== Assessing Factorability ===",
+    "\nContext:", context_label,
+    "\nQuestions (original):", ncol(wide_data),
+    "\nObservations:", nrow(wide_data)
+  ))
+  
+  # ===== STEP 1: Remove zero-variance items =====
+  # Per psychometric best practice (Streiner et al., 2015)
+  message("\n--- Step 1: Checking for zero-variance items ---")
+  
   item_variances <- sapply(wide_data, var, na.rm = TRUE)
-  
-  # Identify zero-variance items
   zero_var_items <- names(item_variances)[item_variances == 0 | is.na(item_variances)]
-  
   n_questions_original <- ncol(wide_data)
   
   if (length(zero_var_items) > 0) {
     message(paste(
-      "\nRemoving", length(zero_var_items), 
+      "Removing", length(zero_var_items), 
       "question(s) with zero variance:",
       paste(zero_var_items, collapse = ", ")
     ))
-    message(paste(
-      "These questions had identical responses across all observations",
-      "in this context and cannot be included in factor analysis.\n"
-    ))
-    
-    # Remove zero-variance items
+    message("(Items with no variation cannot contribute to factor analysis)")
     wide_data <- wide_data[, item_variances > 0 & !is.na(item_variances), drop = FALSE]
+  } else {
+    message("No zero-variance items found")
   }
   
-  # Check for sufficient data AFTER removing zero-variance items
+  # Check minimum items
   if (ncol(wide_data) < 3) {
     stop(paste(
-      "After removing zero-variance items, fewer than 3 questions remain",
-      "with variance in this context.",
-      "\nFactor analysis requires at least 3 items.",
-      "\nOriginal questions:", n_questions_original,
-      "\nZero-variance questions removed:", length(zero_var_items),
-      "\nRemaining questions:", ncol(wide_data),
-      "\nConsider aggregating across milestones or program types."
+      "After removing zero-variance items, only", ncol(wide_data), "questions remain.",
+      "Factor analysis requires at least 3 items.",
+      "Consider aggregating across more contexts."
     ))
   }
   
-  message(paste(
-    "Questions (after removing zero-variance):", ncol(wide_data)
-  ))
-
-  message(paste(
-    "\nAssessing factorability for:", program_name, "×", milestone_name,
-    "\nQuestions:", ncol(wide_data),
-    "\nObservations:", nrow(wide_data)
-  ))
+  # ===== STEP 2: Calculate polychoric correlation matrix =====
+  # Per Holgado-Tello et al. (2010) - appropriate for ordinal data
+  message("\n--- Step 2: Computing polychoric correlations ---")
+  message("(Appropriate for ordinal/Likert-type data per Holgado-Tello et al., 2010)")
   
-  # Calculate correlation matrix (needed for both tests)
-  cor_matrix <- cor(wide_data, use = "pairwise.complete.obs")
-  
-  # 1. Kaiser-Meyer-Olkin (KMO) Test
-  # Per psych::KMO() documentation
-  kmo_result <- tryCatch({
-    psych::KMO(cor_matrix)
+  poly_result <- tryCatch({
+    psych::polychoric(wide_data)
   }, error = function(e) {
-    warning(paste("KMO calculation failed:", e$message))
-    NULL
+    stop(paste(
+      "Polychoric correlation calculation failed:", e$message,
+      "\nThis may indicate insufficient variability in responses.",
+      "Try aggregating across more contexts."
+    ))
   })
   
-  # 2. Bartlett's Test of Sphericity
-  # Per psych::cortest.bartlett() documentation
-  bartlett_result <- tryCatch({
-    psych::cortest.bartlett(cor_matrix, n = nrow(wide_data))
-  }, error = function(e) {
-    warning(paste("Bartlett's test failed:", e$message))
-    NULL
-  })
+  cor_matrix <- poly_result$rho
+  message("Successfully computed polychoric correlations")
   
-  # Interpret KMO (Kaiser & Rice, 1974 criteria)
-  kmo_interpretation <- if (!is.null(kmo_result)) {
-    kmo_overall <- kmo_result$MSA
+  # ===== STEP 3: Check multicollinearity =====
+  message("\n--- Step 3: Diagnosing multicollinearity ---")
+  
+  # Set diagonal to 0 to exclude self-correlations
+  cor_matrix_check <- cor_matrix
+  diag(cor_matrix_check) <- 0
+  
+  # Find high correlation pairs
+  high_cor_indices <- which(abs(cor_matrix_check) > multicollinearity_threshold, arr.ind = TRUE)
+  
+  # Remove duplicates (matrix is symmetric)
+  if (nrow(high_cor_indices) > 0) {
+    high_cor_indices <- high_cor_indices[high_cor_indices[,1] < high_cor_indices[,2], , drop = FALSE]
+  }
+  
+  multicollinear_pairs <- NULL
+  
+  if (nrow(high_cor_indices) > 0) {
+    message(paste(
+      "Found", nrow(high_cor_indices), 
+      "item pair(s) with |r| >", multicollinearity_threshold
+    ))
     
-    case_when(
-      kmo_overall >= 0.90 ~ "Marvelous",
-      kmo_overall >= 0.80 ~ "Meritorious", 
-      kmo_overall >= 0.70 ~ "Middling",
-      kmo_overall >= 0.60 ~ "Mediocre",
-      kmo_overall >= 0.50 ~ "Miserable",
-      TRUE ~ "Unacceptable"
+    # Document pairs
+    pair_data <- data.frame(
+      item1 = colnames(wide_data)[high_cor_indices[, 1]],
+      item2 = colnames(wide_data)[high_cor_indices[, 2]],
+      correlation = cor_matrix[high_cor_indices],
+      stringsAsFactors = FALSE
     )
-  } else {
-    "Unable to calculate"
-  }
-  
-  # Interpret Bartlett (standard p < .05 criterion)
-  bartlett_interpretation <- if (!is.null(bartlett_result)) {
-    if (bartlett_result$p.value < 0.001) {
-      "Highly significant (p < .001) - correlation matrix is factorable"
-    } else if (bartlett_result$p.value < 0.05) {
-      "Significant (p < .05) - correlation matrix is factorable"
-    } else {
-      "Not significant - correlation matrix may be an identity matrix (not factorable)"
+    
+    for (i in 1:nrow(pair_data)) {
+      message(paste("  ", pair_data$item1[i], "×", pair_data$item2[i], 
+                    ": r =", round(pair_data$correlation[i], 3)))
     }
+    
+    message(paste(
+      "\nNote: High multicollinearity is EXPECTED for best practice assessments.",
+      "\nItems are documented but NOT automatically removed.",
+      "\nWill use ridge-regularized factor analysis to handle this."
+    ))
+    
+    multicollinear_pairs <- pair_data
   } else {
-    "Unable to calculate"
+    message("No problematic multicollinearity detected")
   }
   
-  # Overall recommendation
-  proceed_with_fa <- if (!is.null(kmo_result) && !is.null(bartlett_result)) {
-    kmo_result$MSA >= 0.60 && bartlett_result$p.value < 0.05
+  # ===== STEP 4: Check matrix properties =====
+  message("\n--- Step 4: Checking correlation matrix properties ---")
+  
+  cor_det <- det(cor_matrix)
+  message(paste("Determinant:", format(cor_det, scientific = TRUE)))
+  
+  can_invert <- TRUE
+  if (cor_det < 1e-10) {
+    message("WARNING: Determinant is very small (near-singular matrix)")
+    message("This indicates substantial multicollinearity")
+    message("Recommendation: Use ridge-regularized FA (correct > 0 in fa.poly)")
+    can_invert <- FALSE
   } else {
-    FALSE
+    message("Matrix determinant is acceptable")
   }
   
-  # Compile results
+  # ===== STEP 5: Compile results =====
+  message("\n--- Summary ---")
+  message(paste("Questions analyzed:", ncol(wide_data)))
+  message(paste("Questions removed (zero-variance):", length(zero_var_items)))
+  message(paste("High correlation pairs:", nrow(high_cor_indices)))
+  
   results <- list(
     context = list(
-      program = program_name,
-      milestone = milestone_name
+      program = ifelse(is.null(program_name), "All", program_name),
+      milestone = ifelse(is.null(milestone_name), "All", milestone_name),
+      label = context_label
     ),
     sample = list(
       n_questions_original = n_questions_original,
       n_questions_analyzed = ncol(wide_data),
-      n_questions_removed = length(zero_var_items),
-      removed_questions = if (length(zero_var_items) > 0) zero_var_items else NULL,
+      n_questions_removed_zero_var = length(zero_var_items),
+      removed_questions_zero_var = if (length(zero_var_items) > 0) zero_var_items else NULL,
       n_observations = nrow(wide_data)
     ),
-    kmo = list(
-      overall_msa = if (!is.null(kmo_result)) kmo_result$MSA else NA,
-      item_msa = if (!is.null(kmo_result)) kmo_result$MSAi else NA,
-      interpretation = kmo_interpretation,
-      full_output = kmo_result
+    correlations = list(
+      method = "polychoric",
+      matrix = cor_matrix,
+      tau = poly_result$tau,  # Thresholds for ordinal categories
+      determinant = cor_det,
+      can_invert = can_invert
     ),
-    bartlett = list(
-      chi_square = if (!is.null(bartlett_result)) bartlett_result$chisq else NA,
-      df = if (!is.null(bartlett_result)) bartlett_result$df else NA,
-      p_value = if (!is.null(bartlett_result)) bartlett_result$p.value else NA,
-      interpretation = bartlett_interpretation,
-      full_output = bartlett_result
+    multicollinearity = list(
+      n_pairs_high = nrow(high_cor_indices),
+      threshold = multicollinearity_threshold,
+      high_cor_pairs = multicollinear_pairs
     ),
     recommendation = list(
-      proceed_with_fa = proceed_with_fa,
-      rationale = if (proceed_with_fa) {
-        "Data meet minimum criteria for factor analysis (KMO >= 0.60 and significant Bartlett test)"
-      } else if (!is.null(kmo_result) && kmo_result$MSA < 0.60) {
-        paste0("KMO value (", round(kmo_result$MSA, 3), ") below recommended minimum of 0.60")
-      } else if (!is.null(bartlett_result) && bartlett_result$p.value >= 0.05) {
-        "Bartlett's test not significant - variables may be too uncorrelated"
-      } else {
-        "Unable to assess - calculation failed"
-      }
+      proceed_with_fa = (ncol(wide_data) >= 3 && nrow(wide_data) >= 10),
+      use_ridge = (cor_det < 1e-10 || nrow(high_cor_indices) > 0),
+      suggested_ridge = ifelse(cor_det < 1e-10, 0.1, 
+                               ifelse(nrow(high_cor_indices) > 5, 0.05, 0.01)),
+      rationale = case_when(
+        ncol(wide_data) < 3 ~ "Insufficient items for factor analysis",
+        nrow(wide_data) < 10 ~ "Insufficient sample size",
+        !can_invert ~ "Use ridge-regularized FA due to near-singular matrix",
+        nrow(high_cor_indices) > 0 ~ "Proceed with ridge-regularized FA to handle multicollinearity",
+        TRUE ~ "Data are suitable for factor analysis"
+      )
     )
   )
   
-  # Print summary
-  message("\n=== Factorability Assessment Results ===")
-  message(paste("KMO Overall MSA:", 
-                round(results$kmo$overall_msa, 3), 
-                "-", results$kmo$interpretation))
-  message(paste("Bartlett's Test: χ²(", results$bartlett$df, ") =", 
-                round(results$bartlett$chi_square, 2),
-                ", p =", format.pval(results$bartlett$p_value)))
   message(paste("\nRecommendation:", results$recommendation$rationale))
+  if (results$recommendation$use_ridge) {
+    message(paste("Suggested ridge correction:", results$recommendation$suggested_ridge))
+  }
   
   return(results)
 }

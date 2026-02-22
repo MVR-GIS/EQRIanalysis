@@ -4,35 +4,35 @@
 \alias{get_wide_responses}
 \title{Prepare Wide Format Data for Reliability Analysis}
 \usage{
-get_wide_responses(responses_df, program_name, milestone_name)
+get_wide_responses(responses_df, program_name = NULL, milestone_name = NULL)
 }
 \arguments{
 \item{responses_df}{data.frame; Long-format responses from get_responses_df()}
 
-\item{program_name}{character; REQUIRED. Program type. One of:
-"Military", "Civil Works"}
+\item{program_name}{character; Program type. One of: "Military", "Civil Works",
+or NULL to aggregate across all programs}
 
-\item{milestone_name}{character; REQUIRED. Project milestone. One of:
+\item{milestone_name}{character; Project milestone. One of:
 "15\% (Project Initiation)", "35\% (Concept Design)",
 "65\% (Intermediate Design)", "95\% (Final Design)",
-"100\% (Corrected Final Design)"}
+"100\% (Corrected Final Design)", or NULL to aggregate across all milestones}
 }
 \value{
 data.frame in wide format with one row per questionnaire event,
-one column per question (named Q1, Q2, etc.), values are RESPONSEVALUE.
-This represents the complete questionnaire as administered in this context.
+one column per question (named Q1, Q2, etc.), values are RESPONSEVALUE
 }
 \description{
 Convert long-format responses to wide format suitable for
 psychometric analysis. Each row represents one questionnaire event,
-columns represent question responses. Filters to a specific questionnaire
-context (program type × milestone) where all questions are administered.
+columns represent question responses. Can filter to specific context or
+aggregate across contexts for factor analysis.
 }
 \section{Development Notes}{
 
-This function was developed with AI assistance (GitHub Copilot, 2026-02-20).
-Human direction and oversight was provided at each implementation step.
-See \verb{dev/sessions/2026-02-20.md} for complete development context.
+This function was updated 2026-02-21 to support context aggregation
+for factor analysis with adequate sample sizes. Parameters now accept
+NULL to aggregate across program types and/or milestones.
+See \verb{dev/sessions/2026-02-21.md} for complete development context.
 }
 
 \references{
@@ -40,7 +40,12 @@ Streiner, D. L., Norman, G. R., & Cairney, J. (2015). Health Measurement
 Scales: A practical guide to their development and use (5th ed.).
 Oxford University Press. Chapter 4: Reliability.
 
-Per psychometric best practice, reliability is assessed for the complete
-instrument (all questions) within a specific administration context,
-not for individual subscales (indicators) in isolation.
+Flora, D. B., & Curran, P. J. (2004). An empirical evaluation of
+alternative methods of estimation for confirmatory factor analysis
+with ordinal data. Psychological Methods, 9(4), 466-491.
+https://doi.org/10.1037/1082-989X.9.4.466
+
+Per Flora & Curran, factor analysis of ordinal data requires minimum
+N = 200 for stable polychoric correlations. Aggregation across contexts
+may be necessary to achieve adequate sample size.
 }

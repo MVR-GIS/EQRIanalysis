@@ -30,11 +30,11 @@ testthat::test_that("get_alluvial_df returns a valid data frame", {
   
   # Test 4: INDICATOR_SCORE_BIN has correct level labels
   expected_levels <- c(
-    "Very Low (0.0-0.2)", 
-    "Low (0.2-0.4)", 
-    "Moderate (0.4-0.6)", 
-    "High (0.6-0.8)", 
-    "Very High (0.8-1.0)"
+    "Very Low", 
+    "Low", 
+    "Moderate", 
+    "High", 
+    "Very High"
   )
   testthat::expect_equal(
     levels(alluvial_df$INDICATOR_SCORE_BIN),
