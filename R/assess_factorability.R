@@ -44,7 +44,14 @@
 #'   - 5+ category items: N >= 200
 #'
 #'   With smaller samples, function falls back to Pearson correlations with warning.
-#'
+#' 
+#' @section Numerical Stability:
+#'   Per R FAQ 7.31 and Burns (2011, The R Inferno), floating point arithmetic
+#'   can cause items with mathematically positive variance to have effectively
+#'   zero standard deviation. This function uses tolerance = .Machine$double.eps^0.5
+#'   (approximately 1.5e-8) to identify and remove such items before correlation
+#'   computation. See ?cor for details on why SD = 0 produces NA correlations.
+#' 
 #' @section Development Notes:
 #'   This function was updated 2026-02-22 to include robust error handling
 #'   for sparse contingency tables and NA correlations per psych::polychoric()

@@ -1,3 +1,49 @@
+testthat::test_that("assess_factorability handles near-zero variance items", {
+  responses_df <- get_responses_df()
+  
+  # Aggregated context may expose near-zero variance items
+  # that pass simple var > 0 check but fail cor() computation
+  result <- assess_factorability(
+    responses_df,
+    program_name = NULL,
+    milestone_name = NULL
+  )
+  
+  # Should succeed (after removing problematic items)
+  testthat::expect_true(is.list(result))
+  
+  # If items were removed due to near-zero variance
+  if (result$sample$n_questions_removed_zero_var > 0) {
+    message(paste(
+      "Note:", result$sample$n_questions_removed_zero_var, 
+      "items removed due to zero/near-zero variance in aggregated context"
+    ))
+  }
+  
+  # Correlation matrix should have NO NAs
+  testthat::expect_false(
+    any(is.na(result$correlations$matrix)),
+    info = "After robust variance checking, correlation matrix should not contain NAs"
+  )
+})
+
+testthat::test_that("diagnose_variance_issues identifies problematic items", {
+  responses_df <- get_responses_df()
+  wide_data <- get_wide_responses(responses_df, NULL, NULL)
+  
+  result <- diagnose_variance_issues(wide_data)
+  
+  testthat::expect_true(is.list(result))
+  testthat::expect_true(is.data.frame(result$all_items))
+  testthat::expect_true(is.numeric(result$n_problematic))
+  
+  # If problematic items found, they should have clear reasons
+  if (result$n_problematic > 0) {
+    testthat::expect_true(nrow(result$problematic_items) == result$n_problematic)
+    testthat::expect_true(all(!is.na(result$problematic_items$reason)))
+  }
+})
+
 testthat::test_that("assess_factorability accepts NULL for aggregation", {
   responses_df <- get_responses_df()
   
