@@ -4,51 +4,61 @@
 \alias{assess_factorability}
 \title{Assess Data Factorability for Factor Analysis}
 \usage{
-assess_factorability(responses_df, program_name = NULL, milestone_name = NULL)
+assess_factorability(
+  responses_df,
+  program_name = NULL,
+  milestone_name = NULL,
+  multicollinearity_threshold = 0.9
+)
 }
 \arguments{
 \item{responses_df}{data.frame; Responses from get_responses_df()}
 
-\item{program_name}{character; Program type ("Military" or "Civil Works")}
+\item{program_name}{character; Program type or NULL for all programs}
 
-\item{milestone_name}{character; Project milestone}
+\item{milestone_name}{character; Project milestone or NULL for all milestones}
+
+\item{multicollinearity_threshold}{numeric; Correlation threshold (0-1) for
+flagging highly correlated item pairs. Default 0.90. Items with |r| above
+this are documented but NOT automatically removed (see Note).}
 }
 \value{
-list containing KMO and Bartlett test results with interpretation
+list containing polychoric correlations, diagnostic results, and
+recommendations for proceeding with factor analysis
 }
 \description{
-Evaluate whether the correlation matrix is suitable for factor
-analysis using Kaiser-Meyer-Olkin (KMO) measure of sampling adequacy and
-Bartlett's test of sphericity.
+Evaluate whether data are suitable for factor analysis using
+polychoric correlations (appropriate for ordinal data) and diagnostic tests.
+Checks for zero-variance items, multicollinearity, and matrix invertibility.
 }
-\section{Interpretation Guidelines}{
+\section{Note on Multicollinearity}{
 
-KMO overall values (Kaiser & Rice, 1974):
-* < 0.50 unacceptable
-* 0.50-0.59 miserable
-* 0.60-0.69 mediocre
-* 0.70-0.79 middling
-* 0.80-0.89 meritorious
-* >= 0.90 marvelous
-
-Bartlett's test should be significant (p < .05) to reject the null
-hypothesis that the correlation matrix is an identity matrix.
+High multicollinearity is EXPECTED in best practice assessments where
+related items naturally correlate. Items are DOCUMENTED but not automatically
+removed. Use ridge-regularized factor analysis (correct parameter in fa.poly())
+to handle multicollinearity rather than removing theoretically important items.
 }
 
 \section{Development Notes}{
 
-This function was developed with AI assistance (GitHub Copilot, 2026-02-21).
-Human direction and oversight was provided at each implementation step.
+This function was updated 2026-02-21 to use polychoric correlations
+per Holgado-Tello et al. (2010) recommendations for ordinal data.
 See \verb{dev/sessions/2026-02-21.md} for complete development context.
 }
 
 \references{
-Kaiser, H. F. (1974). An index of factorial simplicity.
-Psychometrika, 39(1), 31-36.
+Holgado-Tello, F. P., Chacón-Moscoso, S., Barbero-García, I., &
+Vila-Abad, E. (2010). Polychoric versus Pearson correlations in
+exploratory and confirmatory factor analysis of ordinal variables.
+Quality & Quantity, 44(1), 153-166.
+https://doi.org/10.1007/s11135-008-9190-y
 
-Bartlett, M. S. (1950). Tests of significance in factor analysis.
-British Journal of Psychology, 3(2), 77-85.
+Flora, D. B., & Curran, P. J. (2004). An empirical evaluation of
+alternative methods of estimation for confirmatory factor analysis
+with ordinal data. Psychological Methods, 9(4), 466-491.
+https://doi.org/10.1037/1082-989X.9.4.466
 
-Kaiser, H. F., & Rice, J. (1974). Little jiffy, mark IV.
-Educational and Psychological Measurement, 34(1), 111-117.
+Revelle, W. (2024). psych: Procedures for Psychological, Psychometric,
+and Personality Research. Northwestern University.
+https://personality-project.org/r/psych/
 }
