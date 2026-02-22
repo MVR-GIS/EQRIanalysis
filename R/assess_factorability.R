@@ -97,90 +97,83 @@ assess_factorability <- function(
 
   # ===== STEP 1: Remove zero or near-zero variance items =====
   # Per psychometric best practice (Streiner et al., 2015)
-  # AND numerical computing best practice (R Inferno, Burns 2011)
-  message("\n--- Step 1: Checking for zero or near-zero variance items ---")
-
-  # Check both variance and standard deviation with tolerance
-  # Per R documentation: cor() uses sd(), which can be 0 even if var() > 0
-  # due to floating point arithmetic
-  item_variances <- sapply(wide_data, var, na.rm = TRUE)
-  item_sds <- sapply(wide_data, sd, na.rm = TRUE)
-
-  # Tolerance per R Inferno (Burns, 2011) and R FAQ 7.31
-  # https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-doesn_0027t-R-think-these-numbers-are-equal_003f
-  tolerance <- .Machine$double.eps^0.5 # Approximately 1.5e-8
-
-  # Identify problematic items
-  # Item is problematic if:
-  # 1. Variance is 0 or NA
-  # 2. SD is 0 or NA (checked separately due to floating point)
-  # 3. Variance or SD is below tolerance (effectively zero)
-  problematic_items <- names(wide_data)[
-    is.na(item_variances) |
-      is.na(item_sds) |
-      item_variances < tolerance |
-      item_sds < tolerance
-  ]
-
+  # CRITICAL: Must check using SAME logic as cor() with pairwise.complete.obs
+  # Per R cor() docs: items can have variance overall but zero variance
+  # within pairwise-complete subsets due to missing data patterns
+  
+  message("\n--- Step 1: Checking for variance issues ---")
+  
   n_questions_original <- ncol(wide_data)
-
-  if (length(problematic_items) > 0) {
+  
+  # Test correlation to identify items that cause NA correlations
+  # This is the AUTHORITATIVE check per R cor() documentation
+  message("Testing pairwise correlations to identify problematic items...")
+  test_cor <- suppressWarnings(cor(wide_data, use = "pairwise.complete.obs"))
+  
+  if (any(is.na(test_cor))) {
+    # Find items involved in NA correlations
+    na_matrix <- is.na(test_cor)
+    diag(na_matrix) <- FALSE  # Ignore diagonal (always 1)
+    
+    # Count NA correlations per item
+    na_counts <- rowSums(na_matrix)
+    
+    # Items with ANY NAs have pairwise variance problems
+    problematic_items <- names(na_counts)[na_counts > 0]
+    
     message(paste(
-      "Removing",
-      length(problematic_items),
-      "question(s) with zero or near-zero variance:"
+      "\nFound", length(problematic_items),
+      "question(s) with pairwise variance issues:"
     ))
-
-    # Report detailed diagnostics
+    
     for (item in problematic_items) {
-      var_val <- item_variances[item]
-      sd_val <- item_sds[item]
+      n_na <- na_counts[item]
       message(paste(
-        "  ",
-        item,
-        "- var:",
-        format(var_val, scientific = TRUE),
-        ", sd:",
-        format(sd_val, scientific = TRUE)
+        "  ", item, ":",
+        n_na, "NA correlation(s) out of", ncol(wide_data) - 1, "possible pairs"
       ))
     }
-
+    
     message(paste(
-      "\nNote: Items with insufficient variation cannot contribute to correlation analysis.",
-      "\nPer R documentation (?cor), correlation requires non-zero standard deviation.",
-      "\nTolerance threshold:",
-      format(tolerance, scientific = TRUE)
+      "\nPer R documentation (?cor, use='pairwise.complete.obs'):",
+      "\n'For each pair of variables, use all complete pairs of observations.",
+      " If one variable has constant values across the complete pairs",
+      " with another variable, the correlation for that pair is NA.'",
+      "\n\nThese items become constant within pairwise-complete subsets",
+      "due to missing data patterns. Removing them...\n"
     ))
-
-    # Remove problematic items
-    wide_data <- wide_data[,
-      !(names(wide_data) %in% problematic_items),
-      drop = FALSE
-    ]
+    
+    wide_data <- wide_data[, !(names(wide_data) %in% problematic_items), drop = FALSE]
+    zero_var_items <- problematic_items
+    
   } else {
-    message("No zero or near-zero variance items found")
+    message("All items have sufficient pairwise variance")
+    zero_var_items <- character(0)
   }
-
-  # Check minimum items
+  
+  message(paste(
+    "Questions after variance screening:", ncol(wide_data),
+    "(removed:", length(zero_var_items), ")"
+  ))
+  
+  # Check minimum items for factor analysis
   if (ncol(wide_data) < 3) {
     stop(paste(
-      "After removing problematic items, only",
-      ncol(wide_data),
-      "questions remain.",
-      "Factor analysis requires at least 3 items.",
-      "\nProblematic items removed:",
-      length(problematic_items),
-      "\nOriginal items:",
-      n_questions_original,
-      "\nConsider:",
-      "\n  1. Examining data quality (too many constant responses?)",
-      "\n  2. Filtering to specific contexts rather than full aggregation",
-      "\n  3. Reviewing questionnaire design (are some questions not applicable?)"
+      "After removing problematic items, only", ncol(wide_data), "questions remain.",
+      "\nFactor analysis requires at least 3 items.",
+      "\nProblematic items removed:", length(zero_var_items),
+      "\nOriginal items:", n_questions_original,
+      "\n\nThis indicates severe data quality issues - likely:",
+      "\n  1. Excessive missing data causing pairwise variance collapse",
+      "\n  2. Questions with very limited response variability",
+      "\n  3. Inappropriate aggregation across incompatible contexts",
+      "\n\nConsider:",
+      "\n  - Examining missing data patterns (see ?mice or ?VIM packages)",
+      "\n  - Using use='complete.obs' (but reduces sample size)",
+      "\n  - Analyzing specific contexts rather than full aggregation",
+      "\n  - Imputing missing data before factor analysis"
     ))
   }
-
-  # Update tracking for removed items
-  zero_var_items <- problematic_items # For compatibility with rest of function
 
   # ===== STEP 2: Calculate correlation matrix =====
   # Per Holgado-Tello et al. (2010) - polychoric preferred for ordinal data
