@@ -3,6 +3,7 @@
 export(assess_factorability)
 export(calculate_cronbach_alpha)
 export(calculate_omega)
+export(check_ordinal_data_quality)
 export(check_questionnaire_duplicates)
 export(cleanup_session_backups)
 export(create_reliability_table)

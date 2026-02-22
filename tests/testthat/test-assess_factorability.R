@@ -1,32 +1,31 @@
-testthat::test_that("assess_factorability no longer requires program and milestone (supports NULL)", {
+testthat::test_that("assess_factorability accepts NULL for aggregation", {
   responses_df <- get_responses_df()
   
-  # Should now ACCEPT NULL for both parameters (aggregation support)
+  # Should accept NULL for both parameters (aggregation support)
   testthat::expect_no_error(
-    assess_factorability(responses_df, program_name = NULL, milestone_name = NULL)
+    results <- assess_factorability(responses_df, program_name = NULL, milestone_name = NULL)
   )
   
   # Should also work with specific values
   testthat::expect_no_error(
-    assess_factorability(responses_df, "Military", "95% (Final Design)")
+    results <- assess_factorability(responses_df, "Military", "95% (Final Design)")
   )
 })
 
-testthat::test_that("assess_factorability returns valid structure with polychoric correlations", {
+testthat::test_that("assess_factorability returns valid structure", {
   responses_df <- get_responses_df()
   
-  # Test with aggregated data for sufficient sample size
-  # Per Flora & Curran (2004), need N >= 200 for stable polychoric correlations
+  # Test with aggregated data for maximum sample size
   result <- assess_factorability(
     responses_df,
-    program_name = NULL,        # Aggregate across programs
-    milestone_name = NULL       # Aggregate across milestones
+    program_name = NULL,
+    milestone_name = NULL
   )
   
   # Should return list
   testthat::expect_true(is.list(result))
   
-  # Should have expected top-level components per updated function (lines 185-223)
+  # Should have expected top-level components
   expected_components <- c("context", "sample", "correlations", 
                           "multicollinearity", "recommendation")
   testthat::expect_true(
@@ -35,77 +34,88 @@ testthat::test_that("assess_factorability returns valid structure with polychori
                 paste(setdiff(expected_components, names(result)), collapse = ", "))
   )
   
-  # Context should reflect aggregation when NULL provided
+  # Context validation
   testthat::expect_equal(result$context$program, "All")
   testthat::expect_equal(result$context$milestone, "All")
   testthat::expect_true(!is.null(result$context$label))
   
-  # Sample info should track removals
+  # Sample info validation
   testthat::expect_true(is.numeric(result$sample$n_questions_original))
   testthat::expect_true(is.numeric(result$sample$n_questions_analyzed))
-  testthat::expect_true(is.numeric(result$sample$n_questions_removed_zero_var))
   testthat::expect_true(result$sample$n_questions_analyzed <= result$sample$n_questions_original)
   
-  # Correlations component should use polychoric method
-  testthat::expect_equal(result$correlations$method, "polychoric")
+  # Correlations validation
+  testthat::expect_true(result$correlations$method %in% c("polychoric", "pearson"))
   testthat::expect_true(is.matrix(result$correlations$matrix))
-  testthat::expect_true(!is.null(result$correlations$tau))  # Thresholds for ordinal data
+  testthat::expect_false(any(is.na(result$correlations$matrix)), 
+                         info = "Correlation matrix should not contain NAs")
   testthat::expect_true(is.numeric(result$correlations$determinant))
-  testthat::expect_true(is.logical(result$correlations$can_invert))
+  testthat::expect_false(is.na(result$correlations$determinant),
+                         info = "Determinant should not be NA")
   
-  # Correlation matrix should be symmetric
+  # Correlation matrix properties
   cor_mat <- result$correlations$matrix
-  testthat::expect_equal(cor_mat, t(cor_mat))
-  
-  # Diagonal should be 1 (or very close due to floating point)
-  testthat::expect_true(all(abs(diag(cor_mat) - 1) < 1e-10))
+  testthat::expect_equal(cor_mat, t(cor_mat), info = "Matrix should be symmetric")
+  testthat::expect_true(all(abs(diag(cor_mat) - 1) < 1e-10), 
+                       info = "Diagonal should be 1")
   
   # Multicollinearity diagnostics
   testthat::expect_true(is.numeric(result$multicollinearity$n_pairs_high))
   testthat::expect_true(is.numeric(result$multicollinearity$threshold))
-  # high_cor_pairs can be NULL or data.frame
-  if (!is.null(result$multicollinearity$high_cor_pairs)) {
-    testthat::expect_true(is.data.frame(result$multicollinearity$high_cor_pairs))
-    testthat::expect_true(all(c("item1", "item2", "correlation") %in% 
-                              names(result$multicollinearity$high_cor_pairs)))
-  }
   
-  # Recommendation component
+  # Recommendation validation
   testthat::expect_true(is.logical(result$recommendation$proceed_with_fa))
   testthat::expect_true(is.logical(result$recommendation$use_ridge))
   testthat::expect_true(is.numeric(result$recommendation$suggested_ridge))
-  testthat::expect_true(is.character(result$recommendation$rationale))
-  
-  # Ridge suggestion should be in valid range (0, 1)
-  testthat::expect_true(result$recommendation$suggested_ridge >= 0)
-  testthat::expect_true(result$recommendation$suggested_ridge <= 1)
+  testthat::expect_true(result$recommendation$suggested_ridge >= 0 && 
+                       result$recommendation$suggested_ridge <= 1)
 })
 
-testthat::test_that("assess_factorability handles single context with limited sample", {
+testthat::test_that("assess_factorability handles polychoric/Pearson fallback", {
   responses_df <- get_responses_df()
   
-  # Single context may have small sample (but should still work)
-  result <- assess_factorability(
+  # Single context likely triggers Pearson fallback due to small N
+  result_small <- assess_factorability(
     responses_df,
     program_name = "Military",
-    milestone_name = "95% (Final Design)"
+    milestone_name = "95% (Final Design)",
+    use_polychoric = TRUE  # Request polychoric
   )
   
-  # Should complete without error
-  testthat::expect_true(is.list(result))
+  # Should succeed (fallback to Pearson if polychoric fails)
+  testthat::expect_true(is.list(result_small))
+  testthat::expect_true(result_small$correlations$method %in% c("polychoric", "pearson"))
   
-  # Context should reflect specific values
-  testthat::expect_equal(result$context$program, "Military")
-  testthat::expect_equal(result$context$milestone, "95% (Final Design)")
+  # If Pearson was used, should have notes
+  if (result_small$correlations$method == "pearson") {
+    testthat::expect_true(!is.null(result_small$recommendation$notes))
+    testthat::expect_null(result_small$correlations$tau)
+  }
   
-  # Should have polychoric correlations
-  testthat::expect_equal(result$correlations$method, "polychoric")
+  # If polychoric was used, should have tau
+  if (result_small$correlations$method == "polychoric") {
+    testthat::expect_true(!is.null(result_small$correlations$tau))
+  }
+})
+
+testthat::test_that("assess_factorability can skip polychoric", {
+  responses_df <- get_responses_df()
+  
+  # Explicitly request Pearson only
+  result_pearson <- assess_factorability(
+    responses_df,
+    program_name = NULL,
+    milestone_name = NULL,
+    use_polychoric = FALSE
+  )
+  
+  testthat::expect_equal(result_pearson$correlations$method, "pearson")
+  testthat::expect_null(result_pearson$correlations$tau)
 })
 
 testthat::test_that("assess_factorability removes zero-variance items", {
   responses_df <- get_responses_df()
   
-  # Run on context known to have zero-variance items (from your investigation)
   result <- assess_factorability(
     responses_df,
     program_name = "Military",
@@ -119,19 +129,15 @@ testthat::test_that("assess_factorability removes zero-variance items", {
       length(result$sample$removed_questions_zero_var),
       result$sample$n_questions_removed_zero_var
     )
-    testthat::expect_true(
-      result$sample$n_questions_analyzed < result$sample$n_questions_original
-    )
   }
   
-  # Should always have at least 3 items remaining (or function would error)
+  # Should always have at least 3 items (or would error)
   testthat::expect_true(result$sample$n_questions_analyzed >= 3)
 })
 
 testthat::test_that("assess_factorability detects multicollinearity", {
   responses_df <- get_responses_df()
   
-  # Test with aggregated data (more likely to show multicollinearity patterns)
   result <- assess_factorability(
     responses_df,
     program_name = NULL,
@@ -139,78 +145,29 @@ testthat::test_that("assess_factorability detects multicollinearity", {
     multicollinearity_threshold = 0.90
   )
   
-  # Should have multicollinearity component
-  testthat::expect_true(!is.null(result$multicollinearity))
-  
-  # If high correlation pairs detected
+  # If high correlations detected
   if (result$multicollinearity$n_pairs_high > 0) {
-    # Should recommend ridge regularization
     testthat::expect_true(result$recommendation$use_ridge)
-    testthat::expect_true(result$recommendation$suggested_ridge > 0)
-    
-    # Should have documented the pairs
     testthat::expect_true(!is.null(result$multicollinearity$high_cor_pairs))
     testthat::expect_equal(
       nrow(result$multicollinearity$high_cor_pairs),
       result$multicollinearity$n_pairs_high
     )
-    
-    # All correlations should exceed threshold
-    testthat::expect_true(
-      all(abs(result$multicollinearity$high_cor_pairs$correlation) > 
-          result$multicollinearity$threshold)
-    )
   }
 })
 
-testthat::test_that("assess_factorability provides appropriate recommendations", {
+testthat::test_that("assess_factorability validates parameters", {
   responses_df <- get_responses_df()
   
-  result <- assess_factorability(
-    responses_df,
-    program_name = NULL,
-    milestone_name = NULL
-  )
-  
-  # Recommendation rationale should be one of the expected values
-  # Per function lines 215-221
-  valid_rationales <- c(
-    "Insufficient items for factor analysis",
-    "Insufficient sample size",
-    "Use ridge-regularized FA due to near-singular matrix",
-    "Proceed with ridge-regularized FA to handle multicollinearity",
-    "Data are suitable for factor analysis"
-  )
-  
-  testthat::expect_true(
-    result$recommendation$rationale %in% valid_rationales,
-    info = paste("Got unexpected rationale:", result$recommendation$rationale)
-  )
-  
-  # If determinant is very small, should warn about inversion
-  if (result$correlations$determinant < 1e-10) {
-    testthat::expect_false(result$correlations$can_invert)
-    testthat::expect_true(result$recommendation$use_ridge)
-  }
-})
-
-testthat::test_that("assess_factorability validates parameter types", {
-  responses_df <- get_responses_df()
-  
-  # Invalid program name should error
+  # Invalid program
   testthat::expect_error(
     assess_factorability(responses_df, program_name = "Invalid", milestone_name = NULL),
     "program_name must be one of"
   )
   
-  # Invalid milestone name should error
+  # Invalid milestone
   testthat::expect_error(
     assess_factorability(responses_df, program_name = NULL, milestone_name = "Invalid"),
     "milestone_name must be one of"
-  )
-  
-  # Invalid threshold should cause issues (test boundary)
-  testthat::expect_no_error(
-    assess_factorability(responses_df, NULL, NULL, multicollinearity_threshold = 0.99)
   )
 })

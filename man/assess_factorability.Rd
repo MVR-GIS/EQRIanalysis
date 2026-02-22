@@ -8,7 +8,8 @@ assess_factorability(
   responses_df,
   program_name = NULL,
   milestone_name = NULL,
-  multicollinearity_threshold = 0.9
+  multicollinearity_threshold = 0.9,
+  use_polychoric = TRUE
 )
 }
 \arguments{
@@ -21,15 +22,19 @@ assess_factorability(
 \item{multicollinearity_threshold}{numeric; Correlation threshold (0-1) for
 flagging highly correlated item pairs. Default 0.90. Items with |r| above
 this are documented but NOT automatically removed (see Note).}
+
+\item{use_polychoric}{logical; Attempt polychoric correlations? Default TRUE.
+If FALSE or if polychoric fails, falls back to Pearson correlations.}
 }
 \value{
-list containing polychoric correlations, diagnostic results, and
+list containing correlation matrix, diagnostic results, and
 recommendations for proceeding with factor analysis
 }
 \description{
 Evaluate whether data are suitable for factor analysis using
 polychoric correlations (appropriate for ordinal data) and diagnostic tests.
 Checks for zero-variance items, multicollinearity, and matrix invertibility.
+Includes robust error handling for sparse contingency tables.
 }
 \section{Note on Multicollinearity}{
 
@@ -39,11 +44,23 @@ removed. Use ridge-regularized factor analysis (correct parameter in fa.poly())
 to handle multicollinearity rather than removing theoretically important items.
 }
 
+\section{Sample Size Requirements}{
+
+Per Flora & Curran (2004), polychoric correlations require:
+\itemize{
+\item Dichotomous (2-category) items: N >= 500
+\item Trichotomous (3-category) items: N >= 400
+\item 5+ category items: N >= 200
+}
+
+With smaller samples, function falls back to Pearson correlations with warning.
+}
+
 \section{Development Notes}{
 
-This function was updated 2026-02-21 to use polychoric correlations
-per Holgado-Tello et al. (2010) recommendations for ordinal data.
-See \verb{dev/sessions/2026-02-21.md} for complete development context.
+This function was updated 2026-02-22 to include robust error handling
+for sparse contingency tables and NA correlations per psych::polychoric()
+documentation. See \verb{dev/sessions/2026-02-22.md} for complete development context.
 }
 
 \references{
@@ -61,4 +78,5 @@ https://doi.org/10.1037/1082-989X.9.4.466
 Revelle, W. (2024). psych: Procedures for Psychological, Psychometric,
 and Personality Research. Northwestern University.
 https://personality-project.org/r/psych/
+See ?psych::polychoric for details on continuity corrections
 }
