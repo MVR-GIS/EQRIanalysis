@@ -68,5 +68,12 @@
     "title": "Factor Analysis",
     "section": "References",
     "text": "References\n\nFlora, D. B., & Curran, P. J. (2004). An empirical evaluation of alternative methods of estimation for confirmatory factor analysis with ordinal data. Psychological Methods, 9(4), 466-491. https://doi.org/10.1037/1082-989X.9.4.466\nLittle, R. J. A., & Rubin, D. B. (2019). Statistical Analysis with Missing Data (3rd ed.). Wiley. Chapter 1.4.3: Structural missingness by design.\nSchafer, J. L., & Graham, J. W. (2002). Missing data: Our view of the state of the art. Psychological Methods, 7(2), 147-177. https://doi.org/10.1037/1076-8986.7.2.147"
+  },
+  {
+    "objectID": "03_factor_analysis.html#question-to-indicator-mapping",
+    "href": "03_factor_analysis.html#question-to-indicator-mapping",
+    "title": "Factor Analysis",
+    "section": "Question-to-Indicator Mapping",
+    "text": "Question-to-Indicator Mapping\nUnderstanding which questions contribute to each indicator is essential for interpreting indicator scores and conducting factor analysis.\n\nVisual Mapping\n\n\n\n\n\nQuestions mapped to EQRI indicators\n\n\n\n\nReading the visualization:\n\nBlue cells: Question contributes to this indicator\nGray cells: Question does not contribute to this indicator\nQuestions are grouped by their assigned indicator for easy interpretation\n\n\n\nSummary Table\n\n\n\nNumber of questions per indicator\n\n\n\n\n\n\n\n\nIndicator\nQuestions\nResponses\nQuestion Numbers\n\n\n\n\nConfidence\n1\n342\n38\n\n\nCost\n6\n797\n10, 11, 12, 33, 35, 36\n\n\nQA\n8\n1976\n3, 17, 21, 23, 29, 30, 32, 34\n\n\nQC\n11\n2858\n3, 17, 21, 22, 23, 24, 25, 26, 27, 28, 30\n\n\nSchedule\n7\n1980\n12, 15, 16, 17, 18, 19, 20\n\n\nScope\n6\n1063\n9, 10, 12, 13, 14, 31\n\n\nTeam\n9\n2883\n1, 2, 3, 4, 5, 6, 7, 8, 37\n\n\n\n\n\nInterpretation:\nThe seven EQRI indicators are calculated from specific sets of questions:\n\nConfidence: 1 questions (38)\nCost: 6 questions (10, 11, 12, 33, 35, 36)\nQA: 8 questions (3, 17, 21, 23, 29, 30, 32, 34)\nQC: 11 questions (3, 17, 21, 22, 23, 24, 25, 26, 27, 28, 30)\nSchedule: 7 questions (12, 15, 16, 17, 18, 19, 20)\nScope: 6 questions (9, 10, 12, 13, 14, 31)\nTeam: 9 questions (1, 2, 3, 4, 5, 6, 7, 8, 37)\n\nThis mapping is defined in the questionnaire design and determines how individual question responses aggregate into indicator scores."
   }
 ]

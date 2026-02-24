@@ -65,6 +65,60 @@ plot_question_coverage(responses_df, core_threshold = 8)
 - **Core items** (top panel): Asked broadly across contexts
 - **Context-specific items** (bottom panel): Asked selectively for certain programs/milestones
 
+
+## Question-to-Indicator Mapping
+
+Understanding which questions contribute to each indicator is essential for interpreting indicator scores and conducting factor analysis.
+
+### Visual Mapping
+
+```{r plot-question-indicator}
+#| echo: false
+#| fig-width: 10
+#| fig-height: 14
+#| fig-cap: "Questions mapped to EQRI indicators"
+
+plot_question_indicator_mapping(responses_df, sort_by = "indicator")
+```
+
+**Reading the visualization:**
+
+- **Blue cells**: Question contributes to this indicator
+- **Gray cells**: Question does not contribute to this indicator
+- Questions are grouped by their assigned indicator for easy interpretation
+
+### Summary Table
+
+```{r indicator-summary-table}
+#| echo: false
+#| tbl-cap: "Number of questions per indicator"
+
+indicator_summary <- summarize_indicator_questions(responses_df)
+
+kable(indicator_summary,
+      col.names = c("Indicator", "Questions", "Responses", "Question Numbers"),
+      format = "pipe",
+      align = c("l", "r", "r", "l"))
+```
+
+**Interpretation:**
+
+The seven EQRI indicators are calculated from specific sets of questions:
+
+```{r display-indicator-composition}
+#| echo: false
+#| results: asis
+
+for (i in 1:nrow(indicator_summary)) {
+  cat(sprintf("\n- **%s**: %d questions (%s)\n", 
+              indicator_summary$INDICATOR[i],
+              indicator_summary$n_questions[i],
+              indicator_summary$questions[i]))
+}
+```
+
+This mapping is defined in the questionnaire design and determines how individual question responses aggregate into indicator scores.
+
 ---
 
 ## Step 1: Identify Core Items

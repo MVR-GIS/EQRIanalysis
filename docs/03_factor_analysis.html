@@ -163,6 +163,11 @@ div.callout-graph.callout-style-default .callout-icon::before, div.callout-graph
   <li><a href="#approach" id="toc-approach" class="nav-link" data-scroll-target="#approach">Approach</a></li>
   <li><a href="#question-coverage-visualization" id="toc-question-coverage-visualization" class="nav-link" data-scroll-target="#question-coverage-visualization">Question Coverage Visualization</a></li>
   </ul></li>
+  <li><a href="#question-to-indicator-mapping" id="toc-question-to-indicator-mapping" class="nav-link" data-scroll-target="#question-to-indicator-mapping">Question-to-Indicator Mapping</a>
+  <ul class="collapse">
+  <li><a href="#visual-mapping" id="toc-visual-mapping" class="nav-link" data-scroll-target="#visual-mapping">Visual Mapping</a></li>
+  <li><a href="#summary-table" id="toc-summary-table" class="nav-link" data-scroll-target="#summary-table">Summary Table</a></li>
+  </ul></li>
   <li><a href="#step-1-identify-core-items" id="toc-step-1-identify-core-items" class="nav-link" data-scroll-target="#step-1-identify-core-items">Step 1: Identify Core Items</a>
   <ul class="collapse">
   <li><a href="#core-items-summary" id="toc-core-items-summary" class="nav-link" data-scroll-target="#core-items-summary">Core Items Summary</a></li>
@@ -260,6 +265,109 @@ div.callout-graph.callout-style-default .callout-icon::before, div.callout-graph
 <li><strong>Core items</strong> (top panel): Asked broadly across contexts</li>
 <li><strong>Context-specific items</strong> (bottom panel): Asked selectively for certain programs/milestones</li>
 </ul>
+</section>
+</section>
+<section id="question-to-indicator-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="question-to-indicator-mapping">Question-to-Indicator Mapping</h2>
+<p>Understanding which questions contribute to each indicator is essential for interpreting indicator scores and conducting factor analysis.</p>
+<section id="visual-mapping" class="level3">
+<h3 class="anchored" data-anchor-id="visual-mapping">Visual Mapping</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/plot-question-indicator-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption>Questions mapped to EQRI indicators</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Reading the visualization:</strong></p>
+<ul>
+<li><strong>Blue cells</strong>: Question contributes to this indicator</li>
+<li><strong>Gray cells</strong>: Question does not contribute to this indicator</li>
+<li>Questions are grouped by their assigned indicator for easy interpretation</li>
+</ul>
+</section>
+<section id="summary-table" class="level3">
+<h3 class="anchored" data-anchor-id="summary-table">Summary Table</h3>
+<div class="cell" data-tbl-cap="Number of questions per indicator">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Number of questions per indicator</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Indicator</th>
+<th style="text-align: right;">Questions</th>
+<th style="text-align: right;">Responses</th>
+<th style="text-align: left;">Question Numbers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Confidence</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">342</td>
+<td style="text-align: left;">38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cost</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">797</td>
+<td style="text-align: left;">10, 11, 12, 33, 35, 36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QA</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1976</td>
+<td style="text-align: left;">3, 17, 21, 23, 29, 30, 32, 34</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QC</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">2858</td>
+<td style="text-align: left;">3, 17, 21, 22, 23, 24, 25, 26, 27, 28, 30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Schedule</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1980</td>
+<td style="text-align: left;">12, 15, 16, 17, 18, 19, 20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Scope</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1063</td>
+<td style="text-align: left;">9, 10, 12, 13, 14, 31</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Team</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">2883</td>
+<td style="text-align: left;">1, 2, 3, 4, 5, 6, 7, 8, 37</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Interpretation:</strong></p>
+<p>The seven EQRI indicators are calculated from specific sets of questions:</p>
+<ul>
+<li><p><strong>Confidence</strong>: 1 questions (38)</p></li>
+<li><p><strong>Cost</strong>: 6 questions (10, 11, 12, 33, 35, 36)</p></li>
+<li><p><strong>QA</strong>: 8 questions (3, 17, 21, 23, 29, 30, 32, 34)</p></li>
+<li><p><strong>QC</strong>: 11 questions (3, 17, 21, 22, 23, 24, 25, 26, 27, 28, 30)</p></li>
+<li><p><strong>Schedule</strong>: 7 questions (12, 15, 16, 17, 18, 19, 20)</p></li>
+<li><p><strong>Scope</strong>: 6 questions (9, 10, 12, 13, 14, 31)</p></li>
+<li><p><strong>Team</strong>: 9 questions (1, 2, 3, 4, 5, 6, 7, 8, 37)</p></li>
+</ul>
+<p>This mapping is defined in the questionnaire design and determines how individual question responses aggregate into indicator scores.</p>
 <hr>
 </section>
 </section>
