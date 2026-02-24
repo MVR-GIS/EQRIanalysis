@@ -74,7 +74,7 @@ covariance structure analysis. Structural Equation Modeling, 6(1), 1-55.
 \section{Interpretation}{
 
 Factor Loadings: Values indicate strength of relationship between
-item and factor. Per Costello & Osborne (2005):
+item and factor. Per Costello & Osborne (2005):#'
 \itemize{
 \item 0.70: Excellent
 \item 0.60-0.70: Very good
@@ -89,7 +89,7 @@ problematic and should be reviewed for theoretical fit.
 Communalities: Proportion of variance explained. Values < 0.25 indicate
 item is poorly represented by the factor solution.
 
-Fit Indices (per Hu & Bentler, 1999):
+Fit Indices (per Hu & Bentler, 1999):#'
 \itemize{
 \item TLI > 0.95: Excellent, 0.90-0.95: Acceptable
 \item RMSEA < 0.05: Excellent, 0.05-0.08: Acceptable
