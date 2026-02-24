@@ -205,6 +205,17 @@ div.callout-graph.callout-style-default .callout-icon::before, div.callout-graph
   </ul></li>
   <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#determining-the-number-of-factors" id="toc-determining-the-number-of-factors" class="nav-link" data-scroll-target="#determining-the-number-of-factors">Determining the Number of Factors</a>
+  <ul class="collapse">
+  <li><a href="#selected-contexts-for-analysis" id="toc-selected-contexts-for-analysis" class="nav-link" data-scroll-target="#selected-contexts-for-analysis">Selected Contexts for Analysis</a></li>
+  <li><a href="#factor-number-analysis" id="toc-factor-number-analysis" class="nav-link" data-scroll-target="#factor-number-analysis">Factor Number Analysis</a></li>
+  <li><a href="#scree-plots-with-parallel-analysis" id="toc-scree-plots-with-parallel-analysis" class="nav-link" data-scroll-target="#scree-plots-with-parallel-analysis">Scree Plots with Parallel Analysis</a></li>
+  <li><a href="#factor-number-recommendations" id="toc-factor-number-recommendations" class="nav-link" data-scroll-target="#factor-number-recommendations">Factor Number Recommendations</a></li>
+  <li><a href="#convergence-analysis" id="toc-convergence-analysis" class="nav-link" data-scroll-target="#convergence-analysis">Convergence Analysis</a></li>
+  <li><a href="#theoretical-expectations" id="toc-theoretical-expectations" class="nav-link" data-scroll-target="#theoretical-expectations">Theoretical Expectations</a></li>
+  <li><a href="#recommended-number-of-factors" id="toc-recommended-number-of-factors" class="nav-link" data-scroll-target="#recommended-number-of-factors">Recommended Number of Factors</a></li>
+  <li><a href="#references-1" id="toc-references-1" class="nav-link" data-scroll-target="#references-1">References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -1200,8 +1211,352 @@ Why Context-Specific Analysis?
 <li><p>Little, R. J. A., &amp; Rubin, D. B. (2019). <em>Statistical Analysis with Missing Data</em> (3rd ed.). Wiley. Chapter 1.4.3: Structural missingness by design.</p></li>
 <li><p>Schafer, J. L., &amp; Graham, J. W. (2002). Missing data: Our view of the state of the art. <em>Psychological Methods, 7</em>(2), 147-177. https://doi.org/10.1037/1076-8986.7.2.147</p></li>
 </ul>
+<hr>
+</section>
+<section id="determining-the-number-of-factors" class="level2">
+<h2 class="anchored" data-anchor-id="determining-the-number-of-factors">Determining the Number of Factors</h2>
+<p>Before conducting exploratory factor analysis, we must determine the optimal number of factors to extract. Per Hayton et al.&nbsp;(2004), <strong>parallel analysis</strong> (Horn, 1965) is the gold standard method, which we complement with VSS (Revelle &amp; Rocklin, 1979) and MAP test (Velicer, 1976).</p>
+<section id="selected-contexts-for-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="selected-contexts-for-analysis">Selected Contexts for Analysis</h3>
+<p>Based on reliability assessment results, we proceed with these four contexts meeting both sample size (n ≥ 30) and reliability (α ≥ 0.70) criteria:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Contexts selected for factor analysis</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Program Type</th>
+<th style="text-align: left;">Milestone</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Military</td>
+<td style="text-align: left;">100% (Corrected Final Design)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Military</td>
+<td style="text-align: left;">35% (Concept Design)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Military</td>
+<td style="text-align: left;">95% (Final Design)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Civil Works</td>
+<td style="text-align: left;">15% (Project Initiation)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="factor-number-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="factor-number-analysis">Factor Number Analysis</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/run-factor-number-analysis-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  4  and the number of components =  NA </code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/run-factor-number-analysis-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/run-factor-number-analysis-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  5  and the number of components =  NA </code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/run-factor-number-analysis-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/run-factor-number-analysis-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  3  and the number of components =  NA </code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/run-factor-number-analysis-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/run-factor-number-analysis-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  2  and the number of components =  NA </code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/run-factor-number-analysis-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="scree-plots-with-parallel-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="scree-plots-with-parallel-analysis">Scree Plots with Parallel Analysis</h3>
+<p>Per Horn (1965) and Hayton et al.&nbsp;(2004), retain factors where <strong>observed eigenvalues exceed simulated eigenvalues</strong> from random data.</p>
+<div class="cell quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/plot-scree-plots-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption>Scree plots with parallel analysis for each context</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/plot-scree-plots-2.png" class="img-fluid figure-img" width="960"></p>
+<figcaption>Scree plots with parallel analysis for each context</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/plot-scree-plots-3.png" class="img-fluid figure-img" width="960"></p>
+<figcaption>Scree plots with parallel analysis for each context</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/plot-scree-plots-4.png" class="img-fluid figure-img" width="960"></p>
+<figcaption>Scree plots with parallel analysis for each context</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><strong>Blue solid line</strong>: Observed eigenvalues from actual data</li>
+<li><strong>Purple dashed line</strong>: Mean eigenvalues from simulated random data<br>
+</li>
+<li><strong>Orange dotted line</strong>: 95th percentile of simulated eigenvalues</li>
+<li><strong>Gray line</strong>: Kaiser criterion (eigenvalue = 1.0)</li>
+</ul>
+<p><strong>Rule</strong>: Retain factors where the blue line is <strong>above</strong> the purple/orange lines.</p>
+<hr>
+</section>
+<section id="factor-number-recommendations" class="level3">
+<h3 class="anchored" data-anchor-id="factor-number-recommendations">Factor Number Recommendations</h3>
+<div class="cell" data-tbl-cap="Recommended number of factors by method and context">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Recommended number of factors by method and context</caption>
+<colgroup>
+<col style="width: 49%">
+<col style="width: 3%">
+<col style="width: 7%">
+<col style="width: 21%">
+<col style="width: 7%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Context</th>
+<th style="text-align: right;">N</th>
+<th style="text-align: right;">Items</th>
+<th style="text-align: right;">Parallel Analysis</th>
+<th style="text-align: right;">VSS-1</th>
+<th style="text-align: right;">MAP Test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Military × 100% (Corrected Final Design)</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Military × 35% (Concept Design)</td>
+<td style="text-align: right;">51</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Military × 95% (Final Design)</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Civil Works × 15% (Project Initiation)</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Methods Explained:</strong></p>
+<ol type="1">
+<li><strong>Parallel Analysis</strong> (Horn, 1965) - <em>PRIMARY RECOMMENDATION</em>
+<ul>
+<li>Compares eigenvalues to those from random data</li>
+<li>Retains factors exceeding random chance</li>
+<li>Most reliable method per Hayton et al.&nbsp;(2004)</li>
+</ul></li>
+<li><strong>VSS-1</strong> (Revelle &amp; Rocklin, 1979)
+<ul>
+<li>Very Simple Structure with complexity 1</li>
+<li>Assumes items load on single factor</li>
+</ul></li>
+<li><strong>MAP Test</strong> (Velicer, 1976)
+<ul>
+<li>Minimum Average Partial correlation</li>
+<li>Alternative to parallel analysis</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+<section id="convergence-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="convergence-analysis">Convergence Analysis</h3>
+<section id="military-100-corrected-final-design" class="level4">
+<h4 class="anchored" data-anchor-id="military-100-corrected-final-design">Military × 100% (Corrected Final Design)</h4>
+<ul>
+<li><strong>Parallel Analysis</strong>: 4 factors</li>
+<li><strong>VSS Complexity 1</strong>: NA factors</li>
+<li><strong>MAP Test</strong>: 1 factors</li>
+</ul>
+<p>⚠️ Methods suggest between 1 and 4 factors. <strong>Recommendation</strong>: Use <strong>parallel analysis result (4 factors)</strong> as primary guide.</p>
+</section>
+<section id="military-35-concept-design" class="level4">
+<h4 class="anchored" data-anchor-id="military-35-concept-design">Military × 35% (Concept Design)</h4>
+<ul>
+<li><strong>Parallel Analysis</strong>: 5 factors</li>
+<li><strong>VSS Complexity 1</strong>: NA factors</li>
+<li><strong>MAP Test</strong>: 6 factors</li>
+</ul>
+<p>⚠️ Methods suggest between 5 and 6 factors. <strong>Recommendation</strong>: Use <strong>parallel analysis result (5 factors)</strong> as primary guide.</p>
+</section>
+<section id="military-95-final-design-2" class="level4">
+<h4 class="anchored" data-anchor-id="military-95-final-design-2">Military × 95% (Final Design)</h4>
+<ul>
+<li><strong>Parallel Analysis</strong>: 3 factors</li>
+<li><strong>VSS Complexity 1</strong>: NA factors</li>
+<li><strong>MAP Test</strong>: 2 factors</li>
+</ul>
+<p>⚠️ Methods suggest between 2 and 3 factors. <strong>Recommendation</strong>: Use <strong>parallel analysis result (3 factors)</strong> as primary guide.</p>
+</section>
+<section id="civil-works-15-project-initiation-1" class="level4">
+<h4 class="anchored" data-anchor-id="civil-works-15-project-initiation-1">Civil Works × 15% (Project Initiation)</h4>
+<ul>
+<li><strong>Parallel Analysis</strong>: 2 factors</li>
+<li><strong>VSS Complexity 1</strong>: NA factors</li>
+<li><strong>MAP Test</strong>: 2 factors</li>
+</ul>
+<p>✓ <strong>Perfect agreement</strong>: All methods suggest <strong>2 factors</strong></p>
+<hr>
+</section>
+</section>
+<section id="theoretical-expectations" class="level3">
+<h3 class="anchored" data-anchor-id="theoretical-expectations">Theoretical Expectations</h3>
+<p>The EQRI questionnaire was designed to measure <strong>seven quality indicators</strong>:</p>
+<ol type="1">
+<li>Confidence</li>
+<li>Cost</li>
+<li>QA (Quality Assurance)</li>
+<li>QC (Quality Control)</li>
+<li>Schedule</li>
+<li>Scope</li>
+<li>Team</li>
+</ol>
+<p><strong>Expected finding</strong>: If the questionnaire structure aligns with its design, we would expect approximately <strong>7 factors</strong> to emerge, though exploratory factor analysis may reveal:</p>
+<ul>
+<li>Fewer factors if indicators are highly correlated</li>
+<li>More factors if indicators have distinct sub-dimensions</li>
+<li>Different numbers across contexts if question sets vary</li>
+</ul>
+<hr>
+</section>
+<section id="recommended-number-of-factors" class="level3">
+<h3 class="anchored" data-anchor-id="recommended-number-of-factors">Recommended Number of Factors</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Factor Extraction Recommendation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Based on <strong>parallel analysis</strong> (the gold standard per Hayton et al., 2004):</p>
+<ul>
+<li><strong>Military × 100% (Corrected Final Design)</strong>: Extract <strong>4 factors</strong></li>
+<li><strong>Military × 35% (Concept Design)</strong>: Extract <strong>5 factors</strong></li>
+<li><strong>Military × 95% (Final Design)</strong>: Extract <strong>3 factors</strong></li>
+<li><strong>Civil Works × 15% (Project Initiation)</strong>: Extract <strong>2 factors</strong></li>
+</ul>
+<p>These recommendations will guide the exploratory factor analysis in the next phase.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="references-1" class="level3">
+<h3 class="anchored" data-anchor-id="references-1">References</h3>
+<ul>
+<li><p>Cattell, R. B. (1966). The scree test for the number of factors. <em>Multivariate Behavioral Research</em>, 1(2), 245-276. https://doi.org/10.1207/s15327906mbr0102_10</p></li>
+<li><p>Hayton, J. C., Allen, D. G., &amp; Scarpello, V. (2004). Factor retention decisions in exploratory factor analysis: A tutorial on parallel analysis. <em>Organizational Research Methods</em>, 7(2), 191-205. https://doi.org/10.1177/1094428104263675</p></li>
+<li><p>Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. <em>Psychometrika</em>, 30(2), 179-185. https://doi.org/10.1007/BF02289447</p></li>
+<li><p>Revelle, W., &amp; Rocklin, T. (1979). Very simple structure: An alternative procedure for estimating the optimal number of interpretable factors. <em>Multivariate Behavioral Research</em>, 14(4), 403-414. https://doi.org/10.1207/s15327906mbr1404_2</p></li>
+<li><p>Velicer, W. F. (1976). Determining the number of components from the matrix of partial correlations. <em>Psychometrika</em>, 41(3), 321-327. https://doi.org/10.1007/BF02293557</p></li>
+</ul>
+<hr>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

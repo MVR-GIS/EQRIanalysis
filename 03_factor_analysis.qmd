@@ -806,3 +806,220 @@ Based on the factorability assessments:
 - Little, R. J. A., & Rubin, D. B. (2019). *Statistical Analysis with Missing Data* (3rd ed.). Wiley. Chapter 1.4.3: Structural missingness by design.
 
 - Schafer, J. L., & Graham, J. W. (2002). Missing data: Our view of the state of the art. *Psychological Methods, 7*(2), 147-177. https://doi.org/10.1037/1076-8986.7.2.147
+
+
+---
+
+## Determining the Number of Factors
+
+Before conducting exploratory factor analysis, we must determine the optimal number of factors to extract. Per Hayton et al. (2004), **parallel analysis** (Horn, 1965) is the gold standard method, which we complement with VSS (Revelle & Rocklin, 1979) and MAP test (Velicer, 1976).
+
+### Selected Contexts for Analysis
+
+Based on reliability assessment results, we proceed with these four contexts meeting both sample size (n ≥ 30) and reliability (α ≥ 0.70) criteria:
+
+```{r define-contexts}
+#| echo: false
+
+# Define contexts for factor analysis
+fa_contexts <- data.frame(
+  program = c("Military", "Military", "Military", "Civil Works"),
+  milestone = c(
+    "100% (Corrected Final Design)",
+    "35% (Concept Design)",
+    "95% (Final Design)",
+    "15% (Project Initiation)"
+  ),
+  stringsAsFactors = FALSE
+)
+
+# Display
+kable(fa_contexts,
+      col.names = c("Program Type", "Milestone"),
+      caption = "Contexts selected for factor analysis")
+```
+
+---
+
+### Factor Number Analysis
+
+```{r run-factor-number-analysis}
+#| echo: false
+#| message: false
+#| warning: false
+
+# Run comprehensive factor number analysis
+factor_number_results <- run_factor_number_analysis(
+  responses_df,
+  contexts = fa_contexts,
+  n.iter = 20,    # Per psych::fa.parallel() documentation
+  fm = "minres"   # Minimum residual method (default)
+)
+```
+
+---
+
+### Scree Plots with Parallel Analysis
+
+Per Horn (1965) and Hayton et al. (2004), retain factors where **observed eigenvalues exceed simulated eigenvalues** from random data.
+
+```{r plot-scree-plots}
+#| echo: false
+#| fig-width: 10
+#| fig-height: 8
+#| fig-cap: "Scree plots with parallel analysis for each context"
+#| layout-ncol: 2
+
+# Extract and display scree plots
+for (context_name in names(factor_number_results)) {
+  result <- factor_number_results[[context_name]]
+  if (!is.null(result) && !is.null(result$scree_plot)) {
+    print(result$scree_plot)
+  }
+}
+```
+
+**Interpretation:**
+
+- **Blue solid line**: Observed eigenvalues from actual data
+- **Purple dashed line**: Mean eigenvalues from simulated random data  
+- **Orange dotted line**: 95th percentile of simulated eigenvalues
+- **Gray line**: Kaiser criterion (eigenvalue = 1.0)
+
+**Rule**: Retain factors where the blue line is **above** the purple/orange lines.
+
+---
+
+### Factor Number Recommendations
+
+```{r factor-number-table}
+#| echo: false
+#| tbl-cap: "Recommended number of factors by method and context"
+
+# Create summary table
+factor_summary <- create_factor_number_table(factor_number_results)
+
+kable(factor_summary,
+      format = "pipe",
+      align = c("l", "r", "r", "r", "r", "r"))
+```
+
+**Methods Explained:**
+
+1. **Parallel Analysis** (Horn, 1965) - *PRIMARY RECOMMENDATION*
+   - Compares eigenvalues to those from random data
+   - Retains factors exceeding random chance
+   - Most reliable method per Hayton et al. (2004)
+
+2. **VSS-1** (Revelle & Rocklin, 1979)
+   - Very Simple Structure with complexity 1
+   - Assumes items load on single factor
+
+3. **MAP Test** (Velicer, 1976)
+   - Minimum Average Partial correlation
+   - Alternative to parallel analysis
+
+---
+
+### Convergence Analysis
+
+```{r analyze-convergence}
+#| echo: false
+#| results: asis
+
+# Check if methods agree
+for (context_name in names(factor_number_results)) {
+  result <- factor_number_results[[context_name]]
+  
+  if (is.null(result)) next
+  
+  cat(sprintf("\n#### %s\n\n", context_name))
+  
+  pa <- result$recommendations$parallel_analysis
+  vss <- result$recommendations$vss_complexity1
+  map <- result$recommendations$map_test
+  
+  cat(sprintf("- **Parallel Analysis**: %s factors\n", 
+              ifelse(!is.null(pa), pa, "N/A")))
+  cat(sprintf("- **VSS Complexity 1**: %s factors\n", 
+              ifelse(!is.null(vss), vss, "N/A")))
+  cat(sprintf("- **MAP Test**: %s factors\n\n", 
+              ifelse(!is.null(map), map, "N/A")))
+  
+  # Check convergence
+  methods <- c(pa, vss, map)
+  methods <- methods[!is.na(methods)]
+  
+  if (length(unique(methods)) == 1) {
+    cat(sprintf("✓ **Perfect agreement**: All methods suggest **%d factors**\n\n", 
+                unique(methods)))
+  } else if (length(methods) > 0) {
+    cat(sprintf("⚠️ Methods suggest between %d and %d factors. ", 
+                min(methods), max(methods)))
+    cat(sprintf("**Recommendation**: Use **parallel analysis result (%d factors)** as primary guide.\n\n",
+                pa))
+  }
+}
+```
+
+---
+
+### Theoretical Expectations
+
+The EQRI questionnaire was designed to measure **seven quality indicators**:
+
+1. Confidence
+2. Cost
+3. QA (Quality Assurance)
+4. QC (Quality Control)
+5. Schedule
+6. Scope
+7. Team
+
+**Expected finding**: If the questionnaire structure aligns with its design, we would expect approximately **7 factors** to emerge, though exploratory factor analysis may reveal:
+
+- Fewer factors if indicators are highly correlated
+- More factors if indicators have distinct sub-dimensions
+- Different numbers across contexts if question sets vary
+
+---
+
+### Recommended Number of Factors
+
+::: {.callout-important}
+## Factor Extraction Recommendation
+
+Based on **parallel analysis** (the gold standard per Hayton et al., 2004):
+
+```{r final-recommendation}
+#| echo: false
+#| results: asis
+
+for (context_name in names(factor_number_results)) {
+  result <- factor_number_results[[context_name]]
+  if (!is.null(result) && !is.null(result$recommendations$parallel_analysis)) {
+    cat(sprintf("- **%s**: Extract **%d factors**\n", 
+                context_name,
+                result$recommendations$parallel_analysis))
+  }
+}
+```
+
+These recommendations will guide the exploratory factor analysis in the next phase.
+:::
+
+---
+
+### References
+
+- Cattell, R. B. (1966). The scree test for the number of factors. *Multivariate Behavioral Research*, 1(2), 245-276. https://doi.org/10.1207/s15327906mbr0102_10
+
+- Hayton, J. C., Allen, D. G., & Scarpello, V. (2004). Factor retention decisions in exploratory factor analysis: A tutorial on parallel analysis. *Organizational Research Methods*, 7(2), 191-205. https://doi.org/10.1177/1094428104263675
+
+- Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. *Psychometrika*, 30(2), 179-185. https://doi.org/10.1007/BF02289447
+
+- Revelle, W., & Rocklin, T. (1979). Very simple structure: An alternative procedure for estimating the optimal number of interpretable factors. *Multivariate Behavioral Research*, 14(4), 403-414. https://doi.org/10.1207/s15327906mbr1404_2
+
+- Velicer, W. F. (1976). Determining the number of components from the matrix of partial correlations. *Psychometrika*, 41(3), 321-327. https://doi.org/10.1007/BF02293557
+
+---
