@@ -27,6 +27,7 @@ Imports:
     stringr,
     tibble,
     tidyr,
+    tools,
     usethis
 Suggests: 
     testthat (>= 3.0.0)

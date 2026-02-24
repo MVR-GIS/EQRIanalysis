@@ -1,0 +1,456 @@
+---
+title: "Factor Analysis"
+---
+
+```{r library}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(EQRIanalysis)
+library(dplyr)
+library(tidyr)
+library(knitr)
+```
+
+```{r get-data}
+#| echo: false
+#| message: false
+
+responses_df <- EQRIanalysis::get_responses_df()
+```
+
+## Overview
+
+Factor analysis evaluates the underlying structure of the EQRI questionnaire to answer:
+
+- **Are we asking the right questions?** (coverage, gaps, redundancy)
+- **How many dimensions?** Do questions measure distinct aspects of engineering quality?
+- **Question sensitivity:** Which questions most influence each indicator?
+
+## Analysis Strategy
+
+Per Little & Rubin (2019, *Statistical Analysis with Missing Data*), questionnaires with **structural missingness by design** require context-aware analysis.
+
+The EQRI questionnaire includes:
+
+1. **Core items**: Asked across most/all contexts (program types × milestones)
+2. **Context-specific items**: Asked only for certain programs or milestones
+
+### Approach
+
+Based on the revised factor analysis strategy (see `dev/revised_sprint1_strategy.R`):
+
+1. **Identify core items** - Questions present in ≥8 of 10 contexts (<20% missing)
+2. **Assess factorability by context** - Evaluate each program × milestone combination
+3. **Document response patterns** - Show which contexts have sufficient data for analysis
+
+---
+
+## Step 1: Identify Core Items
+
+Per Schafer & Graham (2002), items with <20% missing data are suitable for aggregated analysis.
+
+```{r identify-core-items}
+#| echo: false
+#| message: false
+#| warning: false
+
+# Calculate coverage per question
+question_coverage <- responses_df %>%
+  group_by(QUESTION_NUMBER) %>%
+  summarise(
+    n_contexts = n_distinct(paste(PROGRAMTYPE_NAME, MILESTONE_DESC)),
+    n_total_responses = n(),
+    pct_missing = round(100 * (1 - n_total_responses / nrow(responses_df)), 1),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(n_contexts), QUESTION_NUMBER)
+
+# Define core threshold: >= 8 of 10 contexts (80% coverage, <20% missing)
+core_threshold <- 8
+
+core_items <- question_coverage %>%
+  filter(n_contexts >= core_threshold) %>%
+  pull(QUESTION_NUMBER)
+
+context_specific_items <- question_coverage %>%
+  filter(n_contexts < core_threshold)
+```
+
+### Core Items Summary
+
+```{r display-core-summary}
+#| echo: false
+#| results: asis
+
+cat("**Total questions in questionnaire:**", nrow(question_coverage), "\n\n")
+cat("**Core items (≥", core_threshold, "of 10 contexts):**", length(core_items), "\n\n")
+cat("**Context-specific items (<", core_threshold, "of 10 contexts):**", nrow(context_specific_items), "\n\n")
+```
+
+Per Schafer & Graham (2002), focusing on core items for factor analysis is appropriate when items exhibit structural missingness by design.
+
+---
+
+## Step 2: Questionnaire Response Rates
+
+Understanding response patterns by context helps identify which contexts have sufficient data for factor analysis.
+
+### Total Contexts
+
+```{r count-contexts}
+#| echo: false
+#| message: false
+#| warning: false
+
+# Count unique contexts
+n_programs <- n_distinct(responses_df$PROGRAMTYPE_NAME)
+n_milestones <- n_distinct(responses_df$MILESTONE_DESC)
+n_contexts <- n_distinct(paste(responses_df$PROGRAMTYPE_NAME, responses_df$MILESTONE_DESC))
+```
+
+```{r display-context-counts}
+#| echo: false
+#| results: asis
+
+cat("**Program types:**", n_programs, "(Military, Civil Works)\n\n")
+cat("**Milestones:**", n_milestones, "\n\n")
+cat("**Total contexts (program × milestone):**", n_contexts, "\n\n")
+```
+
+### Response Rates by Context
+
+```{r context-summary}
+#| echo: false
+#| message: false
+#| warning: false
+
+# Calculate responses by context
+context_summary <- responses_df %>%
+  group_by(PROGRAMTYPE_NAME, MILESTONE_DESC) %>%
+  summarize(
+    n_events = length(unique(QUESTIONNAIREEVENT_ID)),
+    n_responses = n(),
+    .groups = "drop"
+  ) %>%
+  arrange(PROGRAMTYPE_NAME, MILESTONE_DESC)
+```
+
+```{r display-context-table}
+#| echo: false
+#| tbl-cap: "Questionnaire Events and Responses by Context"
+
+kable(context_summary, 
+      col.names = c("Program Type", "Milestone", "Events", "Responses"),
+      format = "pipe",
+      align = c("l", "l", "r", "r"))
+```
+
+**Events:** Number of unique questionnaire submissions (one per project at each milestone)  
+**Responses:** Total individual question responses (events × questions asked in that context)
+
+---
+
+## Step 3: Question Coverage Across Contexts
+
+This table shows which questions are "core" (broadly applicable) vs. context-specific.
+
+```{r display-coverage-table}
+#| echo: false
+#| tbl-cap: "Question Coverage: Core vs. Context-Specific Items"
+
+# Add classification column
+question_coverage_display <- question_coverage %>%
+  mutate(
+    Type = ifelse(n_contexts >= core_threshold, "Core", "Context-specific")
+  ) %>%
+  select(QUESTION_NUMBER, Type, n_contexts, n_total_responses, pct_missing)
+
+kable(question_coverage_display,
+      col.names = c("Question", "Type", "# Contexts", "Total Responses", "% Missing"),
+      format = "pipe",
+      align = c("l", "l", "r", "r", "r"))
+```
+
+**Interpretation:**
+
+- **Core items** (≥8 contexts): Analyzed across contexts
+- **Context-specific items** (<8 contexts): Analyzed only within their relevant contexts
+
+---
+
+## Step 4: Factorability by Context
+
+Due to data characteristics (varying response patterns, context-specific items), we assess factorability for the contexts with the most data.
+
+```{r identify-largest-contexts}
+#| echo: false
+#| message: false
+#| warning: false
+
+# Identify contexts with most events for analysis
+largest_contexts <- context_summary %>%
+  arrange(desc(n_events)) %>%
+  head(4)  # Top 4 contexts
+
+contexts_list <- largest_contexts %>%
+  mutate(context_name = paste(PROGRAMTYPE_NAME, MILESTONE_DESC, sep = " × ")) %>%
+  pull(context_name)
+```
+
+### Contexts Selected for Analysis
+
+Based on response rates, we focus on the **four largest contexts**:
+
+```{r display-selected-contexts}
+#| echo: false
+#| results: asis
+
+for (i in 1:nrow(largest_contexts)) {
+  cat(sprintf("%d. **%s × %s** - %d events\n", 
+              i, 
+              largest_contexts$PROGRAMTYPE_NAME[i],
+              largest_contexts$MILESTONE_DESC[i],
+              largest_contexts$n_events[i]))
+}
+cat("\n")
+```
+
+::: {.callout-note}
+## Why Context-Specific Analysis?
+
+Per Little & Rubin (2019), aggregating across contexts with structural missingness can produce misleading results. Analyzing within contexts ensures:
+
+- Only applicable questions are included
+- Response patterns are interpretable
+- Sufficient variability for correlation analysis
+:::
+
+---
+
+### Military × 95% (Final Design)
+
+```{r military-95-factorability}
+#| echo: false
+#| message: false
+#| warning: false
+#| error: true
+
+# Try to assess factorability
+military_95_result <- tryCatch({
+  assess_factorability(
+    responses_df,
+    program_name = "Military",
+    milestone_name = "95% (Final Design)",
+    filter_context_specific = TRUE
+  )
+}, error = function(e) {
+  list(
+    error = TRUE,
+    message = e$message
+  )
+})
+```
+
+```{r display-military-95}
+#| echo: false
+#| results: asis
+
+if (!is.null(military_95_result$error) && military_95_result$error) {
+  cat("⚠️ **Analysis Issue**\n\n")
+  cat("```\n")
+  cat(military_95_result$message)
+  cat("\n```\n\n")
+  cat("*This context requires further data preparation before factor analysis.*\n\n")
+} else {
+  cat("#### Sample Size\n\n")
+  cat("**Complete cases:**", military_95_result$sample$n_observations_complete, "\n\n")
+  cat("**Items analyzed:**", military_95_result$sample$n_questions_analyzed, "\n\n")
+  
+  cat("#### Assessment\n\n")
+  if (military_95_result$recommendation$proceed_with_fa) {
+    cat("✅ **Suitable for factor analysis**\n\n")
+  } else {
+    cat("❌ **Not suitable for factor analysis**\n\n")
+  }
+  
+  cat("**Rationale:** ", military_95_result$recommendation$rationale, "\n\n")
+}
+```
+
+---
+
+### Civil Works × 95% (Final Design)
+
+```{r cw-95-factorability}
+#| echo: false
+#| message: false
+#| warning: false
+#| error: true
+
+# Try to assess factorability
+cw_95_result <- tryCatch({
+  assess_factorability(
+    responses_df,
+    program_name = "Civil Works",
+    milestone_name = "95% (Final Design)",
+    filter_context_specific = TRUE
+  )
+}, error = function(e) {
+  list(
+    error = TRUE,
+    message = e$message
+  )
+})
+```
+
+```{r display-cw-95}
+#| echo: false
+#| results: asis
+
+if (!is.null(cw_95_result$error) && cw_95_result$error) {
+  cat("⚠️ **Analysis Issue**\n\n")
+  cat("```\n")
+  cat(cw_95_result$message)
+  cat("\n```\n\n")
+  cat("*This context requires further data preparation before factor analysis.*\n\n")
+} else {
+  cat("#### Sample Size\n\n")
+  cat("**Complete cases:**", cw_95_result$sample$n_observations_complete, "\n\n")
+  cat("**Items analyzed:**", cw_95_result$sample$n_questions_analyzed, "\n\n")
+  
+  cat("#### Assessment\n\n")
+  if (cw_95_result$recommendation$proceed_with_fa) {
+    cat("✅ **Suitable for factor analysis**\n\n")
+  } else {
+    cat("❌ **Not suitable for factor analysis**\n\n")
+  }
+  
+  cat("**Rationale:** ", cw_95_result$recommendation$rationale, "\n\n")
+}
+```
+
+---
+
+### Additional Contexts
+
+```{r remaining-contexts}
+#| echo: false
+#| message: false
+#| warning: false
+#| error: true
+#| results: asis
+
+# Analyze remaining two largest contexts
+if (nrow(largest_contexts) >= 3) {
+  for (i in 3:min(4, nrow(largest_contexts))) {
+    prog <- largest_contexts$PROGRAMTYPE_NAME[i]
+    mile <- largest_contexts$MILESTONE_DESC[i]
+    
+    cat(sprintf("\n### %s × %s\n\n", prog, mile))
+    
+    result <- tryCatch({
+      assess_factorability(
+        responses_df,
+        program_name = prog,
+        milestone_name = mile,
+        filter_context_specific = TRUE
+      )
+    }, error = function(e) {
+      list(error = TRUE, message = e$message)
+    })
+    
+    if (!is.null(result$error) && result$error) {
+      cat("⚠️ **Analysis Issue**\n\n")
+      cat("```\n")
+      cat(result$message)
+      cat("\n```\n\n")
+    } else {
+      cat("**Complete cases:**", result$sample$n_observations_complete, " | ")
+      cat("**Items analyzed:**", result$sample$n_questions_analyzed, "\n\n")
+      
+      if (result$recommendation$proceed_with_fa) {
+        cat("✅ Suitable for factor analysis\n\n")
+      } else {
+        cat("❌ Not suitable\n\n")
+      }
+      
+      cat("**Rationale:** ", result$recommendation$rationale, "\n\n")
+    }
+  }
+}
+```
+
+---
+
+## Summary & Interpretation
+
+### Data Characteristics Observed
+
+```{r summary-stats}
+#| echo: false
+#| message: false
+#| warning: false
+
+# Calculate summary statistics
+total_questions <- nrow(question_coverage)
+n_core <- length(core_items)
+n_context_specific <- nrow(context_specific_items)
+pct_core <- round(100 * n_core / total_questions, 1)
+```
+
+```{r display-summary}
+#| echo: false
+#| results: asis
+
+cat("**Questionnaire composition:**\n\n")
+cat("- Core items:", n_core, sprintf("(%.1f%%)", pct_core), "\n")
+cat("- Context-specific items:", n_context_specific, sprintf("(%.1f%%)", 100 - pct_core), "\n\n")
+
+cat("**Implication:** The questionnaire is highly tailored to specific contexts, ")
+cat("which is appropriate for capturing milestone- and program-specific quality factors.\n\n")
+```
+
+### Recommendations
+
+Based on the factorability assessments:
+
+1. **For contexts with sufficient data:**
+   - Proceed with parallel analysis to determine number of factors
+   - Conduct exploratory factor analysis (EFA)
+   - Examine factor loadings to interpret question groupings
+
+2. **For contexts with insufficient data:**
+   - Continue data collection
+   - Consider aggregating across similar milestones (e.g., early vs. late design phases)
+   - Focus on descriptive statistics until sample size increases
+
+3. **Context-specific items:**
+   - Valuable for targeted quality assessment within their domains
+   - Should not be removed - they serve important context-specific purposes
+   - Will be analyzed separately as data accrues
+
+---
+
+## Next Steps
+
+**Immediate:**
+1. Review factorability results with subject matter experts
+2. For viable contexts, run parallel analysis to determine optimal factor structure
+3. Conduct EFA on contexts meeting psychometric requirements
+
+**Future:**
+1. As data accrues, reassess contexts with currently insufficient samples
+2. Investigate whether context-specific items cluster into meaningful factors within their domains
+3. Test measurement invariance on core items across contexts (Phase 4)
+
+---
+
+## References
+
+- Flora, D. B., & Curran, P. J. (2004). An empirical evaluation of alternative methods of estimation for confirmatory factor analysis with ordinal data. *Psychological Methods, 9*(4), 466-491. https://doi.org/10.1037/1082-989X.9.4.466
+
+- Little, R. J. A., & Rubin, D. B. (2019). *Statistical Analysis with Missing Data* (3rd ed.). Wiley. Chapter 1.4.3: Structural missingness by design.
+
+- Schafer, J. L., & Graham, J. W. (2002). Missing data: Our view of the state of the art. *Psychological Methods, 7*(2), 147-177. https://doi.org/10.1037/1076-8986.7.2.147

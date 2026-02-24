@@ -27,6 +27,8 @@ website:
         text: Questions
       - href: 02_indicators.qmd
         text: Indicators
+      - href: 03_factor_analysis.qmd
+        text: Factor Analysis
 
 format:
   html:

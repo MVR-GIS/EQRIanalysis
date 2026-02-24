@@ -15,6 +15,7 @@ install.packages("psych")
 extract_copilot_chat(file.path(
   Sys.getenv("USERPROFILE"), "Downloads", "copilot_export.zip")
 )
+
 # Request session handoff
 "Generate handoff using `dev/sessions/dev_HANDOFF_TEMPLATE.md`."
 cleanup_session_backups()
@@ -40,6 +41,7 @@ devtools::install(
 ## Render Quarto Website from R console
 quarto::quarto_render("01_questions.qmd")
 quarto::quarto_render("02_indicators.qmd")
+quarto::quarto_render("03_factor_analysis.qmd")
 quarto::quarto_render()
 
 

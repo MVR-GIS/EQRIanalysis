@@ -1,345 +1,72 @@
 [
   {
-    "objectID": "index.html#introduction",
-    "href": "index.html#introduction",
-    "title": "Engineering Quality Risk Indicators Analysis",
-    "section": "Introduction",
-    "text": "Introduction\nThe Engineering Quality Risk Indicators (EQRI) initiative aims to measure risk to engineering quality as a counterpoint to existing cost and schedule metrics and to give PDTs and Technical Leads a tool to help them leverage their voice for quality.\n\nVisit the EQRI app (USACE employees only)\nRead More on the USACE KM Portal (USACE employees only)"
-  },
-  {
-    "objectID": "index.html#fy25-question-analysis",
-    "href": "index.html#fy25-question-analysis",
-    "title": "Engineering Quality Risk Indicators Analysis",
-    "section": "FY25 Question Analysis",
-    "text": "FY25 Question Analysis\nThe purpose of this website is to provide a detailed Exploratory Data Analysis (EDA) summary of the FY25 version of the EQRI questionnaire. To explore these results, use the items on the top menu:\n\nQuestions - Results for each question are presented and summarized by key USACE organizational units.\nIndicators - Results for each indicator (a metric derived from a topical grouping of questions) summarized by key organizational units."
-  },
-  {
-    "objectID": "01_questions.html",
-    "href": "01_questions.html",
-    "title": "Questions",
+    "objectID": "03_factor_analysis.html",
+    "href": "03_factor_analysis.html",
+    "title": "Factor Analysis",
     "section": "",
-    "text": "Is there an Engineering Technical Lead (TL) assigned to the project with an active professional registration (e.g., P.E., R.A., P.L.A., P.G., etc.) or waiver from the Chief of the District’s Engineering Function?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
+    "text": "Factor analysis evaluates the underlying structure of the EQRI questionnaire to answer:\n\nAre we asking the right questions? (coverage, gaps, redundancy)\nHow many dimensions? Do questions measure distinct aspects of engineering quality?\nQuestion sensitivity: Which questions most influence each indicator?"
   },
   {
-    "objectID": "01_questions.html#q1-engineering-technical-leads",
-    "href": "01_questions.html#q1-engineering-technical-leads",
-    "title": "Questions",
+    "objectID": "03_factor_analysis.html#overview",
+    "href": "03_factor_analysis.html#overview",
+    "title": "Factor Analysis",
     "section": "",
-    "text": "Is there an Engineering Technical Lead (TL) assigned to the project with an active professional registration (e.g., P.E., R.A., P.L.A., P.G., etc.) or waiver from the Chief of the District’s Engineering Function?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
+    "text": "Factor analysis evaluates the underlying structure of the EQRI questionnaire to answer:\n\nAre we asking the right questions? (coverage, gaps, redundancy)\nHow many dimensions? Do questions measure distinct aspects of engineering quality?\nQuestion sensitivity: Which questions most influence each indicator?"
   },
   {
-    "objectID": "01_questions.html#q2-design-team-members",
-    "href": "01_questions.html#q2-design-team-members",
-    "title": "Questions",
-    "section": "Q2: Design Team Members",
-    "text": "Q2: Design Team Members\nDoes the design team have all the necessary members (i.e., technical disciplines) assigned given the project scope?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
+    "objectID": "03_factor_analysis.html#analysis-strategy",
+    "href": "03_factor_analysis.html#analysis-strategy",
+    "title": "Factor Analysis",
+    "section": "Analysis Strategy",
+    "text": "Analysis Strategy\nPer Little & Rubin (2019, Statistical Analysis with Missing Data), questionnaires with structural missingness by design require context-aware analysis.\nThe EQRI questionnaire includes:\n\nCore items: Asked across most/all contexts (program types × milestones)\nContext-specific items: Asked only for certain programs or milestones\n\n\nApproach\nBased on the revised factor analysis strategy (see dev/revised_sprint1_strategy.R):\n\nIdentify core items - Questions present in ≥8 of 10 contexts (&lt;20% missing)\nAssess factorability by context - Evaluate each program × milestone combination\nDocument response patterns - Show which contexts have sufficient data for analysis"
   },
   {
-    "objectID": "01_questions.html#q3-review-team-members",
-    "href": "01_questions.html#q3-review-team-members",
-    "title": "Questions",
-    "section": "Q3: Review Team Members",
-    "text": "Q3: Review Team Members\nDo the QA/QC review teams have all the necessary members (i.e., technical disciplines) assigned given the project scope?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
+    "objectID": "03_factor_analysis.html#step-1-identify-core-items",
+    "href": "03_factor_analysis.html#step-1-identify-core-items",
+    "title": "Factor Analysis",
+    "section": "Step 1: Identify Core Items",
+    "text": "Step 1: Identify Core Items\nPer Schafer & Graham (2002), items with &lt;20% missing data are suitable for aggregated analysis.\n\nCore Items Summary\nTotal questions in questionnaire: 38\nCore items (≥ 8 of 10 contexts): 27\nContext-specific items (&lt; 8 of 10 contexts): 11\nPer Schafer & Graham (2002), focusing on core items for factor analysis is appropriate when items exhibit structural missingness by design."
   },
   {
-    "objectID": "01_questions.html#q4-relevant-design-experience",
-    "href": "01_questions.html#q4-relevant-design-experience",
-    "title": "Questions",
-    "section": "Q4: Relevant Design Experience",
-    "text": "Q4: Relevant Design Experience\nDoes the design team have sufficient relevant design experience with projects of similar scope and complexity?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
+    "objectID": "03_factor_analysis.html#step-2-questionnaire-response-rates",
+    "href": "03_factor_analysis.html#step-2-questionnaire-response-rates",
+    "title": "Factor Analysis",
+    "section": "Step 2: Questionnaire Response Rates",
+    "text": "Step 2: Questionnaire Response Rates\nUnderstanding response patterns by context helps identify which contexts have sufficient data for factor analysis.\n\nTotal Contexts\nProgram types: 2 (Military, Civil Works)\nMilestones: 5\nTotal contexts (program × milestone): 10\n\n\nResponse Rates by Context\n\n\n\nQuestionnaire Events and Responses by Context\n\n\nProgram Type\nMilestone\nEvents\nResponses\n\n\n\n\nCivil Works\n15% (Project Initiation)\n38\n1102\n\n\nCivil Works\n35% (Concept Design)\n26\n988\n\n\nCivil Works\n65% (Intermediate Design)\n32\n1312\n\n\nCivil Works\n95% (Final Design)\n18\n721\n\n\nCivil Works\n100% (Corrected Final Design)\n17\n493\n\n\nMilitary\n15% (Project Initiation)\n30\n810\n\n\nMilitary\n35% (Concept Design)\n51\n1938\n\n\nMilitary\n65% (Intermediate Design)\n37\n1480\n\n\nMilitary\n95% (Final Design)\n41\n1599\n\n\nMilitary\n100% (Corrected Final Design)\n52\n1456\n\n\n\n\n\nEvents: Number of unique questionnaire submissions (one per project at each milestone)\nResponses: Total individual question responses (events × questions asked in that context)"
   },
   {
-    "objectID": "01_questions.html#q5-senior-staff-mentors",
-    "href": "01_questions.html#q5-senior-staff-mentors",
-    "title": "Questions",
-    "section": "Q5: Senior Staff Mentors",
-    "text": "Q5: Senior Staff Mentors\nAre senior staff mentors assigned to all design team members with less than two years of professional design experience?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
+    "objectID": "03_factor_analysis.html#step-3-question-coverage-across-contexts",
+    "href": "03_factor_analysis.html#step-3-question-coverage-across-contexts",
+    "title": "Factor Analysis",
+    "section": "Step 3: Question Coverage Across Contexts",
+    "text": "Step 3: Question Coverage Across Contexts\nThis table shows which questions are “core” (broadly applicable) vs. context-specific.\n\n\n\nQuestion Coverage: Core vs. Context-Specific Items\n\n\nQuestion\nType\n# Contexts\nTotal Responses\n% Missing\n\n\n\n\n1\nCore\n10\n342\n97.1\n\n\n2\nCore\n10\n342\n97.1\n\n\n3\nCore\n10\n1026\n91.4\n\n\n5\nCore\n10\n342\n97.1\n\n\n6\nCore\n10\n342\n97.1\n\n\n7\nCore\n10\n342\n97.1\n\n\n8\nCore\n10\n342\n97.1\n\n\n13\nCore\n10\n342\n97.1\n\n\n20\nCore\n10\n342\n97.1\n\n\n34\nCore\n10\n342\n97.1\n\n\n38\nCore\n10\n342\n97.1\n\n\n12\nCore\n8\n819\n93.1\n\n\n15\nCore\n8\n273\n97.7\n\n\n16\nCore\n8\n273\n97.7\n\n\n17\nCore\n8\n819\n93.1\n\n\n18\nCore\n8\n273\n97.7\n\n\n19\nCore\n8\n273\n97.7\n\n\n22\nCore\n8\n274\n97.7\n\n\n23\nCore\n8\n548\n95.4\n\n\n24\nCore\n8\n274\n97.7\n\n\n25\nCore\n8\n274\n97.7\n\n\n27\nCore\n8\n274\n97.7\n\n\n28\nCore\n8\n274\n97.7\n\n\n31\nCore\n8\n274\n97.7\n\n\n32\nCore\n8\n274\n97.7\n\n\n33\nCore\n8\n274\n97.7\n\n\n37\nCore\n8\n274\n97.7\n\n\n4\nContext-specific\n7\n215\n98.2\n\n\n21\nContext-specific\n6\n410\n96.6\n\n\n26\nContext-specific\n6\n197\n98.3\n\n\n30\nContext-specific\n6\n394\n96.7\n\n\n11\nContext-specific\n5\n131\n98.9\n\n\n9\nContext-specific\n2\n68\n99.4\n\n\n14\nContext-specific\n2\n68\n99.4\n\n\n29\nContext-specific\n2\n69\n99.4\n\n\n10\nContext-specific\n1\n76\n99.4\n\n\n35\nContext-specific\n1\n51\n99.6\n\n\n36\nContext-specific\n1\n30\n99.7\n\n\n\n\n\nInterpretation:\n\nCore items (≥8 contexts): Analyzed across contexts\nContext-specific items (&lt;8 contexts): Analyzed only within their relevant contexts"
   },
   {
-    "objectID": "01_questions.html#q6-government-capacity",
-    "href": "01_questions.html#q6-government-capacity",
-    "title": "Questions",
-    "section": "Q6: Government Capacity",
-    "text": "Q6: Government Capacity\nDo the design and review team members have capacity to actively support the project?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
+    "objectID": "03_factor_analysis.html#step-4-factorability-by-context",
+    "href": "03_factor_analysis.html#step-4-factorability-by-context",
+    "title": "Factor Analysis",
+    "section": "Step 4: Factorability by Context",
+    "text": "Step 4: Factorability by Context\nDue to data characteristics (varying response patterns, context-specific items), we assess factorability for the contexts with the most data.\n\nContexts Selected for Analysis\nBased on response rates, we focus on the four largest contexts:\n\nMilitary × 100% (Corrected Final Design) - 52 events\nMilitary × 35% (Concept Design) - 51 events\nMilitary × 95% (Final Design) - 41 events\nCivil Works × 15% (Project Initiation) - 38 events\n\n\n\n\n\n\n\nWhy Context-Specific Analysis?\n\n\n\nPer Little & Rubin (2019), aggregating across contexts with structural missingness can produce misleading results. Analyzing within contexts ensures:\n\nOnly applicable questions are included\nResponse patterns are interpretable\nSufficient variability for correlation analysis\n\n\n\n\n\n\nMilitary × 95% (Final Design)\n\nSample Size\nComplete cases: 41\nItems analyzed: 3\n\n\nAssessment\n✅ Suitable for factor analysis\nRationale: Sample size below recommended N=100 minimum\n\n\n\n\nCivil Works × 95% (Final Design)\n\nSample Size\nComplete cases: 18\nItems analyzed: 7\n\n\nAssessment\n✅ Suitable for factor analysis\nRationale: Sample size below recommended N=100 minimum\n\n\n\n\nAdditional Contexts\n\n\nMilitary × 95% (Final Design)\nComplete cases: 41 | Items analyzed: 3\n✅ Suitable for factor analysis\nRationale: Sample size below recommended N=100 minimum\n\n\nCivil Works × 15% (Project Initiation)\nComplete cases: 38 | Items analyzed: 5\n✅ Suitable for factor analysis\nRationale: Sample size below recommended N=100 minimum"
   },
   {
-    "objectID": "01_questions.html#q7-centers-of-expertise-and-standardization",
-    "href": "01_questions.html#q7-centers-of-expertise-and-standardization",
-    "title": "Questions",
-    "section": "Q7: Centers Of Expertise And Standardization",
-    "text": "Q7: Centers Of Expertise And Standardization\nHave the relevant Mandatory Centers of Expertise (MCX), Technical Centers of Expertise (TCX), and/or Centers of Standardization (COS) been identified and engaged on the project?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
+    "objectID": "03_factor_analysis.html#summary-interpretation",
+    "href": "03_factor_analysis.html#summary-interpretation",
+    "title": "Factor Analysis",
+    "section": "Summary & Interpretation",
+    "text": "Summary & Interpretation\n\nData Characteristics Observed\nQuestionnaire composition:\n\nCore items: 27 (71.1%)\nContext-specific items: 11 (28.9%)\n\nImplication: The questionnaire is highly tailored to specific contexts, which is appropriate for capturing milestone- and program-specific quality factors.\n\n\nRecommendations\nBased on the factorability assessments:\n\nFor contexts with sufficient data:\n\nProceed with parallel analysis to determine number of factors\nConduct exploratory factor analysis (EFA)\nExamine factor loadings to interpret question groupings\n\nFor contexts with insufficient data:\n\nContinue data collection\nConsider aggregating across similar milestones (e.g., early vs. late design phases)\nFocus on descriptive statistics until sample size increases\n\nContext-specific items:\n\nValuable for targeted quality assessment within their domains\nShould not be removed - they serve important context-specific purposes\nWill be analyzed separately as data accrues"
   },
   {
-    "objectID": "01_questions.html#q8-permitting-authorities",
-    "href": "01_questions.html#q8-permitting-authorities",
-    "title": "Questions",
-    "section": "Q8: Permitting Authorities",
-    "text": "Q8: Permitting Authorities\nHave the relevant permitting authorities been identified and engaged on the project?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
+    "objectID": "03_factor_analysis.html#next-steps",
+    "href": "03_factor_analysis.html#next-steps",
+    "title": "Factor Analysis",
+    "section": "Next Steps",
+    "text": "Next Steps\nImmediate: 1. Review factorability results with subject matter experts 2. For viable contexts, run parallel analysis to determine optimal factor structure 3. Conduct EFA on contexts meeting psychometric requirements\nFuture: 1. As data accrues, reassess contexts with currently insufficient samples 2. Investigate whether context-specific items cluster into meaningful factors within their domains 3. Test measurement invariance on core items across contexts (Phase 4)"
   },
   {
-    "objectID": "01_questions.html#q9-planningprogramming-assumptions",
-    "href": "01_questions.html#q9-planningprogramming-assumptions",
-    "title": "Questions",
-    "section": "Q9: Planning/Programming Assumptions",
-    "text": "Q9: Planning/Programming Assumptions\nAre the assumptions made during planning/programming still valid (e.g., real estate, environmental, geotechnical, hydraulics and hydrology, survey, and other pertinent assumptions)?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q10-planning-scope-definition",
-    "href": "01_questions.html#q10-planning-scope-definition",
-    "title": "Questions",
-    "section": "Q10: Planning Scope Definition",
-    "text": "Q10: Planning Scope Definition\nAt the start of design, is there a sufficient level of scope definition and design maturity to support a Class 3 estimate?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q11-total-project-cost-summary",
-    "href": "01_questions.html#q11-total-project-cost-summary",
-    "title": "Questions",
-    "section": "Q11: Total Project Cost Summary",
-    "text": "Q11: Total Project Cost Summary\nWas the Total Project Cost Summary (TPCS) certified within the last two years?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q12-design-deviations",
-    "href": "01_questions.html#q12-design-deviations",
-    "title": "Questions",
-    "section": "Q12: Design Deviations",
-    "text": "Q12: Design Deviations\nAt the current time, can the project be implemented without deviations from mandatory design criteria or receiving an approved waiver from HQUSACE?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q13-lessons-learned",
-    "href": "01_questions.html#q13-lessons-learned",
-    "title": "Questions",
-    "section": "Q13: Lessons Learned",
-    "text": "Q13: Lessons Learned\nHave lessons learned been evaluated and incorporated into the design?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q14-milestone-expectations",
-    "href": "01_questions.html#q14-milestone-expectations",
-    "title": "Questions",
-    "section": "Q14: Milestone Expectations",
-    "text": "Q14: Milestone Expectations\nDid the Project Delivery Team (PDT) establish design expectations by milestone and communicate those in the Project Management Plan (PMP), Architect-Engineer (A-E) contract, and/or brokered work agreement, etc.?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q15-scheduled-design-milestones",
-    "href": "01_questions.html#q15-scheduled-design-milestones",
-    "title": "Questions",
-    "section": "Q15: Scheduled Design Milestones",
-    "text": "Q15: Scheduled Design Milestones\nDoes the project schedule include all standard practice design milestones?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q16-sufficient-milestone-time",
-    "href": "01_questions.html#q16-sufficient-milestone-time",
-    "title": "Questions",
-    "section": "Q16: Sufficient Milestone Time",
-    "text": "Q16: Sufficient Milestone Time\nDoes the project schedule include sufficient design time to accomplish all design related milestones?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q17-qcqa",
-    "href": "01_questions.html#q17-qcqa",
-    "title": "Questions",
-    "section": "Q17: Qc/Qa",
-    "text": "Q17: Qc/Qa\nDoes the project schedule include sufficient time for Quality Control (QC) and Quality Assurance (QA) reviews during all required design submittals?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q18-engineering-investigations",
-    "href": "01_questions.html#q18-engineering-investigations",
-    "title": "Questions",
-    "section": "Q18: Engineering Investigations",
-    "text": "Q18: Engineering Investigations\nDoes the project schedule include sufficient time to complete engineering investigations and surveys (e.g., cultural, geotechnical, environmental, hazardous materials, etc.) in time to adequately inform the design?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q19-permitting",
-    "href": "01_questions.html#q19-permitting",
-    "title": "Questions",
-    "section": "Q19: Permitting",
-    "text": "Q19: Permitting\nDoes the project schedule include sufficient time to complete permitting process(es)?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q20-project-schedule",
-    "href": "01_questions.html#q20-project-schedule",
-    "title": "Questions",
-    "section": "Q20: Project Schedule",
-    "text": "Q20: Project Schedule\nIs the current design team schedule in alignment with the project schedule in the Project Management Plan (PMP)?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q21-approved-qmprp",
-    "href": "01_questions.html#q21-approved-qmprp",
-    "title": "Questions",
-    "section": "Q21: Approved Qmp/Rp",
-    "text": "Q21: Approved Qmp/Rp\nDoes the project have a current, approved project-specific Quality Management Plan (QMP)/Review Plan (RP)?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q22-quality-review-sequencing",
-    "href": "01_questions.html#q22-quality-review-sequencing",
-    "title": "Questions",
-    "section": "Q22: Quality Review Sequencing",
-    "text": "Q22: Quality Review Sequencing\nDid District Quality Control (DQC) occur prior, and not concurrent with, to the Independent Technical Review (ITR)/Agency Technical Review (ATR)/Biddability, Constructability, Operability, Environmental and Sustainability (BCOES) Review?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q23-qmprp-implementation",
-    "href": "01_questions.html#q23-qmprp-implementation",
-    "title": "Questions",
-    "section": "Q23: Qmp/Rp Implementation",
-    "text": "Q23: Qmp/Rp Implementation\nWas the Quality Management Plan (QMP)/Review Plan (RP) followed for this review milestone?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q24-rigorous-computation-review",
-    "href": "01_questions.html#q24-rigorous-computation-review",
-    "title": "Questions",
-    "section": "Q24: Rigorous Computation Review",
-    "text": "Q24: Rigorous Computation Review\nHave all computations gone through a rigorous Quality Control (QC) process (e.g., a “red dot” review)? (Note: For A-E work, it is incumbent upon the Technical Lead (TL) to ensure the A-E has performed this level of review.)\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q25-rigorous-plan-review",
-    "href": "01_questions.html#q25-rigorous-plan-review",
-    "title": "Questions",
-    "section": "Q25: Rigorous Plan Review",
-    "text": "Q25: Rigorous Plan Review\nHave all critical graphics/plans gone through a rigorous QC process (e.g., a “red dot” review)? (Note: For A-E work, it is incumbent upon the Technical Lead (TL) to ensure the A-E has performed this level of review.)\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q26-rigorous-specifications-review",
-    "href": "01_questions.html#q26-rigorous-specifications-review",
-    "title": "Questions",
-    "section": "Q26: Rigorous Specifications Review",
-    "text": "Q26: Rigorous Specifications Review\nHave all specifications gone through a rigorous QC process? (Note: For A-E work, it is incumbent upon the Technical Lead (TL) to ensure the A-E has performed this level of review.)\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q27-rigorous-model-review",
-    "href": "01_questions.html#q27-rigorous-model-review",
-    "title": "Questions",
-    "section": "Q27: Rigorous Model Review",
-    "text": "Q27: Rigorous Model Review\nHave all models gone through a rigorous QC process? (e.g., a “red dot” review, clash detection, etc.)? (Note: For A-E work, it is incumbent upon the Technical Lead (TL) to ensure the A-E has performed this level of review.)\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q28-bcoes",
-    "href": "01_questions.html#q28-bcoes",
-    "title": "Questions",
-    "section": "Q28: Bcoes",
-    "text": "Q28: Bcoes\nHas a Biddability, Constructability, Operability, Environmental, and Sustainability (BCOES) review been performed in compliance with the ER?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q29-review-certifications",
-    "href": "01_questions.html#q29-review-certifications",
-    "title": "Questions",
-    "section": "Q29: Review Certifications",
-    "text": "Q29: Review Certifications\nHave District Quality Control (DQC), Independent Technical Review (ITR)/Agency Technical Review (ATR), and Biddability, Constructability, Operability, Environmental, and Sustainability (BCOES) certifications been completed?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q30-qmprp-update",
-    "href": "01_questions.html#q30-qmprp-update",
-    "title": "Questions",
-    "section": "Q30: Qmp/Rp Update",
-    "text": "Q30: Qmp/Rp Update\nHas the Quality Management Plan (QMP)/Review Plan (RP) been updated to respond to significant project changes?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q31-project-scope-accomplished",
-    "href": "01_questions.html#q31-project-scope-accomplished",
-    "title": "Questions",
-    "section": "Q31: Project Scope Accomplished",
-    "text": "Q31: Project Scope Accomplished\nDoes the design adequately accomplish the project scope, intent, and functional and technical objectives as defined in the current Project Management Plan (PMP)?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q32-design-milestone-expectations",
-    "href": "01_questions.html#q32-design-milestone-expectations",
-    "title": "Questions",
-    "section": "Q32: Design Milestone Expectations",
-    "text": "Q32: Design Milestone Expectations\nDid the deliverable meet established design milestone expectations?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q33-class-of-estimate",
-    "href": "01_questions.html#q33-class-of-estimate",
-    "title": "Questions",
-    "section": "Q33: Class Of Estimate",
-    "text": "Q33: Class Of Estimate\nIs the design maturity sufficient to generate the required Class of estimate for this milestone? (Class 3 at 35%, Class 2 at 65%, and Class 1 at 95%/100%)\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q34-risk-register",
-    "href": "01_questions.html#q34-risk-register",
-    "title": "Questions",
-    "section": "Q34: Risk Register",
-    "text": "Q34: Risk Register\nDoes the project have a current risk register?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q35-dod-construction-agent",
-    "href": "01_questions.html#q35-dod-construction-agent",
-    "title": "Questions",
-    "section": "Q35: Dod Construction Agent",
-    "text": "Q35: Dod Construction Agent\nWas the project budget verified with a Cost Schedule Risk Analysis (CSRA) at concept design (i.e., 35%)?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q36-suported-program-amount",
-    "href": "01_questions.html#q36-suported-program-amount",
-    "title": "Questions",
-    "section": "Q36: Suported Program Amount",
-    "text": "Q36: Suported Program Amount\nDid the Geographic District validate and/or develop the Programmed Amount (PA)?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q37-turnover",
-    "href": "01_questions.html#q37-turnover",
-    "title": "Questions",
-    "section": "Q37: Turnover",
-    "text": "Q37: Turnover\nHas there been turnover on your design or review team that may affect the team’s ability to develop a quality product?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "01_questions.html#q38-overall-confidence",
-    "href": "01_questions.html#q38-overall-confidence",
-    "title": "Questions",
-    "section": "Q38: Overall Confidence",
-    "text": "Q38: Overall Confidence\nWhat is your level of confidence in the quality of the engineering design efforts on this project?\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy"
-  },
-  {
-    "objectID": "02_indicators.html",
-    "href": "02_indicators.html",
-    "title": "Indicators",
-    "section": "",
-    "text": "by USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Civil Works Milestones\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Military Milestones"
-  },
-  {
-    "objectID": "02_indicators.html#confidence",
-    "href": "02_indicators.html#confidence",
-    "title": "Indicators",
-    "section": "",
-    "text": "by USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Civil Works Milestones\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Military Milestones"
-  },
-  {
-    "objectID": "02_indicators.html#cost",
-    "href": "02_indicators.html#cost",
-    "title": "Indicators",
-    "section": "Cost",
-    "text": "Cost\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Civil Works Milestones\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Military Milestones"
-  },
-  {
-    "objectID": "02_indicators.html#qa",
-    "href": "02_indicators.html#qa",
-    "title": "Indicators",
-    "section": "QA",
-    "text": "QA\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Civil Works Milestones\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Military Milestones"
-  },
-  {
-    "objectID": "02_indicators.html#qc",
-    "href": "02_indicators.html#qc",
-    "title": "Indicators",
-    "section": "QC",
-    "text": "QC\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Civil Works Milestones\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Military Milestones"
-  },
-  {
-    "objectID": "02_indicators.html#schedule",
-    "href": "02_indicators.html#schedule",
-    "title": "Indicators",
-    "section": "Schedule",
-    "text": "Schedule\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Civil Works Milestones\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Military Milestones"
-  },
-  {
-    "objectID": "02_indicators.html#scope",
-    "href": "02_indicators.html#scope",
-    "title": "Indicators",
-    "section": "Scope",
-    "text": "Scope\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Civil Works Milestones\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Military Milestones"
-  },
-  {
-    "objectID": "02_indicators.html#team",
-    "href": "02_indicators.html#team",
-    "title": "Indicators",
-    "section": "Team",
-    "text": "Team\n\n\n\n\n\n\n\nby USACE Program\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Division\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby District\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Team\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Design Strategy\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Civil Works Milestones\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nby Military Milestones"
+    "objectID": "03_factor_analysis.html#references",
+    "href": "03_factor_analysis.html#references",
+    "title": "Factor Analysis",
+    "section": "References",
+    "text": "References\n\nFlora, D. B., & Curran, P. J. (2004). An empirical evaluation of alternative methods of estimation for confirmatory factor analysis with ordinal data. Psychological Methods, 9(4), 466-491. https://doi.org/10.1037/1082-989X.9.4.466\nLittle, R. J. A., & Rubin, D. B. (2019). Statistical Analysis with Missing Data (3rd ed.). Wiley. Chapter 1.4.3: Structural missingness by design.\nSchafer, J. L., & Graham, J. W. (2002). Missing data: Our view of the state of the art. Psychological Methods, 7(2), 147-177. https://doi.org/10.1037/1076-8986.7.2.147"
   }
 ]
