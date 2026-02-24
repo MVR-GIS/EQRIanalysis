@@ -45,6 +45,26 @@ Based on the revised factor analysis strategy (see `dev/revised_sprint1_strategy
 2. **Assess factorability by context** - Evaluate each program × milestone combination
 3. **Document response patterns** - Show which contexts have sufficient data for analysis
 
+### Question Coverage Visualization
+
+This heatmap shows which questions are asked in each context, helping identify core vs. context-specific items.
+
+```{r plot-coverage}
+#| echo: false
+#| fig-width: 10
+#| fig-height: 12
+#| fig-cap: "Question coverage across program types and milestones"
+
+plot_question_coverage(responses_df, core_threshold = 8)
+```
+
+**Reading the heatmap:**
+
+- **Dark blue cells**: Question asked in that context
+- **Light gray cells**: Question not asked (structural missingness by design)
+- **Core items** (top panel): Asked broadly across contexts
+- **Context-specific items** (bottom panel): Asked selectively for certain programs/milestones
+
 ---
 
 ## Step 1: Identify Core Items

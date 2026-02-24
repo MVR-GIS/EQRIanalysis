@@ -86,6 +86,7 @@ div.callout-graph.callout-style-default .callout-icon::before, div.callout-graph
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Factor Analysis – EQRI">
 <meta property="og:description" content="">
+<meta property="og:image" content="03_factor_analysis_files/figure-html/plot-coverage-1.png">
 <meta property="og:site_name" content="EQRI">
 </head>
 
@@ -160,6 +161,7 @@ div.callout-graph.callout-style-default .callout-icon::before, div.callout-graph
   <li><a href="#analysis-strategy" id="toc-analysis-strategy" class="nav-link" data-scroll-target="#analysis-strategy">Analysis Strategy</a>
   <ul class="collapse">
   <li><a href="#approach" id="toc-approach" class="nav-link" data-scroll-target="#approach">Approach</a></li>
+  <li><a href="#question-coverage-visualization" id="toc-question-coverage-visualization" class="nav-link" data-scroll-target="#question-coverage-visualization">Question Coverage Visualization</a></li>
   </ul></li>
   <li><a href="#step-1-identify-core-items" id="toc-step-1-identify-core-items" class="nav-link" data-scroll-target="#step-1-identify-core-items">Step 1: Identify Core Items</a>
   <ul class="collapse">
@@ -237,6 +239,27 @@ div.callout-graph.callout-style-default .callout-icon::before, div.callout-graph
 <li><strong>Assess factorability by context</strong> - Evaluate each program × milestone combination</li>
 <li><strong>Document response patterns</strong> - Show which contexts have sufficient data for analysis</li>
 </ol>
+</section>
+<section id="question-coverage-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="question-coverage-visualization">Question Coverage Visualization</h3>
+<p>This heatmap shows which questions are asked in each context, helping identify core vs.&nbsp;context-specific items.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="03_factor_analysis_files/figure-html/plot-coverage-1.png" class="img-fluid figure-img" width="960"></p>
+<figcaption>Question coverage across program types and milestones</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Reading the heatmap:</strong></p>
+<ul>
+<li><strong>Dark blue cells</strong>: Question asked in that context</li>
+<li><strong>Light gray cells</strong>: Question not asked (structural missingness by design)</li>
+<li><strong>Core items</strong> (top panel): Asked broadly across contexts</li>
+<li><strong>Context-specific items</strong> (bottom panel): Asked selectively for certain programs/milestones</li>
+</ul>
 <hr>
 </section>
 </section>
