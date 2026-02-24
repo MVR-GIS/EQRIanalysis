@@ -22,7 +22,7 @@
 #'   Missing Data (3rd ed.). Wiley. Chapter 1.4.3: Structural missingness.
 #'   
 #' @importFrom ggplot2 ggplot aes geom_tile scale_fill_gradient labs 
-#'   theme_minimal theme element_text coord_flip facet_grid
+#'   theme_minimal theme element_text coord_flip facet_grid unit
 #' @importFrom dplyr %>% group_by summarize n_distinct mutate case_when ungroup
 #' @importFrom tidyr complete
 #' 
@@ -72,37 +72,38 @@ plot_question_coverage <- function(responses_df, core_threshold = 8) {
                               levels = rev(sort(unique(QUESTION_NUMBER))))
     )
   
-  # Create heatmap
+  # Create heatmap  
   p <- ggplot(plot_data, aes(x = context, y = QUESTION_NUMBER, fill = present)) +
-    geom_tile(color = "white", linewidth = 0.5) +
-    scale_fill_gradient(
-      low = "#f0f0f0",    # Light gray for absent
-      high = "#2E86AB",   # Steel blue for present (matches your color scheme)
-      breaks = c(0, 1),
-      labels = c("Not Asked", "Asked"),
-      name = "Status"
-    ) +
-    facet_grid(
-      rows = vars(question_type),
-      scales = "free_y",
-      space = "free_y"
-    ) +
-    labs(
-      title = "Question Coverage Across Contexts",
-      subtitle = paste0("Core items (≥", core_threshold, " of 10 contexts) vs. Context-specific items"),
-      x = "Context (Program Type × Milestone)",
-      y = "Question Number",
-      caption = "Per Little & Rubin (2019): Structural missingness by design"
-    ) +
-    theme_minimal(base_size = 10) +
-    theme(
-      axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
-      axis.text.y = element_text(size = 7),
-      plot.title = element_text(face = "bold", size = 12),
-      strip.text = element_text(face = "bold", size = 10),
-      legend.position = "bottom",
-      panel.grid = element_blank()
-    )
+  geom_tile(color = "white", linewidth = 0.3, height = 0.8) +  # Add height parameter
+  scale_fill_gradient(
+    low = "#f0f0f0",
+    high = "#2E86AB",
+    breaks = c(0, 1),
+    labels = c("Not Asked", "Asked"),
+    name = "Status"
+  ) +
+  facet_grid(
+    rows = vars(question_type),
+    scales = "free_y",
+    space = "free_y"  # This maintains proportional spacing
+  ) +
+  labs(
+    title = "Question Coverage Across Contexts",
+    subtitle = paste0("Core items (≥", core_threshold, " of 10 contexts) vs. Context-specific items"),
+    x = "Context (Program Type × Milestone)",
+    y = "Question Number",
+    caption = "Per Little & Rubin (2019): Structural missingness by design"
+  ) +
+  theme_minimal(base_size = 10) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+    axis.text.y = element_text(size = 6),  # Reduce from 7
+    plot.title = element_text(face = "bold", size = 12),
+    strip.text = element_text(face = "bold", size = 10),
+    legend.position = "bottom",
+    panel.grid = element_blank(),
+    panel.spacing.y = unit(0.5, "lines")  # Reduce space between facets
+  )
   
   return(p)
 }
