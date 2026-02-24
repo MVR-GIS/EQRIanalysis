@@ -1,0 +1,236 @@
+## **Proposed Analysis Workplan**
+
+### **Phase 1: Dimensionality Assessment (Factor Analysis Foundation)**
+
+**Objective**: Determine the optimal factor structure underlying your EQRI questionnaire
+
+#### **1.1 Assess Factorability**
+- [ ] **Kaiser-Meyer-Olkin (KMO) Measure of Sampling Adequacy**
+  - Function: `psych::KMO()`
+  - Minimum acceptable: 0.60; Good: > 0.80
+  - Calculate for overall questionnaire and by context (program × milestone)
+
+- [ ] **Bartlett's Test of Sphericity**
+  - Function: `psych::cortest.bartlett()`
+  - Should be significant (p < .05) to proceed with factor analysis
+
+#### **1.2 Determine Number of Factors**
+- [ ] **Parallel Analysis** (Gold standard)
+  - Function: `psych::fa.parallel()`
+  - Compares eigenvalues from actual data to random data
+  
+- [ ] **Scree Plot Examination**
+  - Visual inspection for "elbow"
+  - `psych::fa.parallel()` produces this automatically
+
+- [ ] **Theoretical Considerations**
+  - How many indicators were you designed to measure?
+  - Review the conceptual groupings from your expert panel
+
+#### **1.3 Exploratory Factor Analysis (EFA)**
+- [ ] **Run EFA with different extraction methods**
+  - Minimum residual (`fm = "minres"`) - your current default in `calculate_omega()`
+  - Principal axis (`fm = "pa"`)
+  - Maximum likelihood (`fm = "ml"`)
+
+- [ ] **Try different rotation methods**
+  - Oblique rotation (assumes factors correlate): `"oblimin"` or `"promax"` (recommended for most questionnaires)
+  - Orthogonal rotation (assumes uncorrelated factors): `"varimax"`
+
+- [ ] **Evaluate model fit**
+  - Tucker-Lewis Index (TLI) > 0.90
+  - Root Mean Square Error of Approximation (RMSEA) < 0.08
+  - Root Mean Square of Residuals (RMSR) < 0.05
+
+**Implementation Suggestion**:
+```r
+# Create function similar to your existing structure
+run_factor_analysis <- function(responses_df, 
+                               program_name, 
+                               milestone_name,
+                               nfactors = NULL,
+                               fm = "minres",
+                               rotate = "oblimin") {
+  # Use your existing get_wide_responses() infrastructure
+  # Add parallel analysis if nfactors is NULL
+  # Return structured results list
+}
+```
+
+---
+
+### **Phase 2: Question Sensitivity & Influence Analysis**
+
+**Objective**: Understand which questions drive indicator scores and whether weighting is needed
+
+#### **2.1 Item-Total Correlations**
+- [ ] **Corrected item-total correlations**
+  - You already capture this in `calculate_cronbach_alpha()` via `alpha_result$item.stats`
+  - Minimum acceptable: r > 0.30
+  - Flag items < 0.30 as weak contributors
+
+#### **2.2 Factor Loadings Analysis**
+- [ ] **Examine factor loadings from EFA**
+  - Loadings > 0.40 generally considered meaningful
+  - Items with cross-loadings (>0.32 on multiple factors) may be problematic
+  - Pattern of loadings indicates which questions define each indicator
+
+- [ ] **Create visualization**
+  - Heat map of factor loadings by question
+  - Similar style to your existing `plot_reliability_comparison()`
+
+#### **2.3 Indicator Sensitivity Analysis**
+- [ ] **Calculate indicator scores with different weighting schemes**
+  - **Unweighted** (current approach): Simple mean of item responses
+  - **Factor-score weighted**: Use regression scores from factor analysis
+  - **Reliability-weighted**: Weight by item-total correlation
+  
+- [ ] **Compare indicator scores across weighting methods**
+  - Correlation between methods
+  - Impact on ranking/classification of projects
+  - If correlations > 0.90, weighting may not be necessary
+
+**Implementation Suggestion**:
+```r
+compare_weighting_methods <- function(responses_df, 
+                                     indicator_name,
+                                     factor_loadings) {
+  # Calculate indicator scores 3 ways
+  # Return correlation matrix and classification agreement
+  # Flag if weighting substantially changes results
+}
+```
+
+---
+
+### **Phase 3: Question Coverage & Gap Analysis**
+
+**Objective**: Determine if you're asking the right questions (not too many, too few, gaps)
+
+#### **3.1 Content Coverage Evaluation**
+- [ ] **Map questions to indicators**
+  - Questions per indicator (you have 38 questions, how many indicators?)
+  - Recommended: 3-5 items per construct for reliability
+  
+- [ ] **Redundancy Analysis**
+  - Inter-item correlations > 0.80 suggest redundancy
+  - Use `psych::lowerCor()` to create correlation matrix
+  - Flag highly correlated question pairs for potential removal
+
+#### **3.2 Difficulty/Discrimination Analysis**
+- [ ] **Item difficulty** (from your EDA work)
+  - Questions with ceiling/floor effects (>80% same response)
+  - You already have this data from your descriptive statistics
+
+- [ ] **Item discrimination**
+  - Compare responses in high vs. low scoring projects
+  - Questions that don't differentiate may not be useful
+
+#### **3.3 Coverage Gap Identification**
+- [ ] **Compare factor structure to conceptual model**
+  - Do EFA results align with expert-defined indicators?
+  - Are there "orphan" questions that don't fit the structure?
+  - Are there theoretical areas underrepresented?
+
+---
+
+### **Phase 4: Contextual Stability Analysis**
+
+**Objective**: Assess whether question/indicator performance varies by context
+
+#### **4.1 Measurement Invariance Testing**
+- [ ] **Multi-group factor analysis**
+  - Test if factor structure holds across:
+    - Program types (Military vs. Civil Works)
+    - Milestones (15%, 35%, 65%, 95%, 100%)
+  - This is advanced; consider `lavaan` package if needed
+
+#### **4.2 Differential Item Functioning (DIF)**
+- [ ] **Check if questions "work differently" in different contexts**
+  - Use `lordif` package or `mirt` package
+  - Flag questions with substantial DIF as potentially biased
+
+---
+
+### **Phase 5: Synthesis & Recommendations**
+
+#### **5.1 Create Decision Framework**
+- [ ] **Question retention criteria**
+  - Factor loading threshold
+  - Item-total correlation threshold
+  - Redundancy threshold
+  - Theoretical importance
+
+- [ ] **Weighting decision criteria**
+  - If weighted vs. unweighted correlation < 0.90, consider weighting
+  - If factor loadings vary substantially (range > 0.30), weighting may help
+
+#### **5.2 Generate Recommendations Report**
+- [ ] **Questions to retain** (with justification)
+- [ ] **Questions to remove** (with justification)
+- [ ] **Questions to revise** (with specific suggestions)
+- [ ] **Coverage gaps to address**
+- [ ] **Weighting scheme recommendation**
+
+---
+
+## **Additional Best Practice Considerations You May Be Missing**
+
+### **1. Validity Evidence**
+- **Convergent validity**: Do questions measuring the same indicator correlate?
+- **Discriminant validity**: Do questions measuring different indicators show lower correlations?
+- Consider multitrait-multimethod analysis (`psych::mtmm()`)
+
+### **2. Response Bias Analysis**
+- **Acquiescence bias**: Tendency to agree regardless of content
+- **Social desirability**: Tendency to present in favorable light
+- Check for systematic patterns in extreme responding
+
+### **3. Temporal Stability** (if you get Year 2 data)
+- Test-retest reliability for projects that complete multiple milestones
+- Assess stability of factor structure across years
+
+### **4. Criterion Validity** (future work)
+- Do EQRI scores correlate with actual engineering quality outcomes?
+- Consider linking to:
+  - Post-construction performance
+  - Cost overruns
+  - Schedule delays
+  - Safety incidents
+
+### **5. Sample Size Considerations**
+Your current sample sizes (visible in your reliability analysis):
+- **Rule of thumb for factor analysis**: 
+  - Minimum 5 observations per item (5 × 38 = 190)
+  - Better: 10 observations per item (10 × 38 = 380)
+  - You may need to aggregate across contexts for stable factor solutions
+
+### **6. Missing Data Handling**
+- Review your current approach to missing responses
+- Consider multiple imputation if missing data is substantial
+- `mice` package is well-documented: https://cran.r-project.org/web/packages/mice/
+
+---
+
+## **Suggested Implementation Timeline**
+
+### **Sprint 1 (1-2 weeks): Factorability & Dimension**
+- KMO, Bartlett's test
+- Parallel analysis
+- Initial EFA runs
+
+### **Sprint 2 (1-2 weeks): Question Sensitivity**
+- Factor loading analysis
+- Weighting comparisons
+- Visualization development
+
+### **Sprint 3 (1 week): Coverage Analysis**
+- Redundancy checks
+- Gap identification
+- Content mapping
+
+### **Sprint 4 (1 week): Synthesis**
+- Recommendations document
+- Updated Quarto website sections
+
+---
