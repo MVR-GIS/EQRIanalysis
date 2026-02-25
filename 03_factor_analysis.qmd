@@ -1241,6 +1241,8 @@ cat("- **RMSR (Root Mean Square Residual)**: < 0.05 good\n\n")
 
 ---
 
+---
+
 ### Factor Analysis: Military × 35% (Concept Design)
 
 Early design phase context (n=51).
@@ -1260,6 +1262,22 @@ efa_mil_35 <- run_efa(
 )
 ```
 
+#### Questions Analyzed
+
+```{r question-labels-mil-35}
+#| echo: false
+#| tbl-cap: "Questions included in factor analysis - Military × 35%"
+
+question_labels_mil_35 <- create_question_label_table(efa_mil_35, responses_df)
+
+kable(question_labels_mil_35,
+      col.names = c("Item", "Question", "Indicator"),
+      format = "pipe",
+      align = c("l", "l", "l"))
+```
+
+#### Factor Loadings
+
 ```{r plot-loadings-mil-35}
 #| echo: false
 #| fig-width: 10
@@ -1269,6 +1287,74 @@ efa_mil_35 <- run_efa(
 plot_factor_loadings(efa_mil_35, use_clean = TRUE)
 ```
 
+**Interpretation:**
+
+```{r interpret-loadings-mil-35}
+#| echo: false
+#| results: asis
+
+# Identify primary factor for each item
+loadings_clean_35 <- efa_mil_35$loadings_clean
+n_factors_35 <- efa_mil_35$extraction_info$nfactors
+
+cat(sprintf("\n**Factor structure identified**: %d factors extracted\n\n", n_factors_35))
+
+# Show which questions load on each factor
+for (f in 1:n_factors_35) {
+  factor_name <- colnames(loadings_clean_35)[f]
+  
+  # Get items with meaningful loadings
+  meaningful_items <- which(abs(loadings_clean_35[[factor_name]]) >= 0.40)
+  
+  if (length(meaningful_items) > 0) {
+    cat(sprintf("**%s**:\n", factor_name))
+    
+    for (item_idx in meaningful_items) {
+      item_name <- rownames(loadings_clean_35)[item_idx]
+      loading_val <- loadings_clean_35[[factor_name]][item_idx]
+      
+      # Get question label
+      question_label <- question_labels_mil_35$Label[
+        question_labels_mil_35$Item == item_name
+      ]
+      
+      cat(sprintf("- %s (%.2f): %s\n", 
+                  item_name, loading_val, question_label))
+    }
+    cat("\n")
+  }
+}
+
+# Check for problematic items
+if (!is.null(efa_mil_35$problematic_items$low_communality)) {
+  cat(sprintf("\n⚠️ **%d item(s) with low communality** (< 0.25):\n",
+              length(efa_mil_35$problematic_items$low_communality)))
+  
+  for (item in efa_mil_35$problematic_items$low_communality) {
+    question_label <- question_labels_mil_35$Label[
+      question_labels_mil_35$Item == item
+    ]
+    cat(sprintf("- %s: %s\n", item, question_label))
+  }
+  cat("\nThese items are poorly represented by the factor solution.\n\n")
+}
+
+if (!is.null(efa_mil_35$problematic_items$cross_loadings)) {
+  cat(sprintf("\n⚠️ **%d item(s) with cross-loadings** (> 0.32 on multiple factors):\n",
+              length(efa_mil_35$problematic_items$cross_loadings)))
+  
+  for (item in efa_mil_35$problematic_items$cross_loadings) {
+    question_label <- question_labels_mil_35$Label[
+      question_labels_mil_35$Item == item
+    ]
+    cat(sprintf("- %s: %s\n", item, question_label))
+  }
+  cat("\nThese items may need review for theoretical clarity.\n\n")
+}
+```
+
+#### Variance Explained
+
 ```{r plot-variance-mil-35}
 #| echo: false
 #| fig-width: 10
@@ -1276,6 +1362,24 @@ plot_factor_loadings(efa_mil_35, use_clean = TRUE)
 #| fig-cap: "Variance explained - Military × 35%"
 
 plot_variance_explained(efa_mil_35)
+```
+
+```{r variance-summary-mil-35}
+#| echo: false
+#| results: asis
+
+variance_mat_35 <- efa_mil_35$variance_explained
+total_var_35 <- variance_mat_35["Cumulative Var", ncol(variance_mat_35)] * 100
+
+cat(sprintf("**Total variance explained**: %.1f%%\n\n", total_var_35))
+
+if (total_var_35 >= 60) {
+  cat("✅ **Good**: Factor solution explains substantial variance\n\n")
+} else if (total_var_35 >= 50) {
+  cat("✓ **Adequate**: Factor solution explains acceptable variance\n\n")
+} else {
+  cat("⚠️ **Poor**: Factor solution explains limited variance\n\n")
+}
 ```
 
 ---
@@ -1299,6 +1403,22 @@ efa_mil_95 <- run_efa(
 )
 ```
 
+#### Questions Analyzed
+
+```{r question-labels-mil-95}
+#| echo: false
+#| tbl-cap: "Questions included in factor analysis - Military × 95%"
+
+question_labels_mil_95 <- create_question_label_table(efa_mil_95, responses_df)
+
+kable(question_labels_mil_95,
+      col.names = c("Item", "Question", "Indicator"),
+      format = "pipe",
+      align = c("l", "l", "l"))
+```
+
+#### Factor Loadings
+
 ```{r plot-loadings-mil-95}
 #| echo: false
 #| fig-width: 10
@@ -1308,6 +1428,74 @@ efa_mil_95 <- run_efa(
 plot_factor_loadings(efa_mil_95, use_clean = TRUE)
 ```
 
+**Interpretation:**
+
+```{r interpret-loadings-mil-95}
+#| echo: false
+#| results: asis
+
+# Identify primary factor for each item
+loadings_clean_95 <- efa_mil_95$loadings_clean
+n_factors_95 <- efa_mil_95$extraction_info$nfactors
+
+cat(sprintf("\n**Factor structure identified**: %d factors extracted\n\n", n_factors_95))
+
+# Show which questions load on each factor
+for (f in 1:n_factors_95) {
+  factor_name <- colnames(loadings_clean_95)[f]
+  
+  # Get items with meaningful loadings
+  meaningful_items <- which(abs(loadings_clean_95[[factor_name]]) >= 0.40)
+  
+  if (length(meaningful_items) > 0) {
+    cat(sprintf("**%s**:\n", factor_name))
+    
+    for (item_idx in meaningful_items) {
+      item_name <- rownames(loadings_clean_95)[item_idx]
+      loading_val <- loadings_clean_95[[factor_name]][item_idx]
+      
+      # Get question label
+      question_label <- question_labels_mil_95$Label[
+        question_labels_mil_95$Item == item_name
+      ]
+      
+      cat(sprintf("- %s (%.2f): %s\n", 
+                  item_name, loading_val, question_label))
+    }
+    cat("\n")
+  }
+}
+
+# Check for problematic items
+if (!is.null(efa_mil_95$problematic_items$low_communality)) {
+  cat(sprintf("\n⚠️ **%d item(s) with low communality** (< 0.25):\n",
+              length(efa_mil_95$problematic_items$low_communality)))
+  
+  for (item in efa_mil_95$problematic_items$low_communality) {
+    question_label <- question_labels_mil_95$Label[
+      question_labels_mil_95$Item == item
+    ]
+    cat(sprintf("- %s: %s\n", item, question_label))
+  }
+  cat("\nThese items are poorly represented by the factor solution.\n\n")
+}
+
+if (!is.null(efa_mil_95$problematic_items$cross_loadings)) {
+  cat(sprintf("\n⚠️ **%d item(s) with cross-loadings** (> 0.32 on multiple factors):\n",
+              length(efa_mil_95$problematic_items$cross_loadings)))
+  
+  for (item in efa_mil_95$problematic_items$cross_loadings) {
+    question_label <- question_labels_mil_95$Label[
+      question_labels_mil_95$Item == item
+    ]
+    cat(sprintf("- %s: %s\n", item, question_label))
+  }
+  cat("\nThese items may need review for theoretical clarity.\n\n")
+}
+```
+
+#### Variance Explained
+
 ```{r plot-variance-mil-95}
 #| echo: false
 #| fig-width: 10
@@ -1315,6 +1503,24 @@ plot_factor_loadings(efa_mil_95, use_clean = TRUE)
 #| fig-cap: "Variance explained - Military × 95%"
 
 plot_variance_explained(efa_mil_95)
+```
+
+```{r variance-summary-mil-95}
+#| echo: false
+#| results: asis
+
+variance_mat_95 <- efa_mil_95$variance_explained
+total_var_95 <- variance_mat_95["Cumulative Var", ncol(variance_mat_95)] * 100
+
+cat(sprintf("**Total variance explained**: %.1f%%\n\n", total_var_95))
+
+if (total_var_95 >= 60) {
+  cat("✅ **Good**: Factor solution explains substantial variance\n\n")
+} else if (total_var_95 >= 50) {
+  cat("✓ **Adequate**: Factor solution explains acceptable variance\n\n")
+} else {
+  cat("⚠️ **Poor**: Factor solution explains limited variance\n\n")
+}
 ```
 
 ---
@@ -1338,6 +1544,22 @@ efa_cw_15 <- run_efa(
 )
 ```
 
+#### Questions Analyzed
+
+```{r question-labels-cw-15}
+#| echo: false
+#| tbl-cap: "Questions included in factor analysis - Civil Works × 15%"
+
+question_labels_cw_15 <- create_question_label_table(efa_cw_15, responses_df)
+
+kable(question_labels_cw_15,
+      col.names = c("Item", "Question", "Indicator"),
+      format = "pipe",
+      align = c("l", "l", "l"))
+```
+
+#### Factor Loadings
+
 ```{r plot-loadings-cw-15}
 #| echo: false
 #| fig-width: 10
@@ -1346,6 +1568,74 @@ efa_cw_15 <- run_efa(
 
 plot_factor_loadings(efa_cw_15, use_clean = TRUE)
 ```
+
+**Interpretation:**
+
+```{r interpret-loadings-cw-15}
+#| echo: false
+#| results: asis
+
+# Identify primary factor for each item
+loadings_clean_cw <- efa_cw_15$loadings_clean
+n_factors_cw <- efa_cw_15$extraction_info$nfactors
+
+cat(sprintf("\n**Factor structure identified**: %d factors extracted\n\n", n_factors_cw))
+
+# Show which questions load on each factor
+for (f in 1:n_factors_cw) {
+  factor_name <- colnames(loadings_clean_cw)[f]
+  
+  # Get items with meaningful loadings
+  meaningful_items <- which(abs(loadings_clean_cw[[factor_name]]) >= 0.40)
+  
+  if (length(meaningful_items) > 0) {
+    cat(sprintf("**%s**:\n", factor_name))
+    
+    for (item_idx in meaningful_items) {
+      item_name <- rownames(loadings_clean_cw)[item_idx]
+      loading_val <- loadings_clean_cw[[factor_name]][item_idx]
+      
+      # Get question label
+      question_label <- question_labels_cw_15$Label[
+        question_labels_cw_15$Item == item_name
+      ]
+      
+      cat(sprintf("- %s (%.2f): %s\n", 
+                  item_name, loading_val, question_label))
+    }
+    cat("\n")
+  }
+}
+
+# Check for problematic items
+if (!is.null(efa_cw_15$problematic_items$low_communality)) {
+  cat(sprintf("\n⚠️ **%d item(s) with low communality** (< 0.25):\n",
+              length(efa_cw_15$problematic_items$low_communality)))
+  
+  for (item in efa_cw_15$problematic_items$low_communality) {
+    question_label <- question_labels_cw_15$Label[
+      question_labels_cw_15$Item == item
+    ]
+    cat(sprintf("- %s: %s\n", item, question_label))
+  }
+  cat("\nThese items are poorly represented by the factor solution.\n\n")
+}
+
+if (!is.null(efa_cw_15$problematic_items$cross_loadings)) {
+  cat(sprintf("\n⚠️ **%d item(s) with cross-loadings** (> 0.32 on multiple factors):\n",
+              length(efa_cw_15$problematic_items$cross_loadings)))
+  
+  for (item in efa_cw_15$problematic_items$cross_loadings) {
+    question_label <- question_labels_cw_15$Label[
+      question_labels_cw_15$Item == item
+    ]
+    cat(sprintf("- %s: %s\n", item, question_label))
+  }
+  cat("\nThese items may need review for theoretical clarity.\n\n")
+}
+```
+
+#### Variance Explained
 
 ```{r plot-variance-cw-15}
 #| echo: false
@@ -1356,131 +1646,21 @@ plot_factor_loadings(efa_cw_15, use_clean = TRUE)
 plot_variance_explained(efa_cw_15)
 ```
 
----
-
-### Comparison Across Contexts
-
-To assess the **stability** of the factor structure, we compare results across contexts. Per Fabrigar et al. (1999), consistent factor patterns across samples provide evidence for construct validity.
-
-```{r compare-n-factors}
-#| echo: false
-#| tbl-cap: "Number of factors extracted by context"
-
-factor_comparison <- data.frame(
-  Context = c(
-    "Military × 100% (Corrected)",
-    "Military × 35% (Concept)",
-    "Military × 95% (Final)",
-    "Civil Works × 15% (Initiation)"
-  ),
-  N = c(
-    efa_mil_100$sample$n_observations,
-    efa_mil_35$sample$n_observations,
-    efa_mil_95$sample$n_observations,
-    efa_cw_15$sample$n_observations
-  ),
-  Items = c(
-    efa_mil_100$sample$n_items,
-    efa_mil_35$sample$n_items,
-    efa_mil_95$sample$n_items,
-    efa_cw_15$sample$n_items
-  ),
-  Factors = c(
-    efa_mil_100$extraction_info$nfactors,
-    efa_mil_35$extraction_info$nfactors,
-    efa_mil_95$extraction_info$nfactors,
-    efa_cw_15$extraction_info$nfactors
-  ),
-  `Variance Explained (%)` = c(
-    efa_mil_100$variance_explained["Cumulative Var", 
-      efa_mil_100$extraction_info$nfactors] * 100,
-    efa_mil_35$variance_explained["Cumulative Var", 
-      efa_mil_35$extraction_info$nfactors] * 100,
-    efa_mil_95$variance_explained["Cumulative Var", 
-      efa_mil_95$extraction_info$nfactors] * 100,
-    efa_cw_15$variance_explained["Cumulative Var", 
-      efa_cw_15$extraction_info$nfactors] * 100
-  ),
-  check.names = FALSE
-)
-
-kable(factor_comparison,
-      format = "pipe",
-      align = c("l", "r", "r", "r", "r"),
-      digits = 1)
-```
-
-**Observations:**
-
-```{r interpret-comparison}
+```{r variance-summary-cw-15}
 #| echo: false
 #| results: asis
 
-n_factors_range <- range(factor_comparison$Factors)
+variance_mat_cw <- efa_cw_15$variance_explained
+total_var_cw <- variance_mat_cw["Cumulative Var", ncol(variance_mat_cw)] * 100
 
-cat(sprintf("- **Factor consistency**: Contexts extract between %d and %d factors\n",
-            n_factors_range[1], n_factors_range[2]))
+cat(sprintf("**Total variance explained**: %.1f%%\n\n", total_var_cw))
 
-if (n_factors_range[2] - n_factors_range[1] <= 1) {
-  cat("  - ✅ **Highly consistent** - Factor structure is stable across contexts\n\n")
-} else if (n_factors_range[2] - n_factors_range[1] <= 2) {
-  cat("  - ✓ **Moderately consistent** - Some variation expected due to context-specific items\n\n")
+if (total_var_cw >= 60) {
+  cat("✅ **Good**: Factor solution explains substantial variance\n\n")
+} else if (total_var_cw >= 50) {
+  cat("✓ **Adequate**: Factor solution explains acceptable variance\n\n")
 } else {
-  cat("  - ⚠️ **Variable** - Factor structure differs substantially across contexts\n\n")
-}
-
-avg_variance <- mean(factor_comparison$`Variance Explained (%)`)
-cat(sprintf("- **Average variance explained**: %.1f%%\n", avg_variance))
-
-if (avg_variance >= 60) {
-  cat("  - ✅ **Good** - Factors explain substantial variance\n\n")
-} else if (avg_variance >= 50) {
-  cat("  - ✓ **Adequate** - Factors explain acceptable variance\n\n")
-} else {
-  cat("  - ⚠️ **Limited** - Factors explain modest variance\n\n")
-}
-```
-
----
-
-### Theoretical Alignment
-
-The EQRI questionnaire was designed to measure **seven quality indicators**:
-
-1. Confidence
-2. Cost
-3. QA (Quality Assurance)
-4. QC (Quality Control)
-5. Schedule
-6. Scope
-7. Team
-
-**Comparison to theoretical structure:**
-
-```{r theoretical-comparison}
-#| echo: false
-#| results: asis
-
-theoretical_factors <- 7
-observed_factors <- round(mean(factor_comparison$Factors))
-
-cat(sprintf("- **Theoretical expectation**: %d factors (7 indicators)\n", theoretical_factors))
-cat(sprintf("- **Observed (average)**: %d factors\n\n", observed_factors))
-
-if (observed_factors == theoretical_factors) {
-  cat("✅ **Perfect alignment**: Empirical structure matches theoretical design\n\n")
-} else if (abs(observed_factors - theoretical_factors) <= 2) {
-  cat("✓ **Reasonable alignment**: Empirical structure broadly consistent with theory\n\n")
-  cat("Differences may reflect:\n")
-  cat("- Correlations between theoretically distinct indicators\n")
-  cat("- Context-specific item sets\n")
-  cat("- Sample size limitations\n\n")
-} else {
-  cat("⚠️ **Divergence**: Empirical structure differs from theoretical design\n\n")
-  cat("Consider:\n")
-  cat("- Whether some indicators are too highly correlated to distinguish\n")
-  cat("- Whether question wording creates unintended factor structure\n")
-  cat("- Whether context-specific items alter dimensionality\n\n")
+  cat("⚠️ **Poor**: Factor solution explains limited variance\n\n")
 }
 ```
 
