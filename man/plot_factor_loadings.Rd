@@ -4,19 +4,54 @@
 \alias{plot_factor_loadings}
 \title{Plot Factor Loading Heatmap}
 \usage{
-plot_factor_loadings(efa_result, use_clean = TRUE, color_scale = "diverging")
+plot_factor_loadings(
+  efa_result,
+  use_clean = TRUE,
+  color_scale = "diverging",
+  text_size = 3,
+  show_values = TRUE
+)
 }
 \arguments{
 \item{efa_result}{list; Output from run_efa()}
 
-\item{use_clean}{logical; If TRUE, uses loadings_clean (suppresses small values)}
+\item{use_clean}{logical; If TRUE (default), uses loadings_clean (suppresses
+small values per loading_threshold). If FALSE, shows all loadings.}
 
-\item{color_scale}{character; "diverging" (default) or "sequential"}
+\item{color_scale}{character; "diverging" (default) for bipolar loadings, or
+"sequential" for magnitude only}
+
+\item{text_size}{numeric; Size of loading text labels (default 3)}
+
+\item{show_values}{logical; If TRUE (default), display numeric values on tiles}
 }
 \value{
 ggplot2 object
 }
 \description{
-Visualize factor loadings as a heatmap to identify which
-questions load on which factors.
+Visualize factor loadings as a heatmap showing which questions
+load on which factors. Follows best practice from Costello & Osborne (2005)
+of suppressing loadings below 0.40 for clarity.
 }
+\section{References}{
+
+Costello, A. B., & Osborne, J. (2005). Best practices in exploratory
+factor analysis: Four recommendations for getting the most from your analysis.
+Practical Assessment, Research, and Evaluation, 10(7), 1-9.
+
+Revelle, W. (2024). psych: Procedures for Psychological, Psychometric,
+and Personality Research. R package.
+}
+
+\section{Interpretation}{
+
+\itemize{
+\item \strong{Color intensity}: Indicates strength of loading
+\item \strong{Blue/positive}: Item positively related to factor
+\item \strong{Purple/negative}: Item negatively related to factor (if using diverging scale)
+\item \strong{White/blank}: Loading below threshold (not meaningful)
+\item \strong{Loadings > 0.40}: Meaningful per Costello & Osborne (2005)
+\item \strong{Loadings > 0.70}: Excellent per psychometric standards
+}
+}
+
