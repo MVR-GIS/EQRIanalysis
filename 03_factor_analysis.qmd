@@ -1077,6 +1077,22 @@ efa_mil_100 <- run_efa(
 )
 ```
 
+#### Questions Analyzed
+
+```{r question-labels-mil-100}
+#| echo: false
+#| tbl-cap: "Questions included in factor analysis"
+
+question_labels_mil_100 <- create_question_label_table(efa_mil_100, responses_df)
+
+kable(question_labels_mil_100,
+      col.names = c("Item", "Question", "Indicator"),
+      format = "pipe",
+      align = c("l", "l", "l"))
+```
+
+**Interpretation:** These questions were included in the analysis for this context. Item codes (Q1, Q2, etc.) correspond to the row labels in the factor loading matrix below.
+
 #### Factor Loadings
 
 ```{r plot-loadings-mil-100}
