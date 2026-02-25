@@ -97,3 +97,19 @@ Fit Indices (per Hu & Bentler, 1999):#'
 }
 }
 
+\section{Sample Size Requirements}{
+
+Different extraction methods have different sample size requirements
+(per Fabrigar et al., 1999; psych::fa() documentation):
+\itemize{
+\item \strong{Maximum Likelihood (ml)}: Requires N >= 200. May fail with smaller
+samples due to optimization convergence issues.
+\item \strong{Minimum Residual (minres)}: Robust for small samples. Recommended
+for N < 200.
+\item \strong{Principal Axis (pa)}: Robust for small samples.
+}
+
+If ml is requested with N < 200, function will issue a warning and
+automatically switch to minres.
+}
+

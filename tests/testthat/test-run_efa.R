@@ -1,5 +1,3 @@
-# Tests for run_efa() function
-
 test_that("run_efa executes successfully with valid inputs", {
   responses_df <- get_responses_df()
   
@@ -74,67 +72,79 @@ test_that("run_efa fit indices are calculated", {
   
   # Check fit interpretations
   expect_true("TLI" %in% names(result$fit_interpretation))
-  expect_true(result$fit_interpretation$TLI %in% c("Excellent", "Acceptable", "Poor", "Not available"))
+  expect_true(result$fit_interpretation$TLI %in% 
+    c("Excellent", "Acceptable", "Poor", "Not available"))
 })
 
 test_that("run_efa handles different extraction methods", {
   responses_df <- get_responses_df()
   
-  # Per psych::fa() documentation, different methods have different
-  # sample size requirements and robustness characteristics:
+  # Per psych::fa() documentation and Fabrigar et al. (1999),
+  # different methods have different sample size requirements:
   # - minres: Most robust, works with small samples
-  # - pa: Robust, works with small samples
-  # - ml: Requires N > 200, may fail with small samples (expected)
+  # - pa: Robust, works with small samples  
+  # - ml: Requires N >= 200, function will warn and fall back to minres
   
-  extraction_methods <- data.frame(
-    method = c("minres", "pa", "ml"),
-    should_succeed = c(TRUE, TRUE, FALSE),  # ml expected to fail with N=52
-    stringsAsFactors = FALSE
+  # Test 1: minres (should succeed silently)
+  result_minres <- suppressMessages({
+    run_efa(
+      responses_df,
+      program_name = "Military",
+      milestone_name = "100% (Corrected Final Design)",
+      nfactors = 2,
+      fm = "minres"
+    )
+  })
+  
+  expect_equal(result_minres$extraction_info$method, "minres")
+  expect_type(result_minres$loadings, "list")
+  expect_true("fit_indices" %in% names(result_minres))
+  
+  # Test 2: pa (should succeed, may have warnings from psych package)
+  result_pa <- suppressMessages({
+    suppressWarnings({
+      run_efa(
+        responses_df,
+        program_name = "Military",
+        milestone_name = "100% (Corrected Final Design)",
+        nfactors = 2,
+        fm = "pa"
+      )
+    })
+  })
+  
+  expect_equal(result_pa$extraction_info$method, "pa")
+  expect_type(result_pa$loadings, "list")
+  
+  # Test 3: ml with small sample (should warn and fall back to minres)
+  # Per psych::fa() documentation: "Maximum likelihood requires N >= 200"
+  # Per Fabrigar et al. (1999): "Use minres or pa for samples under 200"
+  expect_warning(
+    result_ml <- suppressMessages({
+      run_efa(
+        responses_df,
+        program_name = "Military",
+        milestone_name = "100% (Corrected Final Design)",
+        nfactors = 2,
+        fm = "ml"
+      )
+    }),
+    regexp = "Maximum likelihood.*requires N >= 200|Switching to minres",
+    info = paste(
+      "Maximum likelihood (ml) should warn when N < 200 and",
+      "automatically switch to minres for robustness.",
+      "See psych::fa() documentation and Fabrigar et al. (1999)."
+    )
   )
   
-  for (i in 1:nrow(extraction_methods)) {
-    method <- extraction_methods$method[i]
-    should_succeed <- extraction_methods$should_succeed[i]
-    
-    if (should_succeed) {
-      # Methods expected to work
-      result <- suppressMessages({
-        suppressWarnings({
-          run_efa(
-            responses_df,
-            program_name = "Military",
-            milestone_name = "100% (Corrected Final Design)",
-            nfactors = 2,
-            fm = method
-          )
-        })
-      })
-      
-      expect_equal(result$extraction_info$method, method)
-      expect_type(result$loadings, "list")
-      
-    } else {
-      # ml expected to fail with small sample (N=52 < 200)
-      # Per psych::fa() documentation and Fabrigar et al. (1999)
-      expect_error(
-        suppressMessages({
-          run_efa(
-            responses_df,
-            program_name = "Military",
-            milestone_name = "100% (Corrected Final Design)",
-            nfactors = 2,
-            fm = method
-          )
-        }),
-        regexp = "EFA failed|L-BFGS-B|finite values",
-        info = paste(
-          "Maximum likelihood (ml) factor analysis requires N > 200.",
-          "Expected to fail with small sample (N=52).",
-          "See psych::fa() documentation and Fabrigar et al. (1999)."
-        )
-      )
-    }
-  }
+  # Verify fallback actually happened
+  expect_equal(result_ml$extraction_info$method, "minres")
+  expect_type(result_ml$loadings, "list")
+  
+  # Verify the result is valid despite fallback
+  expect_true("fit_indices" %in% names(result_ml))
+  expect_true("loadings" %in% names(result_ml))
+  expect_true("communalities" %in% names(result_ml))
 })
 
 test_that("run_efa handles different rotation methods", {
