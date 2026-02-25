@@ -1091,23 +1091,6 @@ kable(question_labels_mil_100,
       align = c("l", "l", "l"))
 ```
 
-**Interpretation:** These questions were included in the analysis for this context. Item codes (Q1, Q2, etc.) correspond to the row labels in the factor loading matrix below.
-
-#### Factor Loadings
-
-```{r plot-loadings-mil-100}
-#| echo: false
-#| fig-width: 10
-#| fig-height: 8
-#| fig-cap: "Factor loading matrix for Military × 100% (Corrected Final Design)"
-
-plot_factor_loadings(
-  efa_mil_100,
-  use_clean = TRUE,
-  color_scale = "diverging"
-)
-```
-
 **Interpretation:**
 
 Per Costello & Osborne (2005), loadings above **0.40** are considered meaningful:
@@ -1127,19 +1110,58 @@ n_factors <- efa_mil_100$extraction_info$nfactors
 
 cat(sprintf("\n**Factor structure identified**: %d factors extracted\n\n", n_factors))
 
+# Show which questions load on each factor
+for (f in 1:n_factors) {
+  factor_name <- colnames(loadings_clean)[f]
+  
+  # Get items with meaningful loadings
+  meaningful_items <- which(abs(loadings_clean[[factor_name]]) >= 0.40)
+  
+  if (length(meaningful_items) > 0) {
+    cat(sprintf("**%s**:\n", factor_name))
+    
+    for (item_idx in meaningful_items) {
+      item_name <- rownames(loadings_clean)[item_idx]
+      loading_val <- loadings_clean[[factor_name]][item_idx]
+      
+      # Get question label
+      question_num <- as.integer(gsub("Q", "", item_name))
+      question_label <- question_labels_mil_100$Label[
+        question_labels_mil_100$Item == item_name
+      ]
+      
+      cat(sprintf("- %s (%.2f): %s\n", 
+                  item_name, loading_val, question_label))
+    }
+    cat("\n")
+  }
+}
+
 # Check for problematic items
 if (!is.null(efa_mil_100$problematic_items$low_communality)) {
-  cat(sprintf("⚠️ **%d item(s) with low communality** (< 0.25):\n",
+  cat(sprintf("\n⚠️ **%d item(s) with low communality** (< 0.25):\n",
               length(efa_mil_100$problematic_items$low_communality)))
-  cat(paste("-", efa_mil_100$problematic_items$low_communality, collapse = "\n"))
-  cat("\n\nThese items are poorly represented by the factor solution.\n\n")
+  
+  for (item in efa_mil_100$problematic_items$low_communality) {
+    question_label <- question_labels_mil_100$Label[
+      question_labels_mil_100$Item == item
+    ]
+    cat(sprintf("- %s: %s\n", item, question_label))
+  }
+  cat("\nThese items are poorly represented by the factor solution.\n\n")
 }
 
 if (!is.null(efa_mil_100$problematic_items$cross_loadings)) {
-  cat(sprintf("⚠️ **%d item(s) with cross-loadings** (> 0.32 on multiple factors):\n",
+  cat(sprintf("\n⚠️ **%d item(s) with cross-loadings** (> 0.32 on multiple factors):\n",
               length(efa_mil_100$problematic_items$cross_loadings)))
-  cat(paste("-", efa_mil_100$problematic_items$cross_loadings, collapse = "\n"))
-  cat("\n\nThese items may need review for theoretical clarity.\n\n")
+  
+  for (item in efa_mil_100$problematic_items$cross_loadings) {
+    question_label <- question_labels_mil_100$Label[
+      question_labels_mil_100$Item == item
+    ]
+    cat(sprintf("- %s: %s\n", item, question_label))
+  }
+  cat("\nThese items may need review for theoretical clarity.\n\n")
 }
 ```
 
